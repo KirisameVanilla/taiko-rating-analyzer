@@ -13,15 +13,6 @@ import { loadSongsData } from '../data/songs'
 import RadarChart from './RadarChart.vue'
 import TopTable from './TopTable.vue'
 
-interface Props {
-  scoreInput: string
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-  back: []
-}>()
-
 const router = useRouter()
 const notice = ref('正在加载数据…')
 const results = ref<SongStats[]>([])
@@ -37,8 +28,15 @@ const radarData = ref({
 
 onMounted(async () => {
   try {
+    // 从 localStorage 读取数据
+    const scoreInput = localStorage.getItem('taikoScoreData') || ''
+    if (!scoreInput) {
+      notice.value = '未找到数据,请先在首页输入数据'
+      return
+    }
+    
     const songsDB = await loadSongsData()
-    const scores = parsePastedScores(props.scoreInput)
+    const scores = parsePastedScores(scoreInput)
     const tempResults: SongStats[] = []
     
     scores.forEach(s => {

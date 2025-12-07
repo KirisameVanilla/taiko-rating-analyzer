@@ -19,11 +19,10 @@ const handleAnalyze = () => {
     alert('请输入数据')
     return
   }
-  // 通过路由导航到报告页面,并传递数据
-  router.push({
-    path: '/report',
-    query: { data: scoreInput.value }
-  })
+  // 将数据存储到 localStorage
+  localStorage.setItem('taikoScoreData', scoreInput.value)
+  // 导航到报告页面
+  router.push('/report')
 }
 </script>
 

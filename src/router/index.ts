@@ -13,8 +13,7 @@ const router = createRouter({
     {
       path: '/report',
       name: 'report',
-      component: ReportView,
-      props: (route) => ({ scoreInput: route.query.data as string || '' })
+      component: ReportView
     }
   ]
 })
