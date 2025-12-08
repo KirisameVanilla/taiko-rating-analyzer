@@ -1,7 +1,7 @@
 import type { UserScore, SongData, SongStats } from '../types'
 
 // 常量定义：P1用于calcP函数的范数计算，AH1暂未使用
-const CONSTANTS = { P1: 66, AH1: 3 }
+const CONSTANTS = { P1: 150, AH1: 3 }
 const POWER = Math.pow
 const SQRT = Math.sqrt
 const MAX = Math.max
@@ -82,6 +82,7 @@ export function calcW(x: number, y: number): number {
 export function calcSingleRating(x: number, y: number): number {
   const p = calcP(x, y)
   const w = calcW(x, y)
+  console.log(p, w)
   return POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
 }
 
