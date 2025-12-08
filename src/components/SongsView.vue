@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, nextTick } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { loadSongsData } from '../data/songs'
 import { parsePastedScores, calculateSongStats } from '../utils/calculator'
 import type { UserScore, SongStats } from '../types'
@@ -26,99 +26,14 @@ const maxConstant = ref(12.0)
 const limitMin = ref(1.0)
 const limitMax = ref(12.0)
 
-const filterPlayed = ref(true)
-const filterNotPlayed = ref(true)
-const filterCleared = ref(true)
-const filterNotCleared = ref(true)
-const filterFC = ref(true)
-const filterNotFC = ref(true)
-const filterAP = ref(true)
-const filterNotAP = ref(true)
-
-// Watchers for "Associated Cancellation" / Containment Logic
-// Positive Side (Yes)
-watch(filterAP, (v) => { if (v) { filterFC.value = true; filterCleared.value = true; filterPlayed.value = true } })
-watch(filterFC, (v) => { 
-  if (v) { filterCleared.value = true; filterPlayed.value = true }
-  else { 
-    if (filterNotFC.value) filterAP.value = false 
-  }
-})
-watch(filterCleared, (v) => { 
-  if (v) { filterPlayed.value = true }
-  else { 
-    if (filterNotCleared.value) {
-      filterFC.value = false; filterAP.value = false 
-    }
-  }
-})
-watch(filterPlayed, (v) => { 
-  if (!v) { 
-    if (filterNotPlayed.value) {
-      filterCleared.value = false; filterFC.value = false; filterAP.value = false 
-    }
-  }
-})
-
-// Negative Side (No)
-watch(filterNotPlayed, (v) => { 
-  if (v) { filterNotCleared.value = true; filterNotFC.value = true; filterNotAP.value = true }
-})
-watch(filterNotCleared, (v) => {
-  if (v) { filterNotFC.value = true; filterNotAP.value = true }
-  else { 
-    if (filterCleared.value) filterNotPlayed.value = false 
-  }
-})
-watch(filterNotFC, (v) => {
-  if (v) { filterNotAP.value = true }
-  else { 
-    if (filterFC.value) {
-      filterNotCleared.value = false; filterNotPlayed.value = false 
-    }
-  }
-})
-watch(filterNotAP, (v) => {
-  if (!v) { 
-    if (filterAP.value) {
-      filterNotFC.value = false; filterNotCleared.value = false; filterNotPlayed.value = false 
-    }
-  }
-})
-
-// Auto-select both if both are unchecked
-watch([filterPlayed, filterNotPlayed], ([v1, v2]) => {
-  if (!v1 && !v2) {
-    nextTick(() => {
-      filterPlayed.value = true
-      filterNotPlayed.value = true
-    })
-  }
-})
-watch([filterCleared, filterNotCleared], ([v1, v2]) => {
-  if (!v1 && !v2) {
-    nextTick(() => {
-      filterCleared.value = true
-      filterNotCleared.value = true
-    })
-  }
-})
-watch([filterFC, filterNotFC], ([v1, v2]) => {
-  if (!v1 && !v2) {
-    nextTick(() => {
-      filterFC.value = true
-      filterNotFC.value = true
-    })
-  }
-})
-watch([filterAP, filterNotAP], ([v1, v2]) => {
-  if (!v1 && !v2) {
-    nextTick(() => {
-      filterAP.value = true
-      filterNotAP.value = true
-    })
-  }
-})
+const filterPlayed = ref(false)
+const filterNotPlayed = ref(false)
+const filterCleared = ref(false)
+const filterNotCleared = ref(false)
+const filterFC = ref(false)
+const filterNotFC = ref(false)
+const filterAP = ref(false)
+const filterNotAP = ref(false)
 
 // Slider Logic
 const minPos = computed(() => {
@@ -237,19 +152,25 @@ const filteredSongs = computed(() => {
     const isFC = !!score && score.fullcomboCount > 0
     const isAP = !!score && score.perfectCount > 0
     
-    // Played Filter
-    if (!((isPlayed && filterPlayed.value) || (!isPlayed && filterNotPlayed.value))) return false
+    // Played Filter - 如果两个都没勾选，则不筛选（等同于都勾选）
+    if (filterPlayed.value || filterNotPlayed.value) {
+      if (!((isPlayed && filterPlayed.value) || (!isPlayed && filterNotPlayed.value))) return false
+    }
     
-    // Cleared Filter
-    // Note: Not Cleared includes Not Played. If we are here, we passed Played filter.
-    // If isPlayed is false, isCleared is false.
-    if (!((isCleared && filterCleared.value) || (!isCleared && filterNotCleared.value))) return false
+    // Cleared Filter - 如果两个都没勾选，则不筛选
+    if (filterCleared.value || filterNotCleared.value) {
+      if (!((isCleared && filterCleared.value) || (!isCleared && filterNotCleared.value))) return false
+    }
     
-    // FC Filter
-    if (!((isFC && filterFC.value) || (!isFC && filterNotFC.value))) return false
+    // FC Filter - 如果两个都没勾选，则不筛选
+    if (filterFC.value || filterNotFC.value) {
+      if (!((isFC && filterFC.value) || (!isFC && filterNotFC.value))) return false
+    }
     
-    // AP Filter
-    if (!((isAP && filterAP.value) || (!isAP && filterNotAP.value))) return false
+    // AP Filter - 如果两个都没勾选，则不筛选
+    if (filterAP.value || filterNotAP.value) {
+      if (!((isAP && filterAP.value) || (!isAP && filterNotAP.value))) return false
+    }
     
     return true
   })
