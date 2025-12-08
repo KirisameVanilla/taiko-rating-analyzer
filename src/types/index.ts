@@ -37,6 +37,9 @@ export interface SongStats {
   accuracy_power: number
   rhythm: number
   complex: number
+  great: number
+  good: number
+  bad: number
 }
 
 export interface SongsDatabase {

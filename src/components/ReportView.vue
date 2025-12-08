@@ -98,12 +98,12 @@ function calculateOverallStats(data: SongStats[]) {
 
   overallRating.value = topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
   radarData.value = {
-    daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 13.81),
-    stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.92, 13.54),
-    speed: topValueCompensate(speedMid, 14.25, speedAve, 14.59, 14.14),
-    accuracy: topValueCompensate(accuracyMid, 15.44, accuracyAve, 15.45, 14.59),
-    rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 13.84),
-    complex: topValueCompensate(complexMid, 13.77, complexAve, 14.26, 12.83)
+    daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 14.54),
+    stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.92, 13.36),
+    speed: topValueCompensate(speedMid, 14.25, speedAve, 14.59, 14.00),
+    accuracy: topValueCompensate(accuracyMid, 15.44, accuracyAve, 15.45, 15.08),
+    rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 14.02),
+    complex: topValueCompensate(complexMid, 13.77, complexAve, 14.26, 13.45)
   }
 }
 

@@ -199,7 +199,10 @@ export function calculateSongStats(songData: SongData, userScore: UserScore): So
     speed,
     accuracy_power,
     rhythm,
-    complex
+    complex,
+    great: userScore.great,
+    good: userScore.good,
+    bad: userScore.bad
   }
 }
 
