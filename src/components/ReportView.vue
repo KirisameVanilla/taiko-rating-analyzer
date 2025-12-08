@@ -34,13 +34,13 @@ const activeSection = ref('overview')
 
 const menuItems = [
   { id: 'overview', label: '概览' },
-  { id: 'rating', label: 'Rating Top 20' },
-  { id: 'daigouryoku', label: '大歌力 Top 20' },
-  { id: 'stamina', label: '体力 Top 20' },
-  { id: 'speed', label: '高速处理 Top 20' },
-  { id: 'accuracy_power', label: '精度力 Top 20' },
-  { id: 'rhythm', label: '节奏处理 Top 20' },
-  { id: 'complex', label: '复合处理 Top 20' }
+  { id: 'rating', label: 'Rating' },
+  { id: 'daigouryoku', label: '大歌力' },
+  { id: 'stamina', label: '耐力' },
+  { id: 'speed', label: '高速' },
+  { id: 'accuracy_power', label: '精度' },
+  { id: 'rhythm', label: '节奏处理' },
+  { id: 'complex', label: '复合处理' }
 ]
 
 onMounted(async () => {
@@ -107,6 +107,7 @@ function calculateOverallStats(data: SongStats[]) {
   }
 }
 
+// 取前 20 名列表
 const topLists = computed(() => ({
   rating: [...results.value].sort((a, b) => b.rating - a.rating).slice(0, 20),
   daigouryoku: [...results.value].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20),

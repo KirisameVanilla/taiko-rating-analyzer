@@ -348,8 +348,16 @@ const filteredSongs = computed(() => {
             </td>
             <td>{{ song.constant.toFixed(1) }}</td>
             <td>{{ song.userScore?.score ?? '-' }}</td>
-            <td :class="{ 'has-rating': song.stats }">
+            <td :class="{ 'has-rating': song.stats }" class="rating-cell">
               {{ song.stats?.rating.toFixed(2) || '-' }}
+              <div v-if="song.stats" class="rating-tooltip">
+                <div>大歌力: {{ song.stats.daigouryoku.toFixed(2) }}</div>
+                <div>耐力: {{ song.stats.stamina.toFixed(2) }}</div>
+                <div>高速: {{ song.stats.speed.toFixed(2) }}</div>
+                <div>精度: {{ song.stats.accuracy_power.toFixed(2) }}</div>
+                <div>节奏处理: {{ song.stats.rhythm.toFixed(2) }}</div>
+                <div>复合处理: {{ song.stats.complex.toFixed(2) }}</div>
+              </div>
             </td>
             <td>{{ song.userScore?.great ?? '-' }}</td>
             <td>{{ song.userScore?.good ?? '-' }}</td>
@@ -570,6 +578,44 @@ tr:hover {
 .has-rating {
   color: #2196f3;
   font-weight: bold;
+}
+
+.rating-cell {
+  position: relative;
+}
+
+.rating-tooltip {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.rating-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: rgba(0, 0, 0, 0.9);
+}
+
+.rating-cell:hover .rating-tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .loading {

@@ -42,7 +42,7 @@ const createChart = () => {
   chartInstance = new Chart(canvasRef.value, {
     type: 'radar',
     data: {
-      labels: ['大歌力', '体力', '高速处理', '精度力', '节奏处理', '复合处理'],
+      labels: ['大歌力', '耐力', '高速', '精度', '节奏处理', '复合处理'],
       datasets: [{
         label: '玩家能力值',
         data: stats,
