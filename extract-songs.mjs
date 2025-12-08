@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 try {
-  const htmlContent = readFileSync(join(__dirname, 'index.html'), 'utf-8')
+  const htmlContent = readFileSync(join(__dirname, '太鼓六维计算器（自动填分版）_12.08.html'), 'utf-8')
   
   // 查找JSON数据的起始和结束位置
   const startMarker = 'return JSON.parse(`{'

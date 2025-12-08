@@ -2687,6 +2687,18 @@
     "hsChange": 0.97,
     "x": 11
   },
+  "1384-4": {
+    "title": "YOU're your HERO",
+    "constant": 10.3,
+    "totalNotes": 888,
+    "composite": 10.55,
+    "avgDensity": 47.83,
+    "instDensity": 52.78,
+    "separation": 6.1,
+    "bpmChange": 5.6,
+    "hsChange": 0.04,
+    "x": 10.5
+  },
   "1068-4": {
     "title": "Spectral Rider",
     "constant": 10.3,
@@ -12513,7 +12525,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "141-4": {
     "title": "Fly away",
@@ -12525,7 +12537,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "889-4": {
     "title": "via lactea",
@@ -12537,7 +12549,7 @@
     "separation": 6.32,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "1053-4": {
     "title": "平等院鳳凰ドン vs 鳥獣戯カッ",
@@ -12549,7 +12561,7 @@
     "separation": 12.89,
     "bpmChange": 0.58,
     "hsChange": 10.38,
-    "x": 3
+    "x": 2.75
   },
   "942-4": {
     "title": "限界クリエイター応援歌",
@@ -12561,7 +12573,7 @@
     "separation": 2.15,
     "bpmChange": 0,
     "hsChange": 16.96,
-    "x": 3
+    "x": 2.75
   },
   "987-4": {
     "title": "Realize",
@@ -12573,7 +12585,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "1306-4": {
     "title": "七色ハーモニー",
@@ -12585,7 +12597,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "1062-4": {
     "title": "僕の戦争",
@@ -12597,7 +12609,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "478-5": {
     "title": "THE IDOLM＠STER(裏)",
@@ -12609,7 +12621,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "193-4": {
     "title": "スクロール?ミカ",
@@ -12621,7 +12633,7 @@
     "separation": 14.08,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "281-4": {
     "title": "GO MY WAY!!",
@@ -12633,7 +12645,7 @@
     "separation": 0.31,
     "bpmChange": 2.36,
     "hsChange": 0.17,
-    "x": 3
+    "x": 2.75
   },
   "1341-4": {
     "title": "粛聖!! ロリ神レクイエム☆",
@@ -12645,7 +12657,7 @@
     "separation": 3.13,
     "bpmChange": 0,
     "hsChange": 81.87,
-    "x": 3
+    "x": 2.75
   },
   "1408-4": {
     "title": "倍倍FIGHT!",
@@ -12657,7 +12669,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "79-4": {
     "title": "天国と地獄 序曲",
@@ -12669,7 +12681,7 @@
     "separation": 15.09,
     "bpmChange": 57.36,
     "hsChange": 3.56,
-    "x": 3
+    "x": 2.75
   },
   "1292-4": {
     "title": "ダンスホール",
@@ -12681,7 +12693,7 @@
     "separation": 29.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "308-4": {
     "title": "にんじゃりばんばん",
@@ -12693,7 +12705,7 @@
     "separation": 3.46,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "654-4": {
     "title": "GERMINATION",
@@ -12705,7 +12717,7 @@
     "separation": 1.89,
     "bpmChange": 71.1,
     "hsChange": 3.88,
-    "x": 3
+    "x": 2.75
   },
   "1366-4": {
     "title": "宝の丘",
@@ -12717,7 +12729,7 @@
     "separation": 0,
     "bpmChange": 2.24,
     "hsChange": 24.68,
-    "x": 3
+    "x": 2.75
   },
   "1271-4": {
     "title": "ラ?カンパネラ",
@@ -12729,7 +12741,7 @@
     "separation": 3.77,
     "bpmChange": 45.59,
     "hsChange": 2.44,
-    "x": 3
+    "x": 2.75
   },
   "801-4": {
     "title": "世界はあなたに笑いかけている",
@@ -12741,7 +12753,7 @@
     "separation": 57.17,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.75
   },
   "644-4": {
     "title": "あんずのうた",
@@ -12753,7 +12765,7 @@
     "separation": 0,
     "bpmChange": 1.68,
     "hsChange": 0.85,
-    "x": 3
+    "x": 2.5
   },
   "505-4": {
     "title": "ナツモノ☆",
@@ -12765,7 +12777,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "1157-4": {
     "title": "リンダは今日も絶好調",
@@ -12777,7 +12789,7 @@
     "separation": 0.63,
     "bpmChange": 2.26,
     "hsChange": 0.13,
-    "x": 3
+    "x": 2.5
   },
   "726-4": {
     "title": "さよならエレジー",
@@ -12789,7 +12801,7 @@
     "separation": 8.49,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "728-4": {
     "title": "太陽系デスコ",
@@ -12801,7 +12813,7 @@
     "separation": 13.84,
     "bpmChange": 1.5,
     "hsChange": 0.05,
-    "x": 3
+    "x": 2.5
   },
   "542-4": {
     "title": "ドラゴンボールヒーローズ ゴッドミッションシリーズ テーマソング",
@@ -12813,7 +12825,7 @@
     "separation": 0.51,
     "bpmChange": 9.14,
     "hsChange": 0.27,
-    "x": 3
+    "x": 2.5
   },
   "1335-4": {
     "title": "Storyteller",
@@ -12825,7 +12837,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "530-4": {
     "title": "I my moko",
@@ -12837,7 +12849,7 @@
     "separation": 0.63,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "107-4": {
     "title": "駄々っ子モンスター",
@@ -12849,7 +12861,7 @@
     "separation": 9.12,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "268-4": {
     "title": "女々しくて",
@@ -12861,7 +12873,7 @@
     "separation": 3.38,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "1217-4": {
     "title": "ちゅ、多様性。",
@@ -12873,7 +12885,7 @@
     "separation": 11.63,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "1202-4": {
     "title": "われら無敵のドコン団",
@@ -12885,7 +12897,7 @@
     "separation": 5.97,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "111-4": {
     "title": "伝説の祭り",
@@ -12897,7 +12909,7 @@
     "separation": 34.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "390-4": {
     "title": "SORA‐Ⅱ グリーゼ581",
@@ -12909,7 +12921,7 @@
     "separation": 2.22,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "693-4": {
     "title": "誘惑",
@@ -12921,7 +12933,7 @@
     "separation": 1.37,
     "bpmChange": 76.79,
     "hsChange": 2.68,
-    "x": 3
+    "x": 2.5
   },
   "1090-4": {
     "title": "ドライフラワー",
@@ -12933,7 +12945,7 @@
     "separation": 9.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "256-4": {
     "title": "めざせポケモンマスター ‐20th Anniversary‐",
@@ -12945,7 +12957,7 @@
     "separation": 4.4,
     "bpmChange": 0,
     "hsChange": 20.55,
-    "x": 3
+    "x": 2.5
   },
   "1112-4": {
     "title": "CITRUS",
@@ -12957,7 +12969,7 @@
     "separation": 12.26,
     "bpmChange": 0,
     "hsChange": 28.05,
-    "x": 3
+    "x": 2.5
   },
   "1280-4": {
     "title": "Just Dance",
@@ -12969,7 +12981,7 @@
     "separation": 12.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.5
   },
   "618-4": {
     "title": "君のプラネット",
@@ -12981,7 +12993,7 @@
     "separation": 22.09,
     "bpmChange": 10.72,
     "hsChange": 3.8,
-    "x": 3
+    "x": 2.5
   },
   "74-4": {
     "title": "白猫きゃらめる夢幻のわたあめ",
@@ -12993,7 +13005,7 @@
     "separation": 6.29,
     "bpmChange": 0,
     "hsChange": 8.56,
-    "x": 3
+    "x": 2.25
   },
   "951-4": {
     "title": "アイドル狂戦士(feat.佐藤貴文)",
@@ -13005,7 +13017,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1397-4": {
     "title": "LIMIT BREAK DREAMERS",
@@ -13017,7 +13029,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "493-4": {
     "title": "ウルトラマンX",
@@ -13029,7 +13041,7 @@
     "separation": 14.46,
     "bpmChange": 0,
     "hsChange": 0.57,
-    "x": 3
+    "x": 2.25
   },
   "1152-4": {
     "title": "Smile & Go!!",
@@ -13041,7 +13053,7 @@
     "separation": 8.33,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "319-4": {
     "title": "オリオンをなぞる",
@@ -13053,7 +13065,7 @@
     "separation": 1.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1314-4": {
     "title": "オレンジ",
@@ -13065,7 +13077,7 @@
     "separation": 1.95,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "434-4": {
     "title": "ロシア民謡メドレー",
@@ -13077,7 +13089,7 @@
     "separation": 16.67,
     "bpmChange": 17.06,
     "hsChange": 14.82,
-    "x": 3
+    "x": 2.25
   },
   "1194-4": {
     "title": "私は最強",
@@ -13089,7 +13101,7 @@
     "separation": 0.94,
     "bpmChange": 48.88,
     "hsChange": 1.38,
-    "x": 3
+    "x": 2.25
   },
   "1326-4": {
     "title": "SHEESH",
@@ -13101,7 +13113,7 @@
     "separation": 9.33,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "444-4": {
     "title": "テルミン狂想曲",
@@ -13113,7 +13125,7 @@
     "separation": 17.3,
     "bpmChange": 16.78,
     "hsChange": 10.66,
-    "x": 3
+    "x": 2.25
   },
   "984-4": {
     "title": "カ！カ！カ！カミズモード！",
@@ -13125,7 +13137,7 @@
     "separation": 2.2,
     "bpmChange": 5.06,
     "hsChange": 1.6,
-    "x": 3
+    "x": 2.25
   },
   "1363-4": {
     "title": "GAME CHANGER",
@@ -13137,7 +13149,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1054-4": {
     "title": "第六感",
@@ -13149,7 +13161,7 @@
     "separation": 4.84,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1175-4": {
     "title": "IAM (feat. Shogo, Tsubasa)",
@@ -13161,7 +13173,7 @@
     "separation": 1.74,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1237-4": {
     "title": "Mood Swing",
@@ -13173,7 +13185,7 @@
     "separation": 40.95,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1176-4": {
     "title": "Crush (Prod. SHOW)",
@@ -13185,7 +13197,7 @@
     "separation": 12.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1193-4": {
     "title": "オトナブルー",
@@ -13197,7 +13209,7 @@
     "separation": 0.31,
     "bpmChange": 14.34,
     "hsChange": 12.75,
-    "x": 3
+    "x": 2.25
   },
   "1138-4": {
     "title": "チキチキバンバン",
@@ -13209,7 +13221,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "49-4": {
     "title": "サンバ アレグリーア",
@@ -13221,7 +13233,7 @@
     "separation": 74.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1423-4": {
     "title": "★楽園☆CASINO GALAXY！",
@@ -13233,7 +13245,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "469-4": {
     "title": "未来への鍵",
@@ -13245,7 +13257,7 @@
     "separation": 5.35,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2.25
   },
   "1126-4": {
     "title": "くらべられっ子",
@@ -13257,7 +13269,7 @@
     "separation": 0.54,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "1161-4": {
     "title": "Ahoy!! 我ら宝鐘海賊団☆",
@@ -13269,7 +13281,7 @@
     "separation": 2.52,
     "bpmChange": 0,
     "hsChange": 13.41,
-    "x": 3
+    "x": 2
   },
   "1219-4": {
     "title": "うまぴょい伝説",
@@ -13281,7 +13293,7 @@
     "separation": 0,
     "bpmChange": 6.54,
     "hsChange": 0.14,
-    "x": 3
+    "x": 2
   },
   "648-4": {
     "title": "チェインクロニクル 総力戦メドレー",
@@ -13293,7 +13305,7 @@
     "separation": 19.49,
     "bpmChange": 6.16,
     "hsChange": 2.93,
-    "x": 3
+    "x": 2
   },
   "300-4": {
     "title": "Mulberry",
@@ -13305,7 +13317,7 @@
     "separation": 1.89,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "285-4": {
     "title": "千本桜",
@@ -13317,7 +13329,7 @@
     "separation": 6.92,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "51-4": {
     "title": "くらえ！ブットバースト!!",
@@ -13329,7 +13341,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "26-4": {
     "title": "恋するフォーチュンクッキー",
@@ -13341,7 +13353,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "294-4": {
     "title": "PaPaPa Love ～マッスル喜びのテーマ～",
@@ -13353,7 +13365,7 @@
     "separation": 0.31,
     "bpmChange": 4.11,
     "hsChange": 0.21,
-    "x": 3
+    "x": 2
   },
   "1262-4": {
     "title": "Phoenix（レオス?ヴィンセント）",
@@ -13365,7 +13377,7 @@
     "separation": 0.31,
     "bpmChange": 0.12,
     "hsChange": 0.01,
-    "x": 3
+    "x": 2
   },
   "323-4": {
     "title": "Phoenix",
@@ -13377,7 +13389,7 @@
     "separation": 0.31,
     "bpmChange": 0.12,
     "hsChange": 0.01,
-    "x": 3
+    "x": 2
   },
   "276-4": {
     "title": "春遊",
@@ -13389,7 +13401,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "1100-4": {
     "title": "Kill My Fortune",
@@ -13401,7 +13413,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 8.17,
-    "x": 3
+    "x": 2
   },
   "500-4": {
     "title": "希望へのメロディー",
@@ -13413,7 +13425,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "146-4": {
     "title": "シオカラ節",
@@ -13425,7 +13437,7 @@
     "separation": 19.81,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "897-4": {
     "title": "ヒミツキチューバー",
@@ -13437,7 +13449,7 @@
     "separation": 8.8,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "861-4": {
     "title": "ナンセンス文学",
@@ -13449,7 +13461,7 @@
     "separation": 15.04,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "652-4": {
     "title": "曙光",
@@ -13461,7 +13473,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "663-4": {
     "title": "風雲！バチお先生",
@@ -13473,7 +13485,7 @@
     "separation": 31.69,
     "bpmChange": 38.9,
     "hsChange": 2.09,
-    "x": 3
+    "x": 2
   },
   "1148-4": {
     "title": "Habit",
@@ -13485,7 +13497,7 @@
     "separation": 1.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "687-4": {
     "title": "黒神クロニクル",
@@ -13497,7 +13509,7 @@
     "separation": 52.03,
     "bpmChange": 0,
     "hsChange": 7.53,
-    "x": 3
+    "x": 2
   },
   "601-4": {
     "title": "スプラトゥーン2 メドレー",
@@ -13509,7 +13521,7 @@
     "separation": 6.67,
     "bpmChange": 80.32,
     "hsChange": 3.56,
-    "x": 3
+    "x": 2
   },
   "207-4": {
     "title": "オールナイトdeインデナイ",
@@ -13521,7 +13533,7 @@
     "separation": 5.03,
     "bpmChange": 4.85,
     "hsChange": 1.38,
-    "x": 3
+    "x": 2
   },
   "84-4": {
     "title": "カルメン 組曲一番終曲",
@@ -13533,7 +13545,7 @@
     "separation": 0.31,
     "bpmChange": 46.93,
     "hsChange": 2.27,
-    "x": 3
+    "x": 2
   },
   "345-4": {
     "title": "ラーメン de Yo‐Men!!",
@@ -13545,7 +13557,7 @@
     "separation": 49.79,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 2
   },
   "1208-4": {
     "title": "名古屋ばやし",
@@ -13557,7 +13569,7 @@
     "separation": 9.18,
     "bpmChange": 87.91,
     "hsChange": 4.08,
-    "x": 3
+    "x": 2
   },
   "91-4": {
     "title": "火星",
@@ -13569,7 +13581,7 @@
     "separation": 0,
     "bpmChange": 4.36,
     "hsChange": 0.7,
-    "x": 3
+    "x": 1.86
   },
   "1275-4": {
     "title": "星座わーど",
@@ -13581,7 +13593,7 @@
     "separation": 1.01,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "706-4": {
     "title": "恋はみずいろ",
@@ -13593,7 +13605,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1167-4": {
     "title": "Jun Bride",
@@ -13605,7 +13617,7 @@
     "separation": 7.23,
     "bpmChange": 9.38,
     "hsChange": 2.71,
-    "x": 3
+    "x": 1.86
   },
   "1169-4": {
     "title": "いろはすてっぷ！",
@@ -13617,7 +13629,7 @@
     "separation": 8.49,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "132-4": {
     "title": "地平線のエオリア",
@@ -13629,7 +13641,7 @@
     "separation": 13.84,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1077-4": {
     "title": "シンデレラ",
@@ -13641,7 +13653,7 @@
     "separation": 6.97,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1240-4": {
     "title": "勇者",
@@ -13653,7 +13665,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 16.6,
-    "x": 3
+    "x": 1.86
   },
   "307-4": {
     "title": "忍者は最高",
@@ -13665,7 +13677,7 @@
     "separation": 0.64,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "586-4": {
     "title": "Holding Hands",
@@ -13677,7 +13689,7 @@
     "separation": 2.52,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "828-4": {
     "title": "ロキ",
@@ -13689,7 +13701,7 @@
     "separation": 12.58,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "516-4": {
     "title": "それは僕たちの奇跡",
@@ -13701,7 +13713,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "348-4": {
     "title": "らいとにんぐ ぱっしょん",
@@ -13713,7 +13725,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "447-4": {
     "title": "White Rose Insanity",
@@ -13725,7 +13737,7 @@
     "separation": 7.86,
     "bpmChange": 0,
     "hsChange": 27.71,
-    "x": 3
+    "x": 1.86
   },
   "547-4": {
     "title": "ワンダーモモーイ",
@@ -13737,7 +13749,7 @@
     "separation": 0.31,
     "bpmChange": 26.99,
     "hsChange": 1.4,
-    "x": 3
+    "x": 1.86
   },
   "278-4": {
     "title": "花漾",
@@ -13749,7 +13761,7 @@
     "separation": 2.83,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1131-4": {
     "title": "ラブリーX",
@@ -13761,7 +13773,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "203-4": {
     "title": "自分REST＠RT",
@@ -13773,7 +13785,7 @@
     "separation": 0.94,
     "bpmChange": 3.87,
     "hsChange": 0.75,
-    "x": 3
+    "x": 1.86
   },
   "973-4": {
     "title": "PONPOKO RHYTHM",
@@ -13785,7 +13797,7 @@
     "separation": 1.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1337-4": {
     "title": "全力Dive",
@@ -13797,7 +13809,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1142-4": {
     "title": "恋ゲバ",
@@ -13809,7 +13821,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "556-4": {
     "title": "私以外私じゃないの",
@@ -13821,7 +13833,7 @@
     "separation": 12.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "997-4": {
     "title": "twinkle night (feat. somunia)",
@@ -13833,7 +13845,7 @@
     "separation": 1.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1111-4": {
     "title": "怪物",
@@ -13845,7 +13857,7 @@
     "separation": 5.03,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1209-4": {
     "title": "アイドル",
@@ -13857,7 +13869,7 @@
     "separation": 8.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1103-4": {
     "title": "神っぽいな",
@@ -13869,7 +13881,7 @@
     "separation": 10.69,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "299-4": {
     "title": "無慈悲な王",
@@ -13881,7 +13893,7 @@
     "separation": 1.89,
     "bpmChange": 34.56,
     "hsChange": 0.63,
-    "x": 3
+    "x": 1.86
   },
   "274-4": {
     "title": "蓄勢",
@@ -13893,7 +13905,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1026-4": {
     "title": "睡蓮花",
@@ -13905,7 +13917,7 @@
     "separation": 40.16,
     "bpmChange": 0,
     "hsChange": 11.99,
-    "x": 3
+    "x": 1.86
   },
   "689-4": {
     "title": "ゴーゴー?キッチン",
@@ -13917,7 +13929,7 @@
     "separation": 48.5,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "1125-4": {
     "title": "DANCE MONKEY",
@@ -13929,7 +13941,7 @@
     "separation": 5.66,
     "bpmChange": 4.75,
     "hsChange": 0.11,
-    "x": 3
+    "x": 1.86
   },
   "773-4": {
     "title": "命短し恋せよ乙女",
@@ -13941,7 +13953,7 @@
     "separation": 0.31,
     "bpmChange": 52.04,
     "hsChange": 1.48,
-    "x": 3
+    "x": 1.86
   },
   "284-4": {
     "title": "カゲロウデイズ",
@@ -13953,7 +13965,7 @@
     "separation": 0.31,
     "bpmChange": 82.12,
     "hsChange": 3.58,
-    "x": 3
+    "x": 1.86
   },
   "135-4": {
     "title": "残酷な天使のテーゼ",
@@ -13965,7 +13977,7 @@
     "separation": 5.66,
     "bpmChange": 6.91,
     "hsChange": 0.98,
-    "x": 3
+    "x": 1.86
   },
   "208-4": {
     "title": "いぬのおまわりさん",
@@ -13977,7 +13989,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 1.71,
-    "x": 3
+    "x": 1.86
   },
   "1177-4": {
     "title": "good night baby (feat. Moe Shop)",
@@ -13989,7 +14001,7 @@
     "separation": 13.84,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "44-4": {
     "title": "YouTubeテーマソング",
@@ -14001,7 +14013,7 @@
     "separation": 61.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.86
   },
   "981-4": {
     "title": "1?2?さんしのでドンドカッカッ！",
@@ -14013,7 +14025,7 @@
     "separation": 8.8,
     "bpmChange": 0,
     "hsChange": 43.38,
-    "x": 3
+    "x": 1.71
   },
   "771-4": {
     "title": "カンタービレ×パッシオーネ",
@@ -14025,7 +14037,7 @@
     "separation": 13.21,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "551-4": {
     "title": "蝶戀",
@@ -14037,7 +14049,7 @@
     "separation": 0,
     "bpmChange": 0.09,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "487-4": {
     "title": "ラッスンゴレライ",
@@ -14049,7 +14061,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 76.39,
-    "x": 3
+    "x": 1.71
   },
   "1033-4": {
     "title": "Aloft in the wind",
@@ -14061,7 +14073,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 29.11,
-    "x": 3
+    "x": 1.71
   },
   "1168-4": {
     "title": "オーバード",
@@ -14073,7 +14085,7 @@
     "separation": 6.02,
     "bpmChange": 10.71,
     "hsChange": 0.32,
-    "x": 3
+    "x": 1.71
   },
   "1149-4": {
     "title": "フォニイ",
@@ -14085,7 +14097,7 @@
     "separation": 8.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "1032-4": {
     "title": "Emma",
@@ -14097,7 +14109,7 @@
     "separation": 0.35,
     "bpmChange": 0,
     "hsChange": 6.4,
-    "x": 3
+    "x": 1.71
   },
   "76-4": {
     "title": "ソードバトラーズ",
@@ -14109,7 +14121,7 @@
     "separation": 13.77,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "377-4": {
     "title": "恋の処方箋",
@@ -14121,7 +14133,7 @@
     "separation": 12.58,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "293-4": {
     "title": "ヘイ，ミスタープロフェッサー",
@@ -14133,7 +14145,7 @@
     "separation": 8.29,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "1233-4": {
     "title": "第ゼロ感",
@@ -14145,7 +14157,7 @@
     "separation": 15.72,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "1162-4": {
     "title": "ねねねねねねねね!大爆走",
@@ -14157,7 +14169,7 @@
     "separation": 7.86,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "1061-4": {
     "title": "シル?ヴ?プレジデント",
@@ -14169,7 +14181,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "315-4": {
     "title": "3Q‐4U‐AC00",
@@ -14181,7 +14193,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "611-4": {
     "title": "世界はいつでもミステリー",
@@ -14193,7 +14205,7 @@
     "separation": 15.72,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "140-4": {
     "title": "+♂(プラス男子)",
@@ -14205,7 +14217,7 @@
     "separation": 16.67,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "668-4": {
     "title": "ペンパイナッポーアッポーペン（PPAP）",
@@ -14217,7 +14229,7 @@
     "separation": 0.31,
     "bpmChange": 30.47,
     "hsChange": 67.92,
-    "x": 3
+    "x": 1.71
   },
   "534-4": {
     "title": "Angelic Angel",
@@ -14229,7 +14241,7 @@
     "separation": 0,
     "bpmChange": 81.79,
     "hsChange": 3.37,
-    "x": 3
+    "x": 1.71
   },
   "1178-4": {
     "title": "わたしの一番かわいいところ",
@@ -14241,7 +14253,7 @@
     "separation": 5.35,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.71
   },
   "1251-4": {
     "title": "リヒト",
@@ -14253,7 +14265,7 @@
     "separation": 13.51,
     "bpmChange": 81.54,
     "hsChange": 2.66,
-    "x": 3
+    "x": 1.71
   },
   "1345-4": {
     "title": "トルコ行進曲",
@@ -14265,7 +14277,7 @@
     "separation": 0.31,
     "bpmChange": 95.16,
     "hsChange": 3.62,
-    "x": 3
+    "x": 1.71
   },
   "1001-4": {
     "title": "なんどでも笑おう",
@@ -14277,7 +14289,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 1.71,
-    "x": 3
+    "x": 1.57
   },
   "1115-4": {
     "title": "新時代",
@@ -14289,7 +14301,7 @@
     "separation": 1.57,
     "bpmChange": 4.07,
     "hsChange": 0.02,
-    "x": 3
+    "x": 1.57
   },
   "741-4": {
     "title": "フリフリ?ノリノリ?",
@@ -14301,7 +14313,7 @@
     "separation": 1.89,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "3-4": {
     "title": "願いはエスペラント",
@@ -14313,7 +14325,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "1304-4": {
     "title": "who are you? who are you?",
@@ -14325,7 +14337,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "481-5": {
     "title": "shiny smile(裏)",
@@ -14337,7 +14349,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "736-4": {
     "title": "人のお金で焼肉を食したい！",
@@ -14349,7 +14361,7 @@
     "separation": 8.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "341-4": {
     "title": "Walking Through The Towers",
@@ -14361,7 +14373,7 @@
     "separation": 6.29,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "69-4": {
     "title": "ソウルキャリバーII",
@@ -14373,7 +14385,7 @@
     "separation": 0,
     "bpmChange": 10.84,
     "hsChange": 0.57,
-    "x": 3
+    "x": 1.57
   },
   "122-4": {
     "title": "夢をかなえてドラえもん",
@@ -14385,7 +14397,7 @@
     "separation": 6.44,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "1150-4": {
     "title": "残響散歌",
@@ -14397,7 +14409,7 @@
     "separation": 5.66,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "1210-4": {
     "title": "ドキメキダイアリー",
@@ -14409,7 +14421,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "580-4": {
     "title": "スポーツダイジェスドン",
@@ -14421,7 +14433,7 @@
     "separation": 29.07,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "14-4": {
     "title": "七彩ボタン",
@@ -14433,7 +14445,7 @@
     "separation": 5.97,
     "bpmChange": 7.25,
     "hsChange": 0.44,
-    "x": 3
+    "x": 1.57
   },
   "305-4": {
     "title": "ねぇ教えて",
@@ -14445,7 +14457,7 @@
     "separation": 14.19,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "1303-4": {
     "title": "ハッピーシンセサイザ",
@@ -14457,7 +14469,7 @@
     "separation": 17.96,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.57
   },
   "1220-4": {
     "title": "Destr0yer",
@@ -14469,7 +14481,7 @@
     "separation": 8.18,
     "bpmChange": 0,
     "hsChange": 91.44,
-    "x": 3
+    "x": 1.57
   },
   "1204-4": {
     "title": "Back to Life",
@@ -14481,7 +14493,7 @@
     "separation": 3.14,
     "bpmChange": 0,
     "hsChange": 0.01,
-    "x": 3
+    "x": 1.57
   },
   "1282-4": {
     "title": "無人の島",
@@ -14493,7 +14505,7 @@
     "separation": 3.15,
     "bpmChange": 2.73,
     "hsChange": 0.16,
-    "x": 3
+    "x": 1.57
   },
   "694-4": {
     "title": "HOWEVER",
@@ -14505,7 +14517,7 @@
     "separation": 8.18,
     "bpmChange": 64.08,
     "hsChange": 2.89,
-    "x": 3
+    "x": 1.57
   },
   "1420-4": {
     "title": "今夜はホーミー",
@@ -14517,7 +14529,7 @@
     "separation": 1.04,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "466-4": {
     "title": "ダン?ダン ドゥビ?ズバー！",
@@ -14529,7 +14541,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "378-4": {
     "title": "ポニーテールとシュシュ",
@@ -14541,7 +14553,7 @@
     "separation": 4.09,
     "bpmChange": 10.07,
     "hsChange": 12.01,
-    "x": 3
+    "x": 1.43
   },
   "28-4": {
     "title": "Everyday、カチューシャ",
@@ -14553,7 +14565,7 @@
     "separation": 1.23,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "1387-4": {
     "title": "バブリー革命 ～ばんばんバブル～",
@@ -14565,7 +14577,7 @@
     "separation": 13.21,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "169-4": {
     "title": "ドキドキ恋の予感！？",
@@ -14577,7 +14589,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "1181-4": {
     "title": "奇想天外ふしぎをどうぞ",
@@ -14589,7 +14601,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "1116-4": {
     "title": "ミックスナッツ",
@@ -14601,7 +14613,7 @@
     "separation": 6.29,
     "bpmChange": 8.49,
     "hsChange": 0.84,
-    "x": 3
+    "x": 1.43
   },
   "1327-4": {
     "title": "はいよろこんで",
@@ -14613,7 +14625,7 @@
     "separation": 2.83,
     "bpmChange": 3.09,
     "hsChange": 0.1,
-    "x": 3
+    "x": 1.43
   },
   "792-4": {
     "title": "only my railgun",
@@ -14625,7 +14637,7 @@
     "separation": 8.8,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "1382-4": {
     "title": "Taiko Session",
@@ -14637,7 +14649,7 @@
     "separation": 2.52,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "1228-4": {
     "title": "強風オールバック(feat.歌愛ユキ)",
@@ -14649,7 +14661,7 @@
     "separation": 19.49,
     "bpmChange": 0,
     "hsChange": 15.44,
-    "x": 3
+    "x": 1.43
   },
   "911-4": {
     "title": "神様の言うとおりに",
@@ -14661,7 +14673,7 @@
     "separation": 60.45,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "277-4": {
     "title": "綻放",
@@ -14673,7 +14685,7 @@
     "separation": 22.96,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "1358-4": {
     "title": "晩餐歌",
@@ -14685,7 +14697,7 @@
     "separation": 22.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.43
   },
   "105-4": {
     "title": "第九交響曲",
@@ -14697,7 +14709,7 @@
     "separation": 0,
     "bpmChange": 72.28,
     "hsChange": 11.14,
-    "x": 3
+    "x": 1.43
   },
   "118-4": {
     "title": "さちさちにしてあげる?",
@@ -14709,7 +14721,7 @@
     "separation": 2.2,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "417-4": {
     "title": "Grip ＆ Break down !! ‐達人Edit.‐",
@@ -14721,7 +14733,7 @@
     "separation": 9.43,
     "bpmChange": 1.14,
     "hsChange": 0.04,
-    "x": 3
+    "x": 1.29
   },
   "436-4": {
     "title": "うさぎのしっぽ",
@@ -14733,7 +14745,7 @@
     "separation": 1.91,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "946-4": {
     "title": "ミュートすればいいじゃん。",
@@ -14745,7 +14757,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "782-4": {
     "title": "Marine Mirage",
@@ -14757,7 +14769,7 @@
     "separation": 4.4,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "1417-4": {
     "title": "初",
@@ -14769,7 +14781,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 1.71,
-    "x": 3
+    "x": 1.29
   },
   "408-4": {
     "title": "Highschool love！",
@@ -14781,7 +14793,7 @@
     "separation": 2.2,
     "bpmChange": 1.95,
     "hsChange": 0.07,
-    "x": 3
+    "x": 1.29
   },
   "317-4": {
     "title": "鏡の国のアリス",
@@ -14793,7 +14805,7 @@
     "separation": 7.55,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "1230-4": {
     "title": "ツバサグラビティ",
@@ -14805,7 +14817,7 @@
     "separation": 3.77,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "535-4": {
     "title": "GEEDの証",
@@ -14817,7 +14829,7 @@
     "separation": 1.89,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "512-4": {
     "title": "DRIVE A LIVE",
@@ -14829,7 +14841,7 @@
     "separation": 11.32,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "1117-4": {
     "title": "１?２?３",
@@ -14841,7 +14853,7 @@
     "separation": 0.68,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "405-4": {
     "title": "やわらか戦車",
@@ -14853,7 +14865,7 @@
     "separation": 17.61,
     "bpmChange": 33.29,
     "hsChange": 4.88,
-    "x": 3
+    "x": 1.29
   },
   "515-4": {
     "title": "DREAMERS' PARADISE",
@@ -14865,7 +14877,7 @@
     "separation": 9.43,
     "bpmChange": 5.54,
     "hsChange": 0.13,
-    "x": 3
+    "x": 1.29
   },
   "467-4": {
     "title": "初恋峠でゲラゲラポー",
@@ -14877,7 +14889,7 @@
     "separation": 2.52,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "733-4": {
     "title": "JOIN US",
@@ -14889,7 +14901,7 @@
     "separation": 14.15,
     "bpmChange": 54.68,
     "hsChange": 1.44,
-    "x": 3
+    "x": 1.29
   },
   "608-4": {
     "title": "おさかな毎日！さかなクン",
@@ -14901,7 +14913,7 @@
     "separation": 3.46,
     "bpmChange": 1.05,
     "hsChange": 0.02,
-    "x": 3
+    "x": 1.29
   },
   "1188-4": {
     "title": "逆戦 NI ZHAN",
@@ -14913,7 +14925,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "99-4": {
     "title": "ウィリアム?テル序曲",
@@ -14925,7 +14937,7 @@
     "separation": 0.31,
     "bpmChange": 24.61,
     "hsChange": 2.22,
-    "x": 3
+    "x": 1.29
   },
   "157-4": {
     "title": "ゲラゲラポーのうた",
@@ -14937,7 +14949,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.29
   },
   "125-4": {
     "title": "ドラゴンスピリットメドレー",
@@ -14949,7 +14961,7 @@
     "separation": 0.49,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "142-4": {
     "title": "ファッションモンスター",
@@ -14961,7 +14973,7 @@
     "separation": 5.35,
     "bpmChange": 7.67,
     "hsChange": 0.12,
-    "x": 3
+    "x": 1.14
   },
   "1415-4": {
     "title": "怪獣",
@@ -14973,7 +14985,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "273-4": {
     "title": "季曲",
@@ -14985,7 +14997,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "1023-4": {
     "title": "DDU-DU DDU-DU",
@@ -14997,7 +15009,7 @@
     "separation": 14.15,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "301-4": {
     "title": "My Mine",
@@ -15009,7 +15021,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "287-4": {
     "title": "Growing Up",
@@ -15021,7 +15033,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "632-4": {
     "title": "太鼓のマーチ",
@@ -15033,7 +15045,7 @@
     "separation": 0.63,
     "bpmChange": 18.49,
     "hsChange": 0.95,
-    "x": 3
+    "x": 1.14
   },
   "631-4": {
     "title": "シャイニング65",
@@ -15045,7 +15057,7 @@
     "separation": 0.1,
     "bpmChange": 2.72,
     "hsChange": 0.14,
-    "x": 3
+    "x": 1.14
   },
   "1410-4": {
     "title": "WINNER！ゴジュウジャー！",
@@ -15057,7 +15069,7 @@
     "separation": 2.2,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "1155-4": {
     "title": "アメリカンパトロール",
@@ -15069,7 +15081,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "1336-4": {
     "title": "シカ色デイズ",
@@ -15081,7 +15093,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "1024-4": {
     "title": "bad guy",
@@ -15093,7 +15105,7 @@
     "separation": 7.86,
     "bpmChange": 5.41,
     "hsChange": 2.04,
-    "x": 3
+    "x": 1.14
   },
   "209-4": {
     "title": "犬吠える",
@@ -15105,7 +15117,7 @@
     "separation": 4.72,
     "bpmChange": 8.29,
     "hsChange": 0.34,
-    "x": 3
+    "x": 1.14
   },
   "921-4": {
     "title": "8月の坂",
@@ -15117,7 +15129,7 @@
     "separation": 0.94,
     "bpmChange": 0.91,
     "hsChange": 0.03,
-    "x": 3
+    "x": 1.14
   },
   "59-4": {
     "title": "僕らの世界にダンスを",
@@ -15129,7 +15141,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "468-4": {
     "title": "祭り囃子でゲラゲラポー",
@@ -15141,7 +15153,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "460-4": {
     "title": "ようかい体操第一",
@@ -15153,7 +15165,7 @@
     "separation": 0.63,
     "bpmChange": 0,
     "hsChange": 1.81,
-    "x": 3
+    "x": 1.14
   },
   "1312-4": {
     "title": "誰我為",
@@ -15165,7 +15177,7 @@
     "separation": 4.72,
     "bpmChange": 51.81,
     "hsChange": 3.03,
-    "x": 3
+    "x": 1.14
   },
   "1385-4": {
     "title": "ケセラセラ",
@@ -15177,7 +15189,7 @@
     "separation": 6.29,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "1226-4": {
     "title": "拝啓、学校にて???",
@@ -15189,7 +15201,7 @@
     "separation": 40.8,
     "bpmChange": 13.93,
     "hsChange": 0.34,
-    "x": 3
+    "x": 1.14
   },
   "98-4": {
     "title": "おおブレネリ",
@@ -15201,7 +15213,7 @@
     "separation": 11.01,
     "bpmChange": 29.08,
     "hsChange": 2.8,
-    "x": 3
+    "x": 1.14
   },
   "1287-4": {
     "title": "WOW",
@@ -15213,7 +15225,7 @@
     "separation": 10.06,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "1331-4": {
     "title": "Miss You 3000",
@@ -15225,7 +15237,7 @@
     "separation": 8.49,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 1.14
   },
   "678-4": {
     "title": "恋",
@@ -15237,7 +15249,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "480-4": {
     "title": "魔法をかけて！",
@@ -15249,7 +15261,7 @@
     "separation": 6.6,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "661-4": {
     "title": "スーパードラゴンボールヒーローズ テーマソング",
@@ -15261,7 +15273,7 @@
     "separation": 6.92,
     "bpmChange": 11.25,
     "hsChange": 13.07,
-    "x": 3
+    "x": 0.95
   },
   "116-4": {
     "title": "ドラゴンボールヒーローズ 邪悪龍ミッションシリーズ テーマソング",
@@ -15273,7 +15285,7 @@
     "separation": 0.27,
     "bpmChange": 2.44,
     "hsChange": 1.74,
-    "x": 3
+    "x": 0.95
   },
   "205-4": {
     "title": "ONLY MY NOTE",
@@ -15285,7 +15297,7 @@
     "separation": 5.35,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "437-4": {
     "title": "友情ぽっぷ",
@@ -15297,7 +15309,7 @@
     "separation": 3.14,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "809-4": {
     "title": "アルカリレットウセイ",
@@ -15309,7 +15321,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "1353-4": {
     "title": "ファタール",
@@ -15321,7 +15333,7 @@
     "separation": 15.05,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "1143-4": {
     "title": "ALIVE",
@@ -15333,7 +15345,7 @@
     "separation": 0,
     "bpmChange": 15.08,
     "hsChange": 0.3,
-    "x": 3
+    "x": 0.95
   },
   "250-4": {
     "title": "ラブソングはとまらないよ",
@@ -15345,7 +15357,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "613-4": {
     "title": "タイムトラベラー",
@@ -15357,7 +15369,7 @@
     "separation": 0.31,
     "bpmChange": 24.84,
     "hsChange": 2.02,
-    "x": 3
+    "x": 0.95
   },
   "161-4": {
     "title": "ごめんなさいのKissing You",
@@ -15369,7 +15381,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "422-4": {
     "title": "NeGa/PoSi*ラブ/コール",
@@ -15381,7 +15393,7 @@
     "separation": 0,
     "bpmChange": 3.19,
     "hsChange": 0.32,
-    "x": 3
+    "x": 0.95
   },
   "1070-4": {
     "title": "どんちゃん世界旅行",
@@ -15393,7 +15405,7 @@
     "separation": 18.24,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "1293-4": {
     "title": "最高到達点",
@@ -15405,7 +15417,7 @@
     "separation": 4.72,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "1286-4": {
     "title": "開往早晨的午夜",
@@ -15417,7 +15429,7 @@
     "separation": 10.69,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "1398-4": {
     "title": "BRAND NEW STARS!!",
@@ -15429,7 +15441,7 @@
     "separation": 9.12,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "275-4": {
     "title": "蛻変",
@@ -15441,7 +15453,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.95
   },
   "583-4": {
     "title": "ソラのミチシルベ",
@@ -15453,7 +15465,7 @@
     "separation": 0.31,
     "bpmChange": 6.03,
     "hsChange": 0.2,
-    "x": 3
+    "x": 0.85
   },
   "199-4": {
     "title": "お願い！シンデレラ",
@@ -15465,7 +15477,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "27-4": {
     "title": "ヘビーローテーション",
@@ -15477,7 +15489,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "709-4": {
     "title": "Reason!!",
@@ -15489,7 +15501,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "352-4": {
     "title": "ロボットロケンロー☆",
@@ -15501,7 +15513,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "1344-4": {
     "title": "メズマライザー",
@@ -15513,7 +15525,7 @@
     "separation": 11.01,
     "bpmChange": 0,
     "hsChange": 2.33,
-    "x": 3
+    "x": 0.85
   },
   "926-4": {
     "title": "命に嫌われている。",
@@ -15525,7 +15537,7 @@
     "separation": 1.89,
     "bpmChange": 0,
     "hsChange": 8.56,
-    "x": 3
+    "x": 0.85
   },
   "280-4": {
     "title": "マーブルハート",
@@ -15537,7 +15549,7 @@
     "separation": 1.16,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "793-4": {
     "title": "雨とペトラ",
@@ -15549,7 +15561,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "1342-4": {
     "title": "Got Boost?",
@@ -15561,7 +15573,7 @@
     "separation": 2.52,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "1269-4": {
     "title": "ハロ",
@@ -15573,7 +15585,7 @@
     "separation": 0,
     "bpmChange": 3.75,
     "hsChange": 0.01,
-    "x": 3
+    "x": 0.85
   },
   "1409-4": {
     "title": "愛?スクリ～ム！",
@@ -15585,7 +15597,7 @@
     "separation": 7.55,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "233-4": {
     "title": "名探偵コナン メイン?テーマ",
@@ -15597,7 +15609,7 @@
     "separation": 9.43,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "2-4": {
     "title": "天体観測",
@@ -15609,7 +15621,7 @@
     "separation": 4.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "303-4": {
     "title": "夏祭り",
@@ -15621,7 +15633,7 @@
     "separation": 17.61,
     "bpmChange": 1.69,
     "hsChange": 0.16,
-    "x": 3
+    "x": 0.85
   },
   "795-4": {
     "title": "残響",
@@ -15633,7 +15645,7 @@
     "separation": 34.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "245-4": {
     "title": "リンダリンダ",
@@ -15645,7 +15657,7 @@
     "separation": 0.31,
     "bpmChange": 67.25,
     "hsChange": 16.61,
-    "x": 3
+    "x": 0.85
   },
   "242-4": {
     "title": "君をのせて",
@@ -15657,7 +15669,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "1284-4": {
     "title": "Yesterday",
@@ -15669,7 +15681,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "210-4": {
     "title": "インベーダーインベーダー",
@@ -15681,7 +15693,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "1399-4": {
     "title": "Walk with your smile",
@@ -15693,7 +15705,7 @@
     "separation": 9.43,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.85
   },
   "898-4": {
     "title": "God knows...",
@@ -15705,7 +15717,7 @@
     "separation": 43.04,
     "bpmChange": 82.16,
     "hsChange": 4.16,
-    "x": 3
+    "x": 0.85
   },
   "1135-4": {
     "title": "河内音頭 ～ふしづくし～",
@@ -15717,7 +15729,7 @@
     "separation": 1.61,
     "bpmChange": 69.93,
     "hsChange": 1.88,
-    "x": 3
+    "x": 0.85
   },
   "271-4": {
     "title": "Extreme MGG★★★",
@@ -15729,7 +15741,7 @@
     "separation": 19.81,
     "bpmChange": 14.75,
     "hsChange": 8.46,
-    "x": 3
+    "x": 0.85
   },
   "1074-4": {
     "title": "以後別做朋友 The Distance of Love",
@@ -15741,7 +15753,7 @@
     "separation": 0.31,
     "bpmChange": 49.17,
     "hsChange": 35.26,
-    "x": 3
+    "x": 0.85
   },
   "267-4": {
     "title": "STAY TUNE",
@@ -15753,7 +15765,7 @@
     "separation": 9.12,
     "bpmChange": 64.01,
     "hsChange": 2.7,
-    "x": 3
+    "x": 0.85
   },
   "672-4": {
     "title": "S(mile)ING！",
@@ -15765,7 +15777,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "241-4": {
     "title": "きゅんっ！ヴァンパイアガール",
@@ -15777,7 +15789,7 @@
     "separation": 5.35,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "1359-4": {
     "title": "かわいいだけじゃだめですか？",
@@ -15789,7 +15801,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "313-4": {
     "title": "おばけのお仕事",
@@ -15801,7 +15813,7 @@
     "separation": 4.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "198-4": {
     "title": "READY!!",
@@ -15813,7 +15825,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "480-5": {
     "title": "魔法をかけて！(裏)",
@@ -15825,7 +15837,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "197-4": {
     "title": "The world is all one !!",
@@ -15837,7 +15849,7 @@
     "separation": 0.31,
     "bpmChange": 2.36,
     "hsChange": 0.07,
-    "x": 3
+    "x": 0.75
   },
   "1114-4": {
     "title": "シャイニングスター",
@@ -15849,7 +15861,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "924-4": {
     "title": "青と夏",
@@ -15861,7 +15873,7 @@
     "separation": 0.63,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "1316-4": {
     "title": "あーーっす！",
@@ -15873,7 +15885,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "964-4": {
     "title": "轟!!!",
@@ -15885,7 +15897,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "676-4": {
     "title": "TOKIMEKIエスカレート",
@@ -15897,7 +15909,7 @@
     "separation": 5.66,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "8-4": {
     "title": "超時空アドベンチャー",
@@ -15909,7 +15921,7 @@
     "separation": 16.98,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "92-4": {
     "title": "亡き王女のためのパヴァーヌ",
@@ -15921,7 +15933,7 @@
     "separation": 17.29,
     "bpmChange": 2.09,
     "hsChange": 0.08,
-    "x": 3
+    "x": 0.75
   },
   "1124-4": {
     "title": "Savage Love",
@@ -15933,7 +15945,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "35-4": {
     "title": "GLORIOUS RO＠D",
@@ -15945,7 +15957,7 @@
     "separation": 13.84,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "956-4": {
     "title": "だから僕は音楽を辞めた",
@@ -15957,7 +15969,7 @@
     "separation": 2.52,
     "bpmChange": 5.01,
     "hsChange": 0.57,
-    "x": 3
+    "x": 0.75
   },
   "115-4": {
     "title": "ドラゴンボールヒーローズ ギャラクシーミッションシリーズ テーマソング",
@@ -15969,7 +15981,7 @@
     "separation": 0,
     "bpmChange": 7.26,
     "hsChange": 0.44,
-    "x": 3
+    "x": 0.75
   },
   "962-4": {
     "title": "香水",
@@ -15981,7 +15993,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "1136-4": {
     "title": "ホロメン音頭",
@@ -15993,7 +16005,7 @@
     "separation": 11.32,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.75
   },
   "332-4": {
     "title": "PON PON PON",
@@ -16005,7 +16017,7 @@
     "separation": 24.71,
     "bpmChange": 7.44,
     "hsChange": 0.36,
-    "x": 3
+    "x": 0.75
   },
   "646-4": {
     "title": "ミツボシ☆☆★",
@@ -16017,7 +16029,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "1073-4": {
     "title": "スキスキ星人",
@@ -16029,7 +16041,7 @@
     "separation": 4.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "732-4": {
     "title": "虹",
@@ -16041,7 +16053,7 @@
     "separation": 0.67,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "511-4": {
     "title": "Shine!!",
@@ -16053,7 +16065,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "200-4": {
     "title": "Star!!",
@@ -16065,7 +16077,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "9-4": {
     "title": "キミと響くハーモニー",
@@ -16077,7 +16089,7 @@
     "separation": 3.77,
     "bpmChange": 9.08,
     "hsChange": 0.65,
-    "x": 3
+    "x": 0.65
   },
   "236-4": {
     "title": "くまもとサプライズ！",
@@ -16089,7 +16101,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "381-4": {
     "title": "嘘",
@@ -16101,7 +16113,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "204-4": {
     "title": "M＠STERPIECE",
@@ -16113,7 +16125,7 @@
     "separation": 0.94,
     "bpmChange": 2.6,
     "hsChange": 0.02,
-    "x": 3
+    "x": 0.65
   },
   "1332-4": {
     "title": "王妃",
@@ -16125,7 +16137,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "1299-4": {
     "title": "大好きになればいいんじゃない？",
@@ -16137,7 +16149,7 @@
     "separation": 8.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "1187-4": {
     "title": "Love You",
@@ -16149,7 +16161,7 @@
     "separation": 5.66,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "318-4": {
     "title": "虹色?夢色?太鼓色",
@@ -16161,7 +16173,7 @@
     "separation": 43.69,
     "bpmChange": 56.45,
     "hsChange": 2.1,
-    "x": 3
+    "x": 0.65
   },
   "913-4": {
     "title": "ギンギラ銀河",
@@ -16173,7 +16185,7 @@
     "separation": 2.2,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "144-4": {
     "title": "エビカニクス",
@@ -16185,7 +16197,7 @@
     "separation": 0,
     "bpmChange": 64.22,
     "hsChange": 13.08,
-    "x": 3
+    "x": 0.65
   },
   "790-4": {
     "title": "雑草",
@@ -16197,7 +16209,7 @@
     "separation": 50.11,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "1084-4": {
     "title": "喫茶レイン",
@@ -16209,7 +16221,7 @@
     "separation": 46.25,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.65
   },
   "482-4": {
     "title": "GOIN'!!!",
@@ -16221,7 +16233,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 7.42,
-    "x": 3
+    "x": 0.55
   },
   "1201-4": {
     "title": "ドドドドドンだフル！",
@@ -16233,7 +16245,7 @@
     "separation": 0.63,
     "bpmChange": 39.95,
     "hsChange": 2.22,
-    "x": 3
+    "x": 0.55
   },
   "1294-4": {
     "title": "わんだふるぷりきゅあ！evolution!!",
@@ -16245,7 +16257,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "353-4": {
     "title": "ロックン?ハート！",
@@ -16257,7 +16269,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "671-4": {
     "title": "Tulip",
@@ -16269,7 +16281,7 @@
     "separation": 14.15,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "1389-4": {
     "title": "キミとアイドルプリキュア? Light Up！",
@@ -16281,7 +16293,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "384-4": {
     "title": "RPG",
@@ -16293,7 +16305,7 @@
     "separation": 1.89,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "882-4": {
     "title": "乙女解剖",
@@ -16305,7 +16317,7 @@
     "separation": 3.14,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "842-4": {
     "title": "紅蓮華",
@@ -16317,7 +16329,7 @@
     "separation": 16.98,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "415-4": {
     "title": "太鼓ラブ！",
@@ -16329,7 +16341,7 @@
     "separation": 28.2,
     "bpmChange": 11.18,
     "hsChange": 0.41,
-    "x": 3
+    "x": 0.55
   },
   "1283-4": {
     "title": "Say Something",
@@ -16341,7 +16353,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "886-4": {
     "title": "ハロー！どんちゃん",
@@ -16353,7 +16365,7 @@
     "separation": 0.31,
     "bpmChange": 2.56,
     "hsChange": 0.11,
-    "x": 3
+    "x": 0.55
   },
   "1301-4": {
     "title": "AMPTAKxCOLORS",
@@ -16365,7 +16377,7 @@
     "separation": 5.97,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "1300-4": {
     "title": "Show Time",
@@ -16377,7 +16389,7 @@
     "separation": 8.18,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.55
   },
   "1212-4": {
     "title": "Rat A Tat!!!",
@@ -16389,7 +16401,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "11-4": {
     "title": "みらくる☆トラベル",
@@ -16401,7 +16413,7 @@
     "separation": 3.2,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "177-4": {
     "title": "ハルウタ",
@@ -16413,7 +16425,7 @@
     "separation": 1.57,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1218-4": {
     "title": "絆ノ奇跡",
@@ -16425,7 +16437,7 @@
     "separation": 4.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "711-4": {
     "title": "見たこともない景色",
@@ -16437,7 +16449,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1076-4": {
     "title": "AWAY",
@@ -16449,7 +16461,7 @@
     "separation": 0.31,
     "bpmChange": 3.7,
     "hsChange": 0.11,
-    "x": 3
+    "x": 0.5
   },
   "1200-4": {
     "title": "全力キング",
@@ -16461,7 +16473,7 @@
     "separation": 0.41,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "366-4": {
     "title": "きみのあかり",
@@ -16473,7 +16485,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1330-4": {
     "title": "海闊天空",
@@ -16485,7 +16497,7 @@
     "separation": 1.26,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1400-4": {
     "title": "I wonder",
@@ -16497,7 +16509,7 @@
     "separation": 1.89,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "492-4": {
     "title": "愛唄",
@@ -16509,7 +16521,7 @@
     "separation": 6.29,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1361-4": {
     "title": "しなこワールド",
@@ -16521,7 +16533,7 @@
     "separation": 3.77,
     "bpmChange": 7.44,
     "hsChange": 3.37,
-    "x": 3
+    "x": 0.5
   },
   "1110-4": {
     "title": "きょうはたいこ曜日",
@@ -16533,7 +16545,7 @@
     "separation": 5.66,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "272-4": {
     "title": "ミュージック?リボルバー",
@@ -16545,7 +16557,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "101-4": {
     "title": "ココロ転がせっ！",
@@ -16557,7 +16569,7 @@
     "separation": 1.89,
     "bpmChange": 61.55,
     "hsChange": 3.1,
-    "x": 3
+    "x": 0.5
   },
   "25-4": {
     "title": "フライングゲット",
@@ -16569,7 +16581,7 @@
     "separation": 36.06,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1281-4": {
     "title": "Fairy Tale",
@@ -16581,7 +16593,7 @@
     "separation": 4.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.5
   },
   "1144-4": {
     "title": "六本の薔薇と采の歌",
@@ -16593,7 +16605,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 12.41,
-    "x": 3
+    "x": 0.45
   },
   "582-4": {
     "title": "キミとボクのミライ",
@@ -16605,7 +16617,7 @@
     "separation": 0,
     "bpmChange": 5.59,
     "hsChange": 0.11,
-    "x": 3
+    "x": 0.45
   },
   "1153-4": {
     "title": "ほめのび",
@@ -16617,7 +16629,7 @@
     "separation": 3.14,
     "bpmChange": 0.07,
     "hsChange": 0.01,
-    "x": 3
+    "x": 0.45
   },
   "1022-4": {
     "title": "ウィーアー！",
@@ -16629,7 +16641,7 @@
     "separation": 5.97,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.45
   },
   "1151-4": {
     "title": "Trust?Last",
@@ -16641,7 +16653,7 @@
     "separation": 0.94,
     "bpmChange": 2.67,
     "hsChange": 0.21,
-    "x": 3
+    "x": 0.45
   },
   "312-4": {
     "title": "よく遊びよく学べ",
@@ -16653,7 +16665,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.45
   },
   "1118-4": {
     "title": "はねまり体操",
@@ -16665,7 +16677,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.45
   },
   "314-4": {
     "title": "おどるポンポコリン",
@@ -16677,7 +16689,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.45
   },
   "1285-4": {
     "title": "麻雀 Sparrow",
@@ -16689,7 +16701,7 @@
     "separation": 10.38,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.45
   },
   "368-4": {
     "title": "さんぽ",
@@ -16701,7 +16713,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.45
   },
   "1270-4": {
     "title": "交響曲第五番「運命」",
@@ -16713,7 +16725,7 @@
     "separation": 0.31,
     "bpmChange": 63.79,
     "hsChange": 5.81,
-    "x": 3
+    "x": 0.45
   },
   "36-4": {
     "title": "Let It Go～ありのままで～",
@@ -16725,7 +16737,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "877-4": {
     "title": "刀剣乱舞",
@@ -16737,7 +16749,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "1343-4": {
     "title": "おはようメルちゃん",
@@ -16749,7 +16761,7 @@
     "separation": 0.94,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "1186-4": {
     "title": "Bukan Cinta Biasa",
@@ -16761,7 +16773,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "894-4": {
     "title": "今",
@@ -16773,7 +16785,7 @@
     "separation": 16.67,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "664-4": {
     "title": "どん子のファーストデート",
@@ -16785,7 +16797,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "1244-4": {
     "title": "CHEMY×STORY",
@@ -16797,7 +16809,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.4
   },
   "1302-4": {
     "title": "爆上戦隊ブンブンジャー",
@@ -16809,7 +16821,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.35
   },
   "430-4": {
     "title": "となりのトトロ",
@@ -16821,7 +16833,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.35
   },
   "974-4": {
     "title": "炎",
@@ -16833,7 +16845,7 @@
     "separation": 4.09,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.35
   },
   "1029-4": {
     "title": "カラフル?パーティ",
@@ -16845,7 +16857,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.35
   },
   "1055-4": {
     "title": "Baby Shark（ベイビー?シャーク）",
@@ -16857,7 +16869,7 @@
     "separation": 2.2,
     "bpmChange": 2.65,
     "hsChange": 1.45,
-    "x": 3
+    "x": 0.35
   },
   "246-4": {
     "title": "明日も",
@@ -16869,7 +16881,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.3
   },
   "42-4": {
     "title": "アンパンマンのマーチ",
@@ -16881,7 +16893,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.3
   },
   "1243-4": {
     "title": "ひとりごつ～バンドVer.～",
@@ -16893,7 +16905,7 @@
     "separation": 0.31,
     "bpmChange": 56.56,
     "hsChange": 1.45,
-    "x": 3
+    "x": 0.3
   },
   "824-4": {
     "title": "ドラマツルギー",
@@ -16905,7 +16917,7 @@
     "separation": 0,
     "bpmChange": 1.07,
     "hsChange": 0.08,
-    "x": 3
+    "x": 0.25
   },
   "333-4": {
     "title": "崖の上のポニョ",
@@ -16917,7 +16929,7 @@
     "separation": 3.14,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.25
   },
   "1333-4": {
     "title": "淘汰",
@@ -16929,7 +16941,7 @@
     "separation": 3.14,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.25
   },
   "231-4": {
     "title": "限界突破×サバイバー",
@@ -16941,7 +16953,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.15
   },
   "604-4": {
     "title": "いつも何度でも",
@@ -16953,7 +16965,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.15
   },
   "1295-4": {
     "title": "うんぴフレンズ",
@@ -16965,7 +16977,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.15
   },
   "831-4": {
     "title": "ゲゲゲの鬼太郎",
@@ -16977,7 +16989,7 @@
     "separation": 0,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.15
   },
   "895-4": {
     "title": "HIMAWARI HAPPY",
@@ -16989,7 +17001,7 @@
     "separation": 0,
     "bpmChange": 4.6,
     "hsChange": 0.14,
-    "x": 3
+    "x": 0.15
   },
   "811-4": {
     "title": "あなたとトゥラッタッタ?",
@@ -17001,7 +17013,7 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.05
   },
   "235-4": {
     "title": "もりのくまさん",
@@ -17013,6 +17025,6 @@
     "separation": 0.31,
     "bpmChange": 0,
     "hsChange": 0,
-    "x": 3
+    "x": 0.05
   }
 }
