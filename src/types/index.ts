@@ -15,11 +15,16 @@ export interface UserScore {
   id: number
   level: number
   score: number
+  scoreRank: number
   great: number
   good: number
   bad: number
   drumroll: number
   combo: number
+  playCount: number
+  clearCount: number
+  fullcomboCount: number
+  perfectCount: number
   updatedAt: string
 }
 

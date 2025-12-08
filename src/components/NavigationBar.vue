@@ -35,6 +35,10 @@ const navigateToReport = () => {
 const navigateToHome = () => {
   router.push('/')
 }
+
+const navigateToSongs = () => {
+  router.push('/songs')
+}
 </script>
 
 <template>
@@ -50,6 +54,13 @@ const navigateToHome = () => {
           class="nav-button"
         >
           <span>导入界面</span>
+        </button>
+        <button 
+          @click="navigateToSongs"
+          :class="{ active: route.path === '/songs' }"
+          class="nav-button"
+        >
+          <span>曲目列表</span>
         </button>
         <button 
           @click="navigateToReport"
