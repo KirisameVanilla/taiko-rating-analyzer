@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import html2canvas from 'html2canvas'
 import type { SongStats } from '../types'
 import { 
@@ -14,7 +13,6 @@ import { loadSongsData } from '../data/songs'
 import RadarChart from './RadarChart.vue'
 import TopTable from './TopTable.vue'
 
-const router = useRouter()
 const notice = ref('正在加载数据…')
 const results = ref<SongStats[]>([])
 const overallRating = ref(0)
