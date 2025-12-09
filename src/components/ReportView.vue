@@ -393,4 +393,39 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
 .icon {
   line-height: 1;
 }
+
+@media (max-width: 768px) {
+  .report-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding-right: 0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 5px;
+  }
+
+  .sidebar-item {
+    white-space: nowrap;
+    margin-bottom: 0;
+  }
+
+  .content-area {
+    padding-left: 0;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+}
 </style>

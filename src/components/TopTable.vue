@@ -23,28 +23,30 @@ const formatValue = (item: SongStats, key: keyof SongStats): string => {
     <div class="section-header">
       <h2>{{ title }}</h2>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>排名</th>
-          <th>曲名</th>
-          <th>良</th>
-          <th>可</th>
-          <th>不可</th>
-          <th>{{ title.split(' ')[0] }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in data" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ item.title }}</td>
-          <td>{{ item.great }}</td>
-          <td>{{ item.good }}</td>
-          <td>{{ item.bad }}</td>
-          <td>{{ formatValue(item, valueKey) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>曲名</th>
+            <th>良</th>
+            <th>可</th>
+            <th>不可</th>
+            <th>{{ title.split(' ')[0] }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in data" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.great }}</td>
+            <td>{{ item.good }}</td>
+            <td>{{ item.bad }}</td>
+            <td>{{ formatValue(item, valueKey) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -54,6 +56,10 @@ const formatValue = (item: SongStats, key: keyof SongStats): string => {
   background: white;
   padding: 10px;
   border-radius: 8px;
+}
+
+.table-responsive {
+  overflow-x: auto;
 }
 
 .section-header {

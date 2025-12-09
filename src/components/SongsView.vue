@@ -703,4 +703,30 @@ tr:hover {
 .copy-btn.success {
   background: #4caf50;
 }
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .filter-container, .filter-btn {
+    width: 100%;
+  }
+
+  .action-btn {
+    width: 100%;
+    margin-right: 0;
+  }
+  
+  .count {
+    text-align: center;
+  }
+}
 </style>
