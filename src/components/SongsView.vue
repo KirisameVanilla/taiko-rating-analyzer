@@ -352,9 +352,9 @@ const filteredSongs = computed(() => {
               {{ song.stats?.rating.toFixed(2) || '-' }}
               <div v-if="song.stats" class="rating-tooltip">
                 <div>大歌力: {{ song.stats.daigouryoku.toFixed(2) }}</div>
-                <div>耐力: {{ song.stats.stamina.toFixed(2) }}</div>
-                <div>高速: {{ song.stats.speed.toFixed(2) }}</div>
-                <div>精度: {{ song.stats.accuracy_power.toFixed(2) }}</div>
+                <div>体力: {{ song.stats.stamina.toFixed(2) }}</div>
+                <div>高速力: {{ song.stats.speed.toFixed(2) }}</div>
+                <div>精度力: {{ song.stats.accuracy_power.toFixed(2) }}</div>
                 <div>节奏处理: {{ song.stats.rhythm.toFixed(2) }}</div>
                 <div>复合处理: {{ song.stats.complex.toFixed(2) }}</div>
               </div>
