@@ -22,9 +22,9 @@ const searchTerm = ref('')
 // Filter State
 const showFilter = ref(false)
 const minConstant = ref(1.0)
-const maxConstant = ref(12.0)
+const maxConstant = ref(11.6)
 const limitMin = ref(1.0)
-const limitMax = ref(12.0)
+const limitMax = ref(11.6)
 
 const filterPlayed = ref(false)
 const filterNotPlayed = ref(false)
