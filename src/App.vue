@@ -9,7 +9,9 @@ const { modalState, hideModal } = useModal()
 <template>
   <div id="app">
     <NavigationBar />
-    <router-view />
+    <main class="main-content">
+      <router-view />
+    </main>
     <Modal 
       :show="modalState.show" 
       :title="modalState.title" 
@@ -22,5 +24,12 @@ const { modalState, hideModal } = useModal()
 <style scoped>
 #app {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
 }
 </style>

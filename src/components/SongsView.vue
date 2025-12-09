@@ -123,6 +123,27 @@ onMounted(async () => {
 const sortKey = ref<SortKey>('constant')
 const sortOrder = ref<'asc' | 'desc'>('desc')
 
+// Tooltip Logic
+const tooltipVisible = ref(false)
+const tooltipStats = ref<SongStats | null>(null)
+const tooltipStyle = ref({ top: '0px', left: '0px' })
+
+const showTooltip = (e: MouseEvent, stats: SongStats) => {
+  const target = e.currentTarget as HTMLElement
+  const rect = target.getBoundingClientRect()
+  
+  tooltipStats.value = stats
+  tooltipVisible.value = true
+  tooltipStyle.value = {
+    top: `${rect.top + rect.height / 2}px`,
+    left: `${rect.right + 12}px`
+  }
+}
+
+const hideTooltip = () => {
+  tooltipVisible.value = false
+}
+
 const toggleSort = (key: SortKey) => {
   if (sortKey.value === key) {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
@@ -348,16 +369,13 @@ const filteredSongs = computed(() => {
             </td>
             <td>{{ song.constant.toFixed(1) }}</td>
             <td>{{ song.userScore?.score ?? '-' }}</td>
-            <td :class="{ 'has-rating': song.stats }" class="rating-cell">
+            <td 
+              :class="{ 'has-rating': song.stats }" 
+              class="rating-cell"
+              @mouseenter="song.stats && showTooltip($event, song.stats)"
+              @mouseleave="hideTooltip"
+            >
               {{ song.stats?.rating.toFixed(2) || '-' }}
-              <div v-if="song.stats" class="rating-tooltip">
-                <div>大歌力: {{ song.stats.daigouryoku.toFixed(2) }}</div>
-                <div>体力: {{ song.stats.stamina.toFixed(2) }}</div>
-                <div>高速力: {{ song.stats.speed.toFixed(2) }}</div>
-                <div>精度力: {{ song.stats.accuracy_power.toFixed(2) }}</div>
-                <div>节奏处理: {{ song.stats.rhythm.toFixed(2) }}</div>
-                <div>复合处理: {{ song.stats.complex.toFixed(2) }}</div>
-              </div>
             </td>
             <td>{{ song.userScore?.great ?? '-' }}</td>
             <td>{{ song.userScore?.good ?? '-' }}</td>
@@ -369,10 +387,60 @@ const filteredSongs = computed(() => {
         </tbody>
       </table>
     </div>
+
+    <Teleport to="body">
+      <Transition name="tooltip-fade">
+        <div 
+          v-if="tooltipVisible && tooltipStats" 
+          class="rating-tooltip-fixed"
+          :style="tooltipStyle"
+        >
+          <div>大歌力: {{ tooltipStats.daigouryoku.toFixed(2) }}</div>
+          <div>体力: {{ tooltipStats.stamina.toFixed(2) }}</div>
+          <div>高速力: {{ tooltipStats.speed.toFixed(2) }}</div>
+          <div>精度力: {{ tooltipStats.accuracy_power.toFixed(2) }}</div>
+          <div>节奏处理: {{ tooltipStats.rhythm.toFixed(2) }}</div>
+          <div>复合处理: {{ tooltipStats.complex.toFixed(2) }}</div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
 <style scoped>
+.rating-tooltip-fixed {
+  position: fixed;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.rating-tooltip-fixed::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: rgba(0, 0, 0, 0.9);
+}
+
+.tooltip-fade-enter-active,
+.tooltip-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.tooltip-fade-enter-from,
+.tooltip-fade-leave-to {
+  opacity: 0;
+}
+
 .songs-view {
   padding: 20px;
   max-width: 1200px;
@@ -582,40 +650,6 @@ tr:hover {
 
 .rating-cell {
   position: relative;
-}
-
-.rating-tooltip {
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translateY(-50%);
-  margin-left: 12px;
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-}
-
-.rating-tooltip::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
-  border: 5px solid transparent;
-  border-right-color: rgba(0, 0, 0, 0.9);
-}
-
-.rating-cell:hover .rating-tooltip {
-  opacity: 1;
-  visibility: visible;
 }
 
 .loading {
