@@ -309,7 +309,13 @@ export function parsePastedScores(raw: string | any[]): UserScore[] {
     if (!Array.isArray(arr)) return []
 
     return arr.map(r => {
-        const isDondafuru = (Number(r[12]) > 0 && !((r[0] === 775 && r[1] === 4) || (r[0] === 775 && r[1] === 5) || (r[0] === 1032 && r[1] === 5) || (r[0] === 1037 && r[1] === 4)));
+        const isDondafuru = (Number(r[12]) > 0 && !(
+            (r[0] === 775  && r[1] === 4) ||    // 表 パン vs ごはん！ 大決戦！
+            (r[0] === 775  && r[1] === 5) ||    // 里 パン vs ごはん！ 大決戦！
+            (r[0] === 1032 && r[1] === 5) ||    // 里 Emma
+            (r[0] === 1037 && r[1] === 4) ||    // 表 BATTLE NO.1
+            (r[0] === 1356 && r[1] === 4)       // 表 Soulway
+        ));
         return {
             id: Number(r[0]),
             level: Number(r[1]),
