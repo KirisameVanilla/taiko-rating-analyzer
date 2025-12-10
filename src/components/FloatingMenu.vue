@@ -60,6 +60,16 @@ function handleScreenshot() {
             <span class="icon">📷</span>
             <span class="label">保存截图</span>
           </button>
+
+          <a 
+            href="https://github.com/kirisamevanilla/taiko-best" 
+            target="_blank" 
+            class="menu-item"
+            title="GitHub 仓库"
+          >
+            <span class="icon">⌨️</span>
+            <span class="label">GitHub 仓库</span>
+          </a>
         </div>
       </div>
     </div>
