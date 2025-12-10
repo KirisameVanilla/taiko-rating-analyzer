@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavigationBar from './components/NavigationBar.vue'
 import Modal from './components/Modal.vue'
+import FloatingMenu from './components/FloatingMenu.vue'
 import { useModal } from './composables/useModal'
 
 const { modalState, hideModal } = useModal()
@@ -12,6 +13,7 @@ const { modalState, hideModal } = useModal()
     <main class="main-content">
       <router-view />
     </main>
+    <FloatingMenu />
     <Modal 
       :show="modalState.show" 
       :title="modalState.title" 

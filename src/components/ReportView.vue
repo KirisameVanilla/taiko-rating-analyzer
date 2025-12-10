@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import html2canvas from 'html2canvas'
 import type { SongStats } from '../types'
+import { eventBus } from '../utils/eventBus'
 import { 
   parsePastedScores, 
   calculateSongStats,
@@ -40,7 +41,12 @@ const menuItems = [
   { id: 'complex', label: '复合处理' }
 ]
 
+const handleScreenshot = () => {
+  saveElementAsImage(contentRef.value, `taiko-${activeSection.value}`)
+}
+
 onMounted(async () => {
+  eventBus.on('trigger-screenshot', handleScreenshot)
   try {
     // 从 localStorage 读取数据
     const scoreInput = localStorage.getItem('taikoScoreData') || ''
@@ -74,6 +80,10 @@ onMounted(async () => {
     console.error(e)
     notice.value = '数据加载失败,请检查输入格式'
   }
+})
+
+onUnmounted(() => {
+  eventBus.off('trigger-screenshot', handleScreenshot)
 })
 
 function calculateOverallStats(data: SongStats[]) {
@@ -201,12 +211,7 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
         </div>
       </div>
 
-      <!-- Floating Action Button -->
-      <div class="floating-actions no-capture">
-        <button @click="saveElementAsImage(contentRef, `taiko-${activeSection}`)" class="floating-btn save-btn" title="保存当前页面">
-          <span class="icon">📷</span>
-        </button>
-      </div>
+      <!-- Floating Action Button removed, moved to global FloatingMenu -->
     </template>
   </div>
 </template>
