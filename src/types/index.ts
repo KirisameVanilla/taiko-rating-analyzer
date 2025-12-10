@@ -8,7 +8,6 @@ export interface SongData {
   separation: number
   bpmChange: number
   hsChange: number
-  x: number
 }
 
 export interface UserScore {

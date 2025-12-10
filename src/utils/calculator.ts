@@ -6,6 +6,82 @@ const POWER = Math.pow
 const SQRT = Math.sqrt
 const MAX = Math.max
 
+// 定数到定数得点x的映射表
+const CONSTANT_TO_X_MAP: Record<number, number> = {
+  1.0: 0.05,
+  1.5: 0.10,
+  2.0: 0.15,
+  2.5: 0.20,
+  3.0: 0.25,
+  3.5: 0.30,
+  4.0: 0.35,
+  4.5: 0.40,
+  5.0: 0.45,
+  5.5: 0.50,
+  6.0: 0.55,
+  6.2: 0.65,
+  6.4: 0.75,
+  6.6: 0.85,
+  6.8: 0.95,
+  6.9: 1.00,
+  7.0: 1.14,
+  7.1: 1.29,
+  7.2: 1.43,
+  7.3: 1.57,
+  7.4: 1.71,
+  7.5: 1.86,
+  7.6: 2.00,
+  7.7: 2.25,
+  7.8: 2.50,
+  7.9: 2.75,
+  8.0: 3.00,
+  8.1: 3.25,
+  8.2: 3.50,
+  8.3: 3.75,
+  8.4: 4.00,
+  8.5: 4.25,
+  8.6: 4.50,
+  8.7: 4.75,
+  8.8: 5.00,
+  8.9: 5.333,
+  9.0: 5.666,
+  9.1: 6.00,
+  9.2: 6.333,
+  9.3: 6.666,
+  9.4: 7.00,
+  9.5: 7.50,
+  9.6: 8.00,
+  9.7: 8.50,
+  9.8: 9.00,
+  9.9: 9.25,
+  10.0: 9.50,
+  10.1: 9.75,
+  10.2: 10.00,
+  10.3: 10.50,
+  10.4: 11.00,
+  10.5: 11.333,
+  10.6: 11.666,
+  10.7: 12.00,
+  10.8: 12.50,
+  10.9: 13.00,
+  11.0: 13.333,
+  11.1: 13.666,
+  11.2: 14.00,
+  11.3: 14.50,
+  11.4: 15.00,
+  11.5: 15.25,
+  11.6: 15.50
+}
+
+/**
+ * 根据定数获取对应的x值（定数得点）
+ * @param constant - 谱面定数
+ * @returns x值，如果定数不在映射表中则返回0.05（最小值）
+ */
+export function getXFromConstant(constant: number): number {
+  return CONSTANT_TO_X_MAP[constant] ?? 0.05
+}
+
 /**
  * 计算准确度分数 (Y轴值)
  * 根据玩家的准确率计算对应的Y轴分数，使用分段函数模拟难度曲线
@@ -173,7 +249,7 @@ export function calculateSongStats(songData: SongData, userScore: UserScore): So
   const accuracy = userScore.great / total
   if (accuracy < 0.5) return null
   
-  const x = songData.x
+  const x = getXFromConstant(songData.constant)
   const y = calcY(accuracy)
   const rating = calcSingleRating(x, y)
   
