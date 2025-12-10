@@ -1,9 +1,6 @@
 name: Update Songs Data
 
 on:
-  # 每天 UTC 18:00 触发 (UTC+8 凌晨 2:00)
-  schedule:
-    - cron: '0 18 * * *'
   workflow_dispatch:
 
 jobs:
