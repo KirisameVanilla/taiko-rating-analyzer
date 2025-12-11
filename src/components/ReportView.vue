@@ -174,19 +174,19 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
 </script>
 
 <template>
-  <div class="container">
-    <div v-if="notice" class="notice">{{ notice }}</div>
+  <div class="bg-white shadow-[0_4px_6px_rgba(0,0,0,0.1)] mx-auto p-5 max-md:p-2.5 rounded-[10px] max-w-[1000px] min-h-[600px]">
+    <div v-if="notice" class="my-5 text-[#888] text-center">{{ notice }}</div>
     
     <template v-else>
-      <div class="report-layout">
+      <div class="flex max-md:flex-col gap-5 min-h-[500px]">
         <!-- Sidebar -->
-        <div class="sidebar no-capture">
-          <div class="sidebar-menu">
+        <div class="flex flex-col flex-shrink-0 max-md:mb-5 pr-5 max-md:pr-0 max-md:pb-2.5 border-[#eee] border-r max-md:border-r-0 max-md:border-b w-[200px] max-md:w-full no-capture">
+          <div class="max-md:flex flex-1 max-md:gap-2.5 max-md:pb-1.5 max-md:overflow-x-auto">
             <div 
               v-for="item in menuItems" 
               :key="item.id"
-              class="sidebar-item"
-              :class="{ active: activeSection === item.id }"
+              class="hover:bg-[#f5f5f5] mb-1.5 max-md:mb-0 px-[15px] py-3 rounded-md text-gray-600 hover:text-[#333] max-md:whitespace-nowrap transition-all duration-300 cursor-pointer"
+              :class="{ 'bg-primary text-white': activeSection === item.id }"
               @click="activeSection = item.id"
             >
               {{ item.label }}
@@ -195,39 +195,39 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
         </div>
 
         <!-- Content Area -->
-        <div class="content-area" ref="contentRef">
+        <div class="relative flex-1 pl-2.5 max-md:pl-0" ref="contentRef">
           <!-- Overview Section -->
-          <div v-if="activeSection === 'overview'" class="overview-section">
-            <div class="section-header">
-              <h1>玩家 Rating 及六维雷达图</h1>
+          <div v-if="activeSection === 'overview'" class="flex flex-col items-center px-2.5 pb-2.5">
+            <div class="mb-5 w-full text-center">
+              <h1 class="m-0 text-[#333] text-2xl">玩家 Rating 及六维雷达图</h1>
             </div>
             
-            <div class="summary">
-              <div class="stat-box">
-                <div class="stat-value">{{ overallRating.toFixed(2) }}</div>
-                <div class="stat-label">Rating</div>
+            <div class="flex justify-center mb-[30px] w-full">
+              <div class="bg-[#f8f9fa] p-[15px] rounded-lg min-w-[120px] text-center">
+                <div class="font-bold text-[28px] text-primary">{{ overallRating.toFixed(2) }}</div>
+                <div class="text-gray-600 text-sm">Rating</div>
               </div>
             </div>
 
-            <div class="chart-container">
+            <div class="w-full max-w-[700px] h-[400px]">
               <RadarChart :data="radarData" />
             </div>
           </div>
 
           <!-- Top Tables -->
-          <div v-else-if="currentTableData" class="table-section">
+          <div v-else-if="currentTableData">
             <!-- Sub Tabs -->
-            <div class="sub-tabs">
+            <div class="flex gap-2.5 mb-5 border-[#eee] border-b-2">
               <div 
-                class="sub-tab-item"
-                :class="{ active: activeSubTab === 'top20' }"
+                class="mb-[-2px] px-5 py-2.5 border-transparent border-b-[3px] font-medium text-gray-600 hover:text-primary transition-all duration-300 cursor-pointer"
+                :class="{ 'text-primary border-b-primary': activeSubTab === 'top20' }"
                 @click="activeSubTab = 'top20'"
               >
                 Top 20
               </div>
               <div 
-                class="sub-tab-item"
-                :class="{ active: activeSubTab === 'recommend' }"
+                class="mb-[-2px] px-5 py-2.5 border-transparent border-b-[3px] font-medium text-gray-600 hover:text-primary transition-all duration-300 cursor-pointer"
+                :class="{ 'text-primary border-b-primary': activeSubTab === 'recommend' }"
                 @click="activeSubTab = 'recommend'"
               >
                 推荐曲目
@@ -250,244 +250,7 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
 </template>
 
 <style scoped>
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  min-height: 600px;
-}
-
-.report-layout {
-  display: flex;
-  gap: 20px;
-  min-height: 500px;
-}
-
-.sidebar {
-  width: 200px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #eee;
-  padding-right: 20px;
-}
-
-.sidebar-menu {
-  flex: 1;
-}
-
-.sidebar-item {
-  padding: 12px 15px;
-  cursor: pointer;
-  border-radius: 6px;
-  margin-bottom: 5px;
-  color: #666;
-  transition: all 0.3s;
-}
-
-.sidebar-item:hover {
-  background-color: #f5f5f5;
-  color: #333;
-}
-
-.sidebar-item.active {
-  background-color: #e91e63;
-  color: white;
-}
-
-.content-area {
-  flex: 1;
-  padding-left: 10px;
-  position: relative;
-}
-
-.sub-tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
-}
-
-.sub-tab-item {
-  padding: 10px 20px;
-  cursor: pointer;
-  color: #666;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
-  transition: all 0.3s;
-  font-weight: 500;
-}
-
-.sub-tab-item:hover {
-  color: #e91e63;
-}
-
-.sub-tab-item.active {
-  color: #e91e63;
-  border-bottom-color: #e91e63;
-}
-
-.overview-section {
-  padding: 0 10px 10px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.section-header h1 {
-  margin: 0;
-  font-size: 24px; /* Match h2 size usually, or keep it larger but remove margin */
-  color: #333;
-}
-
-.summary {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  width: 100%;
-}
-
-.stat-box {
-  text-align: center;
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  min-width: 120px;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: bold;
-  color: #e91e63;
-}
-
-.stat-label {
-  font-size: 14px;
-  color: #666;
-}
-
-.chart-container {
-  height: 400px;
-  width: 100%;
-  max-width: 700px;
-}
-
-.content-actions {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-}
-
-.action-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: white;
-  text-align: center;
-}
-
-.save-btn {
-  background: #2196f3;
-}
-.save-btn:hover {
-  background: #1976d2;
-}
-
-.copy-btn {
-  background: #e91e63;
-}
-.copy-btn:hover {
-  background: #c2185b;
-}
-.copy-btn.success {
-  background: #4caf50;
-}
-
-.notice {
-  text-align: center;
-  color: #888;
-  margin: 20px 0;
-}
-
-.floating-actions {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 1000;
-}
-
-.floating-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.floating-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-}
-
-.floating-btn:active {
-  transform: scale(0.95);
-}
-
 .icon {
   line-height: 1;
-}
-
-@media (max-width: 768px) {
-  .report-layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #eee;
-    padding-right: 0;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-  }
-
-  .sidebar-menu {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    padding-bottom: 5px;
-  }
-
-  .sidebar-item {
-    white-space: nowrap;
-    margin-bottom: 0;
-  }
-
-  .content-area {
-    padding-left: 0;
-  }
-  
-  .container {
-    padding: 10px;
-  }
 }
 </style>

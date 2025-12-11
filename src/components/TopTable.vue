@@ -60,14 +60,14 @@ const recommendedSongs = computed(() => {
 </script>
 
 <template>
-  <div class="table-section">
-    <div class="section-header">
+  <div class="bg-white mt-0 p-2.5 rounded-lg">
+    <div class="flex justify-center items-center mb-5">
       <h2>{{ title }}</h2>
     </div>
     
     <!-- Top 20 表格 -->
-    <div v-if="showMode === 'top20'" class="table-responsive">
-      <table>
+    <div v-if="showMode === 'top20'" class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
         <thead>
           <tr>
             <th>排名</th>
@@ -92,19 +92,19 @@ const recommendedSongs = computed(() => {
     </div>
     
     <!-- 推荐歌曲列表 -->
-    <div v-else-if="showMode === 'recommend'" class="recommend-section">
-      <h3>推荐游玩的歌曲</h3>
+    <div v-else-if="showMode === 'recommend'" class="mt-8 text-left">
+      <h3 class="mb-2.5 text-primary text-base">推荐游玩的歌曲</h3>
       <!-- 基准值信息 -->
-      <div v-if="recommendedSongs.length > 0" class="baseline-info">
-        <span class="baseline-item">
-          <strong>难度基准值：</strong>{{ (recommendedSongs[0] as any)._best20IndicatorMedian?.toFixed(2) || '-' }}
+      <div v-if="recommendedSongs.length > 0" class="flex gap-6 bg-[#f9f9f9] mb-3 px-3 py-2 border-primary border-l-[3px] rounded">
+        <span class="text-gray-600 text-sm">
+          <strong class="mr-1 text-gray-800">难度基准值：</strong>{{ (recommendedSongs[0] as any)._best20IndicatorMedian?.toFixed(2) || '-' }}
         </span>
-        <span class="baseline-item">
-          <strong>评分基准值：</strong>{{ (recommendedSongs[0] as any)._scoreBaseline?.toFixed(2) || '-' }}
+        <span class="text-gray-600 text-sm">
+          <strong class="mr-1 text-gray-800">评分基准值：</strong>{{ (recommendedSongs[0] as any)._scoreBaseline?.toFixed(2) || '-' }}
         </span>
       </div>
-      <div class="recommend-table-wrapper">
-        <table class="recommend-table">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
           <thead>
             <tr>
               <th>曲名</th>
@@ -116,13 +116,13 @@ const recommendedSongs = computed(() => {
           </thead>
           <tbody>
             <tr v-for="song in recommendedSongs" :key="song.title">
-              <td class="song-title">{{ song.title }}</td>
+              <td class="font-bold text-[#333] text-left">{{ song.title }}</td>
               <td>{{ (song as any)._songIndicatorValue?.toFixed(2) || '-' }}</td>
-              <td :class="{'deviation-good': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'deviation-bad': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
+              <td :class="{'text-[#4caf50] font-semibold': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'text-[#ff9800] font-semibold': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
                 {{ ((song as any)._songIndicatorValue - (song as any)._best20IndicatorMedian)?.toFixed(2) || '-' }}
               </td>
               <td>{{ formatValue(song, valueKey) }}</td>
-              <td :class="{'deviation-good': ((song as any)._userScoreValue - (song as any)._scoreBaseline) < 0, 'deviation-bad': ((song as any)._userScoreValue - (song as any)._scoreBaseline) >= 0}">
+              <td :class="{'text-[#4caf50] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) < 0, 'text-[#ff9800] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) >= 0}">
                 {{ ((song as any)._userScoreValue - (song as any)._scoreBaseline)?.toFixed(2) || '-' }}
               </td>
             </tr>
@@ -134,53 +134,9 @@ const recommendedSongs = computed(() => {
 </template>
 
 <style scoped>
-.table-section {
-  margin-top: 0;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.table-responsive {
-  overflow-x: auto;
-}
-
-.section-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.save-btn {
-  padding: 6px 12px;
-  background-color: #e91e63;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.save-btn:hover {
-  background-color: #c2185b;
-}
-
-.save-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
 h2 {
   color: #333;
   margin: 0;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
 }
 
 th, td {
@@ -194,70 +150,7 @@ th {
   color: white;
 }
 
-tr:nth-child(even) {
+table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
-}
-
-.recommend-section {
-  margin-top: 32px;
-  text-align: left;
-}
-.recommend-section h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: #e91e63;
-}
-.baseline-info {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 12px;
-  padding: 8px 12px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-  border-left: 3px solid #e91e63;
-}
-.baseline-item {
-  font-size: 14px;
-  color: #666;
-}
-.baseline-item strong {
-  color: #333;
-  margin-right: 4px;
-}
-.recommend-table-wrapper {
-  overflow-x: auto;
-}
-.recommend-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-.recommend-table th {
-  background-color: #e91e63;
-  color: white;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-.recommend-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-.recommend-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-.recommend-table .song-title {
-  font-weight: bold;
-  color: #333;
-  text-align: left;
-}
-.deviation-good {
-  color: #4caf50;
-  font-weight: 600;
-}
-.deviation-bad {
-  color: #ff9800;
-  font-weight: 600;
 }
 </style>

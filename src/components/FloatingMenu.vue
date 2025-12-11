@@ -23,187 +23,82 @@ function handleScreenshot() {
 </script>
 
 <template>
-  <div class="floating-menu-container no-capture">
+  <div class="no-capture">
     <!-- Main Button -->
     <button 
-      class="main-button" 
+      class="right-[30px] bottom-[30px] z-[1000] fixed flex justify-center items-center bg-primary hover:bg-[#d81b60] shadow-[0_4px_12px_rgba(0,0,0,0.2)] border-none rounded-full w-14 h-14 text-white text-2xl hover:scale-110 transition-all duration-300 cursor-pointer" 
       @click="toggleMenu"
       title="菜单"
     >
-      <span class="icon">☰</span>
+      <span>☰</span>
     </button>
 
     <!-- Popup Modal -->
-    <div v-if="isOpen" class="popup-overlay" @click="closeMenu">
-      <div class="popup-content" @click.stop>
-        <div class="popup-header">
-          <h3>菜单</h3>
-          <button class="close-btn" @click="closeMenu">✕</button>
-        </div>
-        
-        <div class="menu-items">
-          <a 
-            href="https://qm.qq.com/q/EhuH4pBPmU" 
-            target="_blank" 
-            class="menu-item"
-            title="点击链接加入群聊【太鼓之达人Rating交流群】"
-          >
-            <span class="icon">👥</span>
-            <span class="label">加入QQ群</span>
-          </a>
+    <Transition name="menu">
+      <div v-if="isOpen" class="z-[2000] fixed inset-0 flex justify-center items-center bg-black/50" @click="closeMenu">
+        <div class="bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-5 rounded-xl w-[90%] max-w-[300px]" @click.stop>
+          <div class="flex justify-between items-center mb-5 pb-2.5 border-[#eee] border-b">
+            <h3 class="m-0 text-[#333] text-lg">菜单</h3>
+            <button class="bg-none px-1.5 py-0 border-none text-[#999] hover:text-[#333] text-xl cursor-pointer" @click="closeMenu">✕</button>
+          </div>
           
-          <button 
-            v-if="isReportPage" 
-            @click="handleScreenshot" 
-            class="menu-item"
-          >
-            <span class="icon">📷</span>
-            <span class="label">保存截图</span>
-          </button>
+          <div class="flex flex-col gap-2.5">
+            <a 
+              href="https://qm.qq.com/q/EhuH4pBPmU" 
+              target="_blank" 
+              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
+              title="点击链接加入群聊【太鼓之达人Rating交流群】"
+            >
+              <span class="w-6 text-xl text-center">👥</span>
+              <span>加入QQ群</span>
+            </a>
+            
+            <button 
+              v-if="isReportPage" 
+              @click="handleScreenshot" 
+              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
+            >
+              <span class="w-6 text-xl text-center">📷</span>
+              <span>保存截图</span>
+            </button>
 
-          <a 
-            href="https://github.com/kirisamevanilla/taiko-best" 
-            target="_blank" 
-            class="menu-item"
-            title="GitHub 仓库"
-          >
-            <span class="icon">⌨️</span>
-            <span class="label">GitHub 仓库</span>
-          </a>
+            <a 
+              href="https://github.com/kirisamevanilla/taiko-best" 
+              target="_blank" 
+              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
+              title="GitHub 仓库"
+            >
+              <span class="w-6 text-xl text-center">⌨️</span>
+              <span>GitHub 仓库</span>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
 <style scoped>
-.main-button {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 1000;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: #e91e63;
-  color: white;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Overlay fade + scale transition */
+.menu-enter-active,
+.menu-leave-active {
+  transition: opacity 0.2s ease-out;
 }
 
-.main-button:hover {
-  transform: scale(1.1);
-  background-color: #d81b60;
+.menu-enter-from,
+.menu-leave-to {
+  opacity: 0;
 }
 
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.2s ease-out;
+/* Content scale transition */
+.menu-enter-active > div,
+.menu-leave-active > div {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 300px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: scaleIn 0.2s ease-out;
-}
-
-.popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.popup-header h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #999;
-  padding: 0 5px;
-}
-
-.close-btn:hover {
-  color: #333;
-}
-
-.menu-items {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 12px 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.menu-item:hover {
-  background-color: #fff;
-  border-color: #e91e63;
-  color: #e91e63;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.1);
-}
-
-.menu-item .icon {
-  font-size: 20px;
-  width: 24px;
-  text-align: center;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleIn {
-  from { 
-    opacity: 0;
-    transform: scale(0.9); 
-  }
-  to { 
-    opacity: 1;
-    transform: scale(1); 
-  }
+.menu-enter-from > div,
+.menu-leave-to > div {
+  opacity: 0;
+  transform: scale(0.9);
 }
 </style>

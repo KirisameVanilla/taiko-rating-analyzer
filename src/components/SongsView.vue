@@ -402,22 +402,22 @@ const filteredSongs = computed(() => {
 </script>
 
 <template>
-  <div class="songs-view">
-    <div class="header">
+  <div class="mx-auto p-5 max-w-[1200px]">
+    <div class="mb-5">
       <h1>所有曲目列表</h1>
-      <div class="controls">
-        <input v-model="searchTerm" placeholder="搜索曲名..." class="search-input" />
-        <div class="filter-container">
-          <button @click="showFilter = !showFilter" class="filter-btn">
+      <div class="relative flex max-md:flex-col items-center max-md:items-stretch gap-5 max-md:gap-2.5">
+        <input v-model="searchTerm" placeholder="搜索曲名..." class="max-md:box-border px-3 py-2 border border-[#ddd] rounded w-[300px] max-md:w-full text-base" />
+        <div class="relative max-md:w-full">
+          <button @click="showFilter = !showFilter" class="bg-white hover:bg-[#f8f9fa] px-4 py-2 border border-[#ddd] rounded max-md:w-full cursor-pointer">
             筛选 {{ showFilter ? '▲' : '▼' }}
           </button>
           
-          <div v-if="showFilter" class="filter-popup">
-            <div class="filter-section">
-              <h3>定数范围: {{ minConstant.toFixed(1) }} - {{ maxConstant.toFixed(1) }}</h3>
-              <div class="slider-container">
-                <div class="slider-track"></div>
-                <div class="slider-range" :style="{ left: minPos + '%', width: (maxPos - minPos) + '%' }"></div>
+          <div v-if="showFilter" class="top-full left-0 z-[100] absolute bg-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] mt-2 p-4 border border-[#ddd] rounded-lg w-[300px]">
+            <div class="mb-4">
+              <h3 class="m-0 mb-3 text-gray-600 text-sm">定数范围: {{ minConstant.toFixed(1) }} - {{ maxConstant.toFixed(1) }}</h3>
+              <div class="relative mb-2.5 w-full h-5">
+                <div class="top-1/2 absolute bg-[#ddd] rounded-sm w-full h-1 -translate-y-1/2"></div>
+                <div class="top-1/2 z-[1] absolute bg-[#2196f3] h-1 -translate-y-1/2" :style="{ left: minPos + '%', width: (maxPos - minPos) + '%' }"></div>
                 <input 
                   type="range" 
                   v-model.number="minConstant" 
@@ -437,26 +437,26 @@ const filteredSongs = computed(() => {
               </div>
             </div>
             
-            <div class="filter-section">
-              <h3>状态筛选</h3>
-              <div class="checkbox-group">
-                <div class="checkbox-row">
-                  <label>已游玩</label>
+            <div class="mb-4">
+              <h3 class="m-0 mb-3 text-gray-600 text-sm">状态筛选</h3>
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-3 text-sm">
+                  <label class="w-[60px] font-medium">已游玩</label>
                   <label><input type="checkbox" v-model="filterPlayed"> 是</label>
                   <label><input type="checkbox" v-model="filterNotPlayed"> 否</label>
                 </div>
-                <div class="checkbox-row">
-                  <label>已过关</label>
+                <div class="flex items-center gap-3 text-sm">
+                  <label class="w-[60px] font-medium">已过关</label>
                   <label><input type="checkbox" v-model="filterCleared"> 是</label>
                   <label><input type="checkbox" v-model="filterNotCleared"> 否</label>
                 </div>
-                <div class="checkbox-row">
-                  <label>已全连</label>
+                <div class="flex items-center gap-3 text-sm">
+                  <label class="w-[60px] font-medium">已全连</label>
                   <label><input type="checkbox" v-model="filterFC"> 是</label>
                   <label><input type="checkbox" v-model="filterNotFC"> 否</label>
                 </div>
-                <div class="checkbox-row">
-                  <label>已全良</label>
+                <div class="flex items-center gap-3 text-sm">
+                  <label class="w-[60px] font-medium">已全良</label>
                   <label><input type="checkbox" v-model="filterAP"> 是</label>
                   <label><input type="checkbox" v-model="filterNotAP"> 否</label>
                 </div>
@@ -464,17 +464,17 @@ const filteredSongs = computed(() => {
             </div>
           </div>
         </div>
-        <button @click="copyDataToClipboard" class="action-btn copy-btn" :class="{ success: copySuccess }">
+        <button @click="copyDataToClipboard" class="bg-primary hover:bg-primary-dark mr-2.5 max-md:mr-0 px-4 py-2 border-none rounded max-md:w-full text-white text-sm text-center transition-all duration-300 cursor-pointer" :class="{ 'bg-[#4caf50]': copySuccess }">
           {{ copySuccess ? '✓ 已复制' : '复制数据' }}
         </button>
-        <span class="count">共 {{ filteredSongs.length }} 首</span>
+        <span class="max-md:text-center">共 {{ filteredSongs.length }} 首</span>
       </div>
     </div>
     
-    <div v-if="loading" class="loading">加载中...</div>
+    <div v-if="loading" class="py-10 text-gray-600 text-center">加载中...</div>
     
-    <div v-else class="table-container">
-      <table>
+    <div v-else class="shadow-[0_2px_8px_rgba(0,0,0,0.1)] rounded-lg overflow-x-auto">
+      <table class="bg-white w-full border-collapse">
         <thead>
           <tr>
             <th @click="toggleSort('title')" class="sortable">
@@ -511,18 +511,24 @@ const filteredSongs = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="song in filteredSongs" :key="song.id" @click="openEditModal(song)" class="song-row">
-            <td class="title-cell">{{ song.title }}</td>
+          <tr v-for="song in filteredSongs" :key="song.id" @click="openEditModal(song)" class="hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
+            <td class="min-w-[200px] font-medium">{{ song.title }}</td>
             <td>
-              <span :class="['difficulty-badge', `diff-${song.level}`]">
+              <span class="px-2 py-0.5 rounded-xl text-white text-xs" :class="{
+                'bg-[#4caf50]': song.level === 1,
+                'bg-[#8bc34a]': song.level === 2,
+                'bg-[#ff9800]': song.level === 3,
+                'bg-primary': song.level === 4,
+                'bg-[#9c27b0]': song.level === 5
+              }">
                 {{ difficultyMap[song.level] || song.level }}
               </span>
             </td>
             <td>{{ song.constant.toFixed(1) }}</td>
             <td>{{ song.userScore?.score ?? '-' }}</td>
             <td 
-              :class="{ 'has-rating': song.stats }" 
-              class="rating-cell"
+              :class="{ 'text-[#2196f3] font-bold': song.stats }" 
+              class="relative"
               @mouseenter="song.stats && showTooltip($event, song.stats)"
               @mouseleave="hideTooltip"
             >
@@ -602,98 +608,6 @@ const filteredSongs = computed(() => {
   opacity: 0;
 }
 
-.songs-view {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.header {
-  margin-bottom: 20px;
-}
-
-.controls {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  position: relative;
-}
-
-.filter-container {
-  position: relative;
-}
-
-.filter-btn {
-  padding: 8px 16px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.filter-btn:hover {
-  background-color: #f8f9fa;
-}
-
-.song-row {
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.song-row:hover {
-  background-color: #f3f4f6;
-}
-
-.filter-popup {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 8px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  padding: 16px;
-  z-index: 100;
-  width: 300px;
-}
-
-.filter-section {
-  margin-bottom: 16px;
-}
-
-.filter-section h3 {
-  margin: 0 0 12px 0;
-  font-size: 14px;
-  color: #666;
-}
-
-.slider-container {
-  position: relative;
-  width: 100%;
-  height: 20px;
-  margin-bottom: 10px;
-}
-
-.slider-track {
-  position: absolute;
-  width: 100%;
-  height: 4px;
-  background-color: #ddd;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 2px;
-}
-
-.slider-range {
-  position: absolute;
-  height: 4px;
-  background-color: #2196f3;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
 .thumb {
   position: absolute;
   width: 100%;
@@ -716,7 +630,7 @@ const filteredSongs = computed(() => {
   border-radius: 50%;
   cursor: pointer;
   pointer-events: auto;
-  margin-top: -6px; /* Adjust for track height */
+  margin-top: -6px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
@@ -729,44 +643,6 @@ const filteredSongs = computed(() => {
   pointer-events: auto;
   border: none;
   box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.checkbox-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-}
-
-.checkbox-row > label:first-child {
-  width: 60px;
-  font-weight: 500;
-}
-
-.search-input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 300px;
-  font-size: 16px;
-}
-
-.table-container {
-  overflow-x: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 8px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
 }
 
 th, td {
@@ -790,89 +666,7 @@ th.sortable:hover {
   background-color: #e9ecef;
 }
 
-tr:hover {
+table tbody tr:hover {
   background-color: #f5f5f5;
-}
-
-.title-cell {
-  font-weight: 500;
-  min-width: 200px;
-}
-
-.difficulty-badge {
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  color: white;
-  background-color: #999;
-}
-
-.diff-1 { background-color: #4caf50; } /* Easy */
-.diff-2 { background-color: #8bc34a; } /* Normal */
-.diff-3 { background-color: #ff9800; } /* Hard */
-.diff-4 { background-color: #e91e63; } /* Oni */
-.diff-5 { background-color: #9c27b0; } /* Ura */
-
-.has-rating {
-  color: #2196f3;
-  font-weight: bold;
-}
-
-.rating-cell {
-  position: relative;
-}
-
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #666;
-}
-
-.action-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: white;
-  text-align: center;
-  margin-right: 10px;
-}
-
-.copy-btn {
-  background: #e91e63;
-}
-.copy-btn:hover {
-  background: #c2185b;
-}
-.copy-btn.success {
-  background: #4caf50;
-}
-
-@media (max-width: 768px) {
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-  
-  .search-input {
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .filter-container, .filter-btn {
-    width: 100%;
-  }
-
-  .action-btn {
-    width: 100%;
-    margin-right: 0;
-  }
-  
-  .count {
-    text-align: center;
-  }
 }
 </style>
