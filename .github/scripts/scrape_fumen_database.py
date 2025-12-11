@@ -102,27 +102,53 @@ def parse_script_data(soup):
                 if match:
                     obj_content = match.group(2)
 
-                    # 解析对象内容，提取键值对
-                    data = {}
-                    # 匹配格式: key: 'value' 或 key: "value"
-                    pairs = re.findall(r'(\w+)\s*:\s*[\'"]([^\'"]*)[\'"]', obj_content)
+                    # 将 JavaScript 对象格式转换为 JSON 格式
+                    # 1. 将单引号替换为双引号（处理转义的单引号）
+                    json_content = obj_content
 
-                    for key, value in pairs:
-                        # 尝试转换数字
-                        try:
-                            # 如果是数字，转换为 float
-                            if "." in value:
-                                data[key] = float(value)
-                            else:
-                                data[key] = int(value)
-                        except ValueError:
-                            # 如果不是数字，保持字符串
-                            data[key] = value
+                    # 先处理值中的单引号（转义它们）
+                    # 匹配 key: 'value' 模式
+                    def replace_quotes(match):
+                        key = match.group(1)
+                        value = match.group(2)
+                        # 转义值中的双引号和反斜杠
+                        value = value.replace("\\", "\\\\").replace('"', '\\"')
+                        return f'"{key}": "{value}"'
+
+                    # 匹配格式: key: 'value'
+                    json_content = re.sub(
+                        r"(\w+)\s*:\s*'([^']*)'", replace_quotes, json_content
+                    )
+
+                    # 匹配格式: key: "value"（如果已经是双引号）
+                    json_content = re.sub(
+                        r'(\w+)\s*:\s*"([^"]*)"', r'"\1": "\2"', json_content
+                    )
+
+                    # 包装成完整的 JSON 对象
+                    json_str = "{" + json_content + "}"
+
+                    # 使用 json.loads 解析
+                    data = json.loads(json_str)
+
+                    # 尝试将数字字符串转换为数字
+                    for key, value in data.items():
+                        if isinstance(value, str):
+                            try:
+                                if "." in value:
+                                    data[key] = float(value)
+                                else:
+                                    data[key] = int(value)
+                            except ValueError:
+                                pass  # 保持字符串
 
                     if data:
                         return data
             except Exception as e:
                 print(f"  解析 script 数据失败: {e}")
+                import traceback
+
+                traceback.print_exc()
                 continue
 
     return None
@@ -231,7 +257,8 @@ def save_to_json(data, filename="song_data.json"):
     print(f"\n数据已保存到 {filename}")
 
 
-if __name__ == "__main__":
+def scrape_all_songs():
+    """爬取所有歌曲"""
     print("开始爬取 fumen-database.com...")
     print("=" * 50)
 
@@ -243,7 +270,7 @@ if __name__ == "__main__":
 
     if not song_links:
         print("未找到任何歌曲链接")
-        exit(1)
+        return None
 
     # 第二步：爬取每个歌曲的详细信息
     print("\n开始爬取歌曲详情...")
@@ -293,6 +320,44 @@ if __name__ == "__main__":
         for fail in fails:
             print(f"  - {fail}")
 
-    if all_songs_data:
-        # 保存到 JSON 文件
-        save_to_json(all_songs_data, "public/songs.json")
+    return all_songs_data
+
+
+def test_single_page(url):
+    """测试单个页面的爬取"""
+    print(f"测试单个页面: {url}")
+    print("=" * 50)
+
+    result = scrape_song_detail(url)
+
+    if result:
+        song_id, song_data = result
+        print("\n" + "=" * 50)
+        print("爬取成功！")
+        print("\n歌曲 ID:", song_id)
+        print("\n歌曲数据:")
+        print(json.dumps(song_data, ensure_ascii=False, indent=2))
+
+        return {song_id: song_data}
+    else:
+        print("\n" + "=" * 50)
+        print("爬取失败！")
+        return None
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) > 1:
+        # test_url = sys.argv[1]
+        test_url = r"https://fumen-database.com/song/1406-4/"
+        result = test_single_page(test_url)
+        if result:
+            # 保存测试结果
+            save_to_json(result, "test_song_data.json")
+    else:
+        # 否则爬取所有歌曲
+        all_songs_data = scrape_all_songs()
+        if all_songs_data:
+            # 保存到 JSON 文件
+            save_to_json(all_songs_data, "public/songs.json")
