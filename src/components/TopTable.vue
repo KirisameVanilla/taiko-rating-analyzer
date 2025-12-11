@@ -93,14 +93,14 @@ const recommendedSongs = computed(() => {
     
     <!-- 推荐歌曲列表 -->
     <div v-else-if="showMode === 'recommend'" class="mt-8 text-left">
-      <h3 class="mb-2.5 text-primary text-base">推荐游玩的歌曲</h3>
+      <h3 class="mb-2.5 text-primary text-base">请注意: 当前功能正在开发中, 结果可能不准确</h3>
       <!-- 基准值信息 -->
       <div v-if="recommendedSongs.length > 0" class="flex gap-6 bg-[#f9f9f9] mb-3 px-3 py-2 border-primary border-l-[3px] rounded">
         <span class="text-gray-600 text-sm">
           <strong class="mr-1 text-gray-800">难度基准值：</strong>{{ (recommendedSongs[0] as any)._best20IndicatorMedian?.toFixed(2) || '-' }}
         </span>
         <span class="text-gray-600 text-sm">
-          <strong class="mr-1 text-gray-800">评分基准值：</strong>{{ (recommendedSongs[0] as any)._scoreBaseline?.toFixed(2) || '-' }}
+          <strong class="mr-1 text-gray-800">Rating 基准值：</strong>{{ (recommendedSongs[0] as any)._scoreBaseline?.toFixed(2) || '-' }}
         </span>
       </div>
       <div class="overflow-x-auto">
@@ -110,8 +110,8 @@ const recommendedSongs = computed(() => {
               <th>曲名</th>
               <th>歌曲难度指标</th>
               <th>难度偏差</th>
-              <th>用户评分</th>
-              <th>评分偏差</th>
+              <th>当前 Rating</th>
+              <th>Rating 偏差</th>
             </tr>
           </thead>
           <tbody>
