@@ -6,6 +6,17 @@ const POWER = Math.pow
 const SQRT = Math.sqrt
 const MAX = Math.max
 
+/* 准确度权重定义：
+ * 官方计分法中，2可 = 1良
+ * 但我们希望在计算准确率时，给予良判更高的权重，因此暂时将可的权重设为0，并在需要时进行调整以修正对最终评分的影响
+ */
+const ACCURACY_WEIGHT = {
+  GREAT: 1,
+  // GOOD: 0.5
+  GOOD: 0
+}
+
+
 // 定数到定数得点x的映射表
 const CONSTANT_TO_X_MAP: Record<number, number> = {
   1.0: 0.05,
@@ -71,6 +82,16 @@ const CONSTANT_TO_X_MAP: Record<number, number> = {
   11.4: 15.00,
   11.5: 15.25,
   11.6: 15.50
+}
+
+const MAX_CONSTANT_VALUE = getMaxConstantValue();
+
+/**
+ * 获取最大定数值
+ * @returns 最大定数值
+ */
+export function getMaxConstantValue(): number {
+  return Math.max(...Object.keys(CONSTANT_TO_X_MAP).map(key => parseFloat(key)))
 }
 
 /**
@@ -195,7 +216,7 @@ export function calcBoundaries(x: number, y: number) {
  * - 当平均密度 < 瞬时密度（间歇性高潮）：降低耐力值，更偏向爆发力
  * - 这样区分了"马拉松型"和"冲刺型"谱面
  */
-export function calcStamina(avgDensity: number, instDensity: number): number {
+export function calcStaminaIndicator(avgDensity: number, instDensity: number): number {
   if (avgDensity > instDensity) {
     return avgDensity + (avgDensity / 100) * (1 - instDensity / avgDensity) * (100 - avgDensity)
   } else {
@@ -215,13 +236,95 @@ export function calcStamina(avgDensity: number, instDensity: number): number {
  * - 当瞬时密度 < 平均密度（整体均衡）：提升速度值，奖励持续的高速
  * - 与calcStamina形成互补，分别衡量"爆发力"和"持久力"
  */
-export function calcSpeed(instDensity: number, avgDensity: number): number {
+export function calcSpeedIndicator(instDensity: number, avgDensity: number): number {
   if (instDensity > avgDensity) {
     return instDensity - (1 - avgDensity / instDensity) * (instDensity - avgDensity)
   } else {
     return instDensity + (1 - instDensity / avgDensity) * (avgDensity - instDensity)
   }
 }
+
+/** 计算节奏(Rhythm)指标
+ * 基于音符分离度和BPM变化，评估谱面对节奏感的要求
+ * @param separation - 音符分离度（音符间隔均匀性）
+ * @param bpmChange - BPM变化幅度
+ * @returns 节奏值
+ * 
+ * 算法逻辑：
+ * - 结合音符分离度和BPM变化，评估节奏的复杂性
+ * - BPM变化越大，节奏值越高，反映节奏的多样性
+ */
+export function calcRhythmIndicator(separation: number, bpmChange: number): number {
+  return separation + (separation / 100) * (bpmChange / 100) * (100 - separation)
+}
+
+/** 计算复杂度(Complexity)指标
+ * 基于谱面的composite值，评估谱面的复杂程度
+ * @param composite - 谱面composite值
+ * @returns 复杂度值
+ * 算法逻辑：
+ * - 直接使用谱面的composite值作为复杂度指标
+ * - 反映谱面的多样性和技术要求
+ */
+export function calcComplexityIndicator(composite: number): number {
+  return composite
+}
+
+/** 计算打鼓力(Daigouryoku)指标
+ * 直接根据谱面定数计算打鼓力，使用歌曲难度定数到定数得点的映射
+ * @param constant - 谱面定数
+ * @returns 打鼓力值
+ */
+export function calcDaigouryokuIndicator(constant: number): number {
+  return getXFromConstant(constant)
+}
+
+/** 计算精度力(Accuracy Power)指标
+ * 直接根据谱面定数计算精度力，使用歌曲难度定数到定数得点的映射
+ * @param constant - 谱面定数
+ * @return 精度力值
+ */
+export function calcAccuracyPowerIndicator(constant: number): number {
+  return getXFromConstant(constant)
+}
+
+/** 计算综合Rating指标
+ * 直接根据谱面定数计算综合Rating，使用歌曲难度定数到定数得点的映射
+ * @param constant - 谱面定数
+ * @return 综合Rating值
+ */
+export function calcRatingIndicator(constant: number): number {
+  return getXFromConstant(constant)
+}
+
+/** 计算准确率
+ * 根据用户成绩计算准确率，作为后续评分的基础
+ * @param totalNotes - 谱面总音符数
+ * @param userScore - 用户游玩成绩（good数、combo等）
+ * @returns 准确率，范围 [0, 1]，低于50%返回0
+ * 算法逻辑：
+ * - 准确率 = (良判数 * 良权重 + 可判数 * 可权重) / 总音符数
+ * - 如果计算结果低于50%，则视为无效成绩，返回0
+ */
+export function calcAccuracy(totalNotes: number, userScore: UserScore): (number) {
+  const accuracy = (userScore.great * ACCURACY_WEIGHT.GREAT + userScore.good * ACCURACY_WEIGHT.GOOD) / totalNotes
+  if (accuracy < 0.5) return 0
+  return accuracy
+}
+
+/** 计算单维度能力值
+ * 使用几何平均法将综合rating分配到各个维度
+ * @param rating - 综合rating值
+ * @param raw_value - 维度的原始指标值
+ * @returns 该维度的最终能力值
+ * 算法逻辑：
+ * - 采用几何平均 √(rating × raw_value)，平衡综合能力和维度要求
+ * - 乘以MAX_CONSTANT_VALUE / 100进行归一化，确保维度值在合理范围内
+ */
+export function calcIndividualRating(rating: number, raw_value: number): number {
+  return SQRT(rating * raw_value * MAX_CONSTANT_VALUE / 100)
+}
+
 
 /**
  * 计算单曲的所有统计数据
@@ -245,27 +348,28 @@ export function calcSpeed(instDensity: number, avgDensity: number): number {
  * - complex(复杂度): 谱面复杂程度，基于composite值
  */
 export function calculateSongStats(songData: SongData, userScore: UserScore): SongStats | null {
-  const total = songData.totalNotes
-  const accuracy = userScore.great / total
-  if (accuracy < 0.5) return null
+  // 计算准确率
+  const accuracy = calcAccuracy(songData.totalNotes, userScore)
+  if (accuracy === 0) return null  // 准确率过低，不计算统计数据
   
+  // 计算x, y和综合rating
   const x = getXFromConstant(songData.constant)
   const y = calcY(accuracy)
   const rating = calcSingleRating(x, y)
   
   // 计算各原始维度指标
-  const raw_complex = songData.composite
-  const raw_stamina = calcStamina(songData.avgDensity, songData.instDensity)
-  const raw_speed = calcSpeed(songData.instDensity, songData.avgDensity)
-  const raw_rhythm = songData.separation + (songData.separation / 100) * (songData.bpmChange / 100) * (100 - songData.separation)
+  const raw_complex = calcComplexityIndicator(songData.composite)
+  const raw_stamina = calcStaminaIndicator(songData.avgDensity, songData.instDensity)
+  const raw_speed = calcSpeedIndicator(songData.instDensity, songData.avgDensity)
+  const raw_rhythm = calcRhythmIndicator(songData.separation, songData.bpmChange)
   
-  // 使用几何平均将rating分配到各维度，15.5是难度最大值的归一化系数
+  // 使用几何平均将rating分配到各维度，MAX_CONSTANT_VALUE 是难度最大值的归一化系数
   const daigouryoku = SQRT(rating * x)
-  const stamina = SQRT(rating * raw_stamina * 15.5 / 100)
-  const speed = SQRT(rating * raw_speed * 15.5 / 100)
   const accuracy_power = SQRT(rating * y)
-  const rhythm = SQRT(rating * raw_rhythm * 15.5 / 100)
-  const complex = SQRT(rating * raw_complex * 15.5 / 100)
+  const stamina = calcIndividualRating(rating, raw_stamina)
+  const speed = calcIndividualRating(rating, raw_speed)
+  const rhythm = calcIndividualRating(rating, raw_rhythm)
+  const complex = calcIndividualRating(rating, raw_complex)
   
   return {
     id: userScore.id + userScore.level * 0.1,
