@@ -14,6 +14,7 @@ import {
 import { loadSongsData } from '../data/songs'
 import RadarChart from './RadarChart.vue'
 import TopTable from './TopTable.vue'
+import duplicateSongs from '../data/duplicateSongs'
 
 const notice = ref('正在加载数据…')
 const results = ref<SongStats[]>([])
@@ -75,7 +76,7 @@ onMounted(async () => {
     
     results.value = tempResults
     // 过滤掉包含关系的低rating曲目
-    const filteredResults = filterDuplicateSongs(tempResults)
+    const filteredResults = filterDuplicateSongs(tempResults, duplicateSongs)
     calculateOverallStats(filteredResults)
     
     if (tempResults.length === 0) {
@@ -124,7 +125,7 @@ function calculateOverallStats(data: SongStats[]) {
 // 取前 20 名列表
 const topLists = computed(() => {
   // 先过滤掉包含关系的低rating曲目
-  const filtered = filterDuplicateSongs(results.value)
+  const filtered = filterDuplicateSongs(results.value, duplicateSongs)
   return {
     rating: [...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20),
     daigouryoku: [...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20),

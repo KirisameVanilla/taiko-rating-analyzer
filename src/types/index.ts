@@ -28,6 +28,7 @@ export interface UserScore {
 }
 
 export interface SongStats {
+  id: number
   title: string
   rating: number
   daigouryoku: number

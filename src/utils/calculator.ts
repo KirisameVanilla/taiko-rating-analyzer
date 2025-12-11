@@ -268,6 +268,7 @@ export function calculateSongStats(songData: SongData, userScore: UserScore): So
   const complex = SQRT(rating * raw_complex * 15.5 / 100)
   
   return {
+    id: userScore.id + userScore.level * 0.1,
     title: songData.title,
     rating,
     daigouryoku,
@@ -338,43 +339,52 @@ export function parsePastedScores(raw: string | any[]): UserScore[] {
 
 /**
  * 过滤重复/包含关系的曲目
- * 如果两个曲目的名字（去掉"(裏)"后）存在包含关系（不相等），则只保留rating更高的那个
+ * 根据shouldFilterList中指定的id分组，每组只保留rating最高的那个
  * @param data - 所有歌曲的统计数据数组
+ * @param shouldFilterList - 二维数组，每个子数组包含一组互相重复的曲目id
  * @returns 过滤后的数据数组
  */
-export function filterDuplicateSongs(data: SongStats[]): SongStats[] {
-  const result: SongStats[] = []
-  const processed = new Set<number>()
-  
-  // 按rating降序排序，这样遇到包含关系时，保留的总是rating更高的
-  const sortedData = [...data].sort((a, b) => b.rating - a.rating)
-  
-  for (let i = 0; i < sortedData.length; i++) {
-    if (processed.has(i)) continue
-    
-    const currentTitle = sortedData[i].title.replace(/\(裏\)/g, '').trim()
-    let shouldKeep = true
-    
-    // 检查是否与已保留的曲目有包含关系
-    for (const kept of result) {
-      const keptTitle = kept.title.replace(/\(裏\)/g, '').trim()
-      
-      // 如果当前曲目被已保留的曲目包含，或者包含已保留的曲目（且不相等）
-      if (currentTitle !== keptTitle) {
-        if (keptTitle.includes(currentTitle) || currentTitle.includes(keptTitle)) {
-          shouldKeep = false
-          break
+export function filterDuplicateSongs(data: SongStats[], shouldFilterList: number[][] = []): SongStats[] {
+  // 如果没有筛选列表，直接返回原数据
+  if (shouldFilterList.length === 0) {
+    return data
+  }
+
+  // 创建id到筛选组索引的映射
+  const idToGroupIndex = new Map<number, number>()
+  shouldFilterList.forEach((group, groupIndex) => {
+    group.forEach(id => {
+      idToGroupIndex.set(id, groupIndex)
+    })
+  })
+
+  // 为每个筛选组找到rating最高的曲目id
+  const groupBestIds = new Map<number, number>()
+  data.forEach(song => {
+    const groupIndex = idToGroupIndex.get(song.id)
+    if (groupIndex !== undefined) {
+      const currentBest = groupBestIds.get(groupIndex)
+      if (currentBest === undefined) {
+        groupBestIds.set(groupIndex, song.id)
+      } else {
+        const currentBestSong = data.find(s => s.id === currentBest)
+        if (currentBestSong && song.rating > currentBestSong.rating) {
+          groupBestIds.set(groupIndex, song.id)
         }
       }
     }
-    
-    if (shouldKeep) {
-      result.push(sortedData[i])
-      processed.add(i)
+  })
+
+  // 筛选结果：保留不在筛选列表中的曲目，以及每组中rating最高的曲目
+  return data.filter(song => {
+    const groupIndex = idToGroupIndex.get(song.id)
+    // 不在任何筛选组中，保留
+    if (groupIndex === undefined) {
+      return true
     }
-  }
-  
-  return result
+    // 在筛选组中，只保留该组rating最高的
+    return groupBestIds.get(groupIndex) === song.id
+  })
 }
 
 /**
