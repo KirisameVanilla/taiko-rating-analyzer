@@ -225,7 +225,8 @@ def scrape_song_detail(url):
         result = {
             "title": script_data.get("song_name", "")
             .replace(" （おに裏）", "(裏)")
-            .replace(" （おに）", ""),
+            .replace(" （おに）", "")
+            .strip(),
             "constant": constant,
             "totalNotes": total_notes,
             "composite": script_data.get("radar_compound", None),
@@ -350,7 +351,7 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         # test_url = sys.argv[1]
-        test_url = r"https://fumen-database.com/song/1406-4/"
+        test_url = r"https://fumen-database.com/song/714-4/"
         result = test_single_page(test_url)
         if result:
             # 保存测试结果
