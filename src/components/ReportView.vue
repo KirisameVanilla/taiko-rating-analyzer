@@ -8,7 +8,8 @@ import {
   calculateSongStats,
   getTop20Median,
   getTop20WeightedAverage,
-  topValueCompensate
+  topValueCompensate,
+  filterDuplicateSongs
 } from '../utils/calculator'
 import { loadSongsData } from '../data/songs'
 import RadarChart from './RadarChart.vue'
@@ -69,7 +70,9 @@ onMounted(async () => {
     })
     
     results.value = tempResults
-    calculateOverallStats(tempResults)
+    // 过滤掉包含关系的低rating曲目
+    const filteredResults = filterDuplicateSongs(tempResults)
+    calculateOverallStats(filteredResults)
     
     if (tempResults.length === 0) {
       notice.value = '未获取到成绩数据或无法计算'
@@ -115,15 +118,19 @@ function calculateOverallStats(data: SongStats[]) {
 }
 
 // 取前 20 名列表
-const topLists = computed(() => ({
-  rating: [...results.value].sort((a, b) => b.rating - a.rating).slice(0, 20),
-  daigouryoku: [...results.value].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20),
-  stamina: [...results.value].sort((a, b) => b.stamina - a.stamina).slice(0, 20),
-  speed: [...results.value].sort((a, b) => b.speed - a.speed).slice(0, 20),
-  accuracy_power: [...results.value].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20),
-  rhythm: [...results.value].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20),
-  complex: [...results.value].sort((a, b) => b.complex - a.complex).slice(0, 20)
-}))
+const topLists = computed(() => {
+  // 先过滤掉包含关系的低rating曲目
+  const filtered = filterDuplicateSongs(results.value)
+  return {
+    rating: [...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20),
+    daigouryoku: [...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20),
+    stamina: [...filtered].sort((a, b) => b.stamina - a.stamina).slice(0, 20),
+    speed: [...filtered].sort((a, b) => b.speed - a.speed).slice(0, 20),
+    accuracy_power: [...filtered].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20),
+    rhythm: [...filtered].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20),
+    complex: [...filtered].sort((a, b) => b.complex - a.complex).slice(0, 20)
+  }
+})
 
 const currentTableData = computed(() => {
   if (activeSection.value === 'overview') return null

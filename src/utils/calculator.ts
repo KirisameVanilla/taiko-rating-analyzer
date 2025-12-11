@@ -337,6 +337,47 @@ export function parsePastedScores(raw: string | any[]): UserScore[] {
 }
 
 /**
+ * 过滤重复/包含关系的曲目
+ * 如果两个曲目的名字（去掉"(裏)"后）存在包含关系（不相等），则只保留rating更高的那个
+ * @param data - 所有歌曲的统计数据数组
+ * @returns 过滤后的数据数组
+ */
+export function filterDuplicateSongs(data: SongStats[]): SongStats[] {
+  const result: SongStats[] = []
+  const processed = new Set<number>()
+  
+  // 按rating降序排序，这样遇到包含关系时，保留的总是rating更高的
+  const sortedData = [...data].sort((a, b) => b.rating - a.rating)
+  
+  for (let i = 0; i < sortedData.length; i++) {
+    if (processed.has(i)) continue
+    
+    const currentTitle = sortedData[i].title.replace(/\(裏\)/g, '').trim()
+    let shouldKeep = true
+    
+    // 检查是否与已保留的曲目有包含关系
+    for (const kept of result) {
+      const keptTitle = kept.title.replace(/\(裏\)/g, '').trim()
+      
+      // 如果当前曲目被已保留的曲目包含，或者包含已保留的曲目（且不相等）
+      if (currentTitle !== keptTitle) {
+        if (keptTitle.includes(currentTitle) || currentTitle.includes(keptTitle)) {
+          shouldKeep = false
+          break
+        }
+      }
+    }
+    
+    if (shouldKeep) {
+      result.push(sortedData[i])
+      processed.add(i)
+    }
+  }
+  
+  return result
+}
+
+/**
  * 计算Top20简单平均值
  * 从所有成绩中提取指定维度的Top20，计算算术平均值
  * @param data - 所有歌曲的统计数据数组
