@@ -94,7 +94,7 @@ const recommendedSongs = computed(() => {
     <!-- 推荐歌曲列表 -->
     <div v-else-if="showMode === 'recommend'" class="mt-8 text-left">
       <h3 class="mb-2.5 text-primary text-base">请注意: 当前功能正在开发中, 结果可能不准确</h3>
-  <p class="description">难度偏差是指歌曲难度指标与 B20 中位数的偏差百分比，越接近0表示难度越适中。难度偏越差小，评分顺位越低，意味着该歌曲你越有能力取得更高的评分。刷新该曲目的评分能够更客观的反映你的实际水平并以此为依据推荐更适合的曲目。难度偏差大如果为正数，说明该曲目在一定程度上超过了你的当前能力范围，单同时也有更高的进步空间，请根据你的实际情况和游戏倾向合理选择练习曲目。</p>
+  <p class="description">难度偏差是指歌曲难度指标与 B20 中位数的偏差百分比，越接近0表示难度越适中。难度偏越差小，评分顺位越低，意味着该歌曲你越有能力取得更高的评分。刷新该曲目的评分能够更客观的反映你的实际水平并以此为依据推荐更适合的曲目。难度偏差大如果为正数，说明该曲目在一定程度上超过了你的当前能力范围，但同时也有更高的进步空间，请根据你的实际情况和游戏倾向合理选择练习曲目。</p>
       <!-- 基准值信息 -->
       <div v-if="recommendedSongs.length > 0" class="flex gap-6 bg-[#f9f9f9] mb-3 px-3 py-2 border-primary border-l-[3px] rounded">
         <span class="text-gray-600 text-sm">
