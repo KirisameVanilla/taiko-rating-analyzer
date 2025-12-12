@@ -97,7 +97,7 @@ const recommendedSongs = computed(() => {
       <!-- 基准值信息 -->
       <div v-if="recommendedSongs.length > 0" class="flex gap-6 bg-[#f9f9f9] mb-3 px-3 py-2 border-primary border-l-[3px] rounded">
         <span class="text-gray-600 text-sm">
-          <strong class="mr-1 text-gray-800">难度基准值：</strong>{{ (recommendedSongs[0] as any)._best20IndicatorMedian?.toFixed(2) || '-' }}
+          <strong class="mr-1 text-gray-800">当前评分维度基准值：</strong>{{ (recommendedSongs[0] as any)._best20IndicatorMedian?.toFixed(2) || '-' }}
         </span>
         <span class="text-gray-600 text-sm">
           <strong class="mr-1 text-gray-800">Rating 基准值：</strong>{{ (recommendedSongs[0] as any)._scoreBaseline?.toFixed(2) || '-' }}
@@ -108,23 +108,49 @@ const recommendedSongs = computed(() => {
           <thead>
             <tr>
               <th>曲名</th>
-              <th>歌曲难度指标</th>
-              <th>难度偏差</th>
+              <th>定数</th>
+              <th>精度</th>
+              <!-- <th>歌曲难度指标</th> -->
+              <th>难度偏差值</th>
               <th>当前 Rating</th>
-              <th>Rating 偏差</th>
+              <!-- <th>Rating 偏差</th> -->
             </tr>
           </thead>
           <tbody>
             <tr v-for="song in recommendedSongs" :key="song.title">
               <td class="font-bold text-[#333] text-left">{{ song.title }}</td>
-              <td>{{ (song as any)._songIndicatorValue?.toFixed(2) || '-' }}</td>
+              <td>{{ (song as any)._constant ?? '-' }}</td>
+              <td>
+                <template v-if="typeof (song as any).great === 'number' && typeof (song as any).good === 'number' && (song as any)._constant && (song as any)._constant > 0 && (song as any)._songIndicatorValue">
+                  {{
+                    (() => {
+                      // 取推荐算法中的 constant, great, good, 通过 calcAccuracy 计算精度百分比
+                      try {
+                        // 需要 totalNotes，推荐结果没有，需从 _songIndicatorValue 反推，或直接用 great+good/估算
+                        // 这里假设推荐结果中 _songIndicatorValue 近似于定数得点，无法直接反推总音符数，
+                        // 只能用 great+good+bad 作为总数估算（未游玩时为0，显示-）
+                        const total = (song as any).great + (song as any).good + (song as any).bad;
+                        if (total === 0) return '-';
+                        // calcAccuracy: (great*1 + good*0) / totalNotes
+                        const acc = ((song as any).great) / total;
+                        return (acc * 100).toFixed(2) + '%';
+                      } catch { return '-'; }
+                    })()
+                  }}
+                </template>
+                <template v-else>-</template>
+              </td>
+              <!-- <td>{{ (song as any)._songIndicatorValue?.toFixed(2) || '-' }}</td> -->
               <td :class="{'text-[#4caf50] font-semibold': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'text-[#ff9800] font-semibold': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
-                {{ ((song as any)._songIndicatorValue - (song as any)._best20IndicatorMedian)?.toFixed(2) || '-' }}
+                <template v-if="(song as any)._best20IndicatorMedian && (song as any)._best20IndicatorMedian !== 0">
+                  {{ (((((song as any)._songIndicatorValue - (song as any)._best20IndicatorMedian) / (song as any)._best20IndicatorMedian) * 100) .toFixed(1)) }}%
+                </template>
+                <template v-else>-</template>
               </td>
               <td>{{ formatValue(song, valueKey) }}</td>
-              <td :class="{'text-[#4caf50] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) < 0, 'text-[#ff9800] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) >= 0}">
+              <!-- <td :class="{'text-[#4caf50] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) < 0, 'text-[#ff9800] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) >= 0}">
                 {{ ((song as any)._userScoreValue - (song as any)._scoreBaseline)?.toFixed(2) || '-' }}
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
