@@ -220,8 +220,7 @@ watch(
               <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">精度</th>
               <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">歌曲难度指标</th> -->
               <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">难度偏差</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">当前评分</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">评分顺位</th>
+              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left w32">用户评分<span class="text-[10px] font-normal">（当前/目标/顺位）</span></th>
               <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">Rating 偏差</th> -->
             </tr>
           </thead>
@@ -245,27 +244,160 @@ watch(
                 <template v-else>-</template>
               </td>
               <!-- <td class="p-2.5 border-[#ddd] border-b text-left">{{ (song as any)._songIndicatorValue?.toFixed(2) || '-' }}</td> -->
-              <td class="p-2.5 border-[#ddd] border-b text-left" :class="{'text-[#4caf50] font-semibold': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'text-[#ff9800] font-semibold': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
+              <td class="p-5.5 border-[#ddd] border-b text-left" :class="{'text-[#4caf50] font-semibold': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'text-[#ff9800] font-semibold': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
                 <template v-if="(song as any)._best20IndicatorMedian && (song as any)._best20IndicatorMedian !== 0">
                   {{ (((((song as any)._songIndicatorValue - (song as any)._best20IndicatorMedian) / (song as any)._best20IndicatorMedian) * 100) .toFixed(1)) }}%
                 </template>
                 <template v-else>-</template>
               </td>
-              <td class="p-2.5 border-[#ddd] border-b text-left">
-                <template v-if="!(song as any)._isUnplayed">
-                  {{ formatValue(song, valueKey) }}
-                </template>
-                <template v-else>-</template>
-              </td>
-              <!-- <td class="p-2.5 border-[#ddd] border-b text-left" :class="{'text-[#4caf50] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) < 0, 'text-[#ff9800] font-semibold': ((song as any)._userScoreValue - (song as any)._scoreBaseline) >= 0}">
-                {{ ((song as any)._userScoreValue - (song as any)._scoreBaseline)?.toFixed(2) || '-' }}
-              </td> -->
-              <td class="p-2.5 border-[#ddd] border-b text-left">
-                <!-- 仅已游玩歌曲展示排名，未游玩显示 '-' -->
-                <template v-if="(song as any)._dimensionRanks && (song as any)._dimensionRanks[valueKey] && !(song as any)._isUnplayed">
-                  {{ (song as any)._dimensionRanks[valueKey] }}
-                </template>
-                <template v-else>-</template>
+              <td class="p-1.5 border-[#ddd] border-b text-left">
+                <div v-if="(song as any)._maxRatings" class="flex items-center gap-1.5">
+                  <!-- 进度条（包含分数文本） -->
+                  <div class="relative bg-gray-200 rounded-full h-5 overflow-hidden w-28">
+                    <div 
+                      class="h-full transition-all duration-500 ease-out"
+                      :class="{
+                        'bg-emerald-300/60': (() => {
+                          const maxRatings = (song as any)._maxRatings;
+                          const key = valueKey as string;
+                          let maxValue = 0;
+                          if (key === 'rating') maxValue = maxRatings.maxRating;
+                          else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                          else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                          else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                          else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                          else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                          else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                          const currentValue = (song as any)._isUnplayed ? 0 : parseFloat(formatValue(song, valueKey));
+                          const percentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+                          return percentage >= 80;
+                        })(),
+                        'bg-blue-300/60': (() => {
+                          const maxRatings = (song as any)._maxRatings;
+                          const key = valueKey as string;
+                          let maxValue = 0;
+                          if (key === 'rating') maxValue = maxRatings.maxRating;
+                          else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                          else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                          else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                          else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                          else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                          else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                          const currentValue = (song as any)._isUnplayed ? 0 : parseFloat(formatValue(song, valueKey));
+                          const percentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+                          return percentage >= 60 && percentage < 80;
+                        })(),
+                        'bg-yellow-300/60': (() => {
+                          const maxRatings = (song as any)._maxRatings;
+                          const key = valueKey as string;
+                          let maxValue = 0;
+                          if (key === 'rating') maxValue = maxRatings.maxRating;
+                          else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                          else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                          else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                          else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                          else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                          else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                          const currentValue = (song as any)._isUnplayed ? 0 : parseFloat(formatValue(song, valueKey));
+                          const percentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+                          return percentage >= 40 && percentage < 60;
+                        })(),
+                        'bg-orange-300/60': (() => {
+                          const maxRatings = (song as any)._maxRatings;
+                          const key = valueKey as string;
+                          let maxValue = 0;
+                          if (key === 'rating') maxValue = maxRatings.maxRating;
+                          else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                          else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                          else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                          else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                          else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                          else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                          const currentValue = (song as any)._isUnplayed ? 0 : parseFloat(formatValue(song, valueKey));
+                          const percentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+                          return percentage >= 20 && percentage < 40;
+                        })(),
+                        'bg-primary/60': (() => {
+                          const maxRatings = (song as any)._maxRatings;
+                          const key = valueKey as string;
+                          let maxValue = 0;
+                          if (key === 'rating') maxValue = maxRatings.maxRating;
+                          else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                          else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                          else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                          else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                          else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                          else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                          const currentValue = (song as any)._isUnplayed ? 0 : parseFloat(formatValue(song, valueKey));
+                          const percentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+                          return percentage < 20;
+                        })()
+                      }"
+                      :style="{
+                        width: (() => {
+                          const maxRatings = (song as any)._maxRatings;
+                          const key = valueKey as string;
+                          let maxValue = 0;
+                          if (key === 'rating') maxValue = maxRatings.maxRating;
+                          else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                          else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                          else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                          else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                          else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                          else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                          const currentValue = (song as any)._isUnplayed ? 0 : parseFloat(formatValue(song, valueKey));
+                          const percentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
+                          return `${Math.min(percentage, 100)}%`;
+                        })()
+                      }"
+                    ></div>
+                    <!-- 分数文本（绝对定位在进度条上） -->
+                    <div class="absolute inset-0 flex items-center justify-center text-[11px] font-bold whitespace-nowrap">
+                      <span class="text-gray-800">
+                        {{
+                          (() => {
+                            const maxRatings = (song as any)._maxRatings;
+                            const key = valueKey as string;
+                            let maxValue = 0;
+                            if (key === 'rating') maxValue = maxRatings.maxRating;
+                            else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                            else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                            else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                            else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                            else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                            else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                            const currentValue = (song as any)._isUnplayed ? '0.00' : formatValue(song, valueKey);
+                            return currentValue;
+                          })()
+                        }}
+                      </span>
+                      <span class="text-gray-600 text-[9px] ml-0.5">
+                        / {{
+                          (() => {
+                            const maxRatings = (song as any)._maxRatings;
+                            const key = valueKey as string;
+                            let maxValue = 0;
+                            if (key === 'rating') maxValue = maxRatings.maxRating;
+                            else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
+                            else if (key === 'stamina') maxValue = maxRatings.maxStamina;
+                            else if (key === 'speed') maxValue = maxRatings.maxSpeed;
+                            else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
+                            else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
+                            else if (key === 'complex') maxValue = maxRatings.maxComplex;
+                            return maxValue.toFixed(2);
+                          })()
+                        }}
+                      </span>
+                    </div>
+                  </div>
+                  <!-- 排名徽章（低调样式） -->
+                  <span v-if="(song as any)._dimensionRanks && (song as any)._dimensionRanks[valueKey] && !(song as any)._isUnplayed" 
+                        class="text-[9px] font-medium px-1.5 py-0.5 rounded bg-gray-300 text-gray-700 whitespace-nowrap flex-shrink-0">
+                    #{{ (song as any)._dimensionRanks[valueKey] }}
+                  </span>
+                  <span v-else class="text-[9px] text-gray-400 whitespace-nowrap flex-shrink-0">未玩</span>
+                </div>
+                <div v-else class="text-gray-400 text-xs">-</div>
               </td>
             </tr>
           </tbody>

@@ -318,6 +318,46 @@ export function calcIndividualRating(rating: number, raw_value: number): number 
   return SQRT(rating * raw_value * NORMALIZATION_FACTOR / 100)
 }
 
+/**
+ * 计算单曲最大可能评分
+ * 基于谱面数据，计算在理论最高准确率下的各维度最大评分
+ * @param levelData - 谱面基础数据（难度、密度、节奏等）
+ * @return 包含各维度最大评分的对象
+ * 计算流程：
+ * 1. 计算x和理论最高准确率对应的y值
+ * 2. 计算综合最大rating
+ * 3. 计算各维度的最大指标值
+ * 4. 使用几何平均计算各维度的最大能力值
+ * 返回值说明：
+ * - maxRating: 综合最大rating
+ * - maxDaigouryoku: 最大打鼓力
+ * - maxStamina: 最大耐力
+ * - maxSpeed: 最大速度
+ * - maxAccuracyPower: 最大精度力
+ * - maxRhythm: 最大节奏
+ * - maxComplex: 最大复杂度
+ */
+
+export function calcMaxRatings(levelData: SongLevelData): { maxRating: number; maxDaigouryoku: number; maxStamina: number; maxSpeed: number; maxAccuracyPower: number; maxRhythm: number; maxComplex: number } {
+  const x = getXFromConstant(levelData.constant)
+  const y = calcY(1)  // 理论最高准确率对应的Y值
+  const maxRating = calcSingleRating(x, y)
+  const maxDaigouryoku = calcDaigouryokuIndicator(levelData.constant)
+  const maxAccuracyPower = calcAccuracyPowerIndicator(levelData.constant)
+  const maxStamina = calcIndividualRating(maxRating, calcStaminaIndicator(levelData.avgDensity, levelData.instDensity))
+  const maxSpeed = calcIndividualRating(maxRating, calcSpeedIndicator(levelData.instDensity, levelData.avgDensity))
+  const maxRhythm = calcIndividualRating(maxRating, calcRhythmIndicator(levelData.separation, levelData.bpmChange))
+  const maxComplex = calcIndividualRating(maxRating, calcComplexityIndicator(levelData.composite))
+  return {
+    maxRating,
+    maxDaigouryoku,
+    maxStamina,
+    maxSpeed,
+    maxAccuracyPower,
+    maxRhythm,
+    maxComplex
+  }
+}
 
 /**
  * 计算单曲的所有统计数据

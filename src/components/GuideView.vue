@@ -283,16 +283,22 @@ const anyalyze = (input: string) => {
             <div v-if="wizardStep === 1" class="flex flex-col items-center gap-4 w-full">
               <p class="m-0 font-medium text-white text-lg">欢迎使用太鼓达人 Rating 分析系统！</p>
               <p class="m-0 text-white/90 text-sm">请先绑定您的鼓众广场 ID</p>
-              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-0 sm:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.3)] sm:rounded-lg w-full max-w-[500px] transition-all duration-300">
+              <div class="flex sm:flex-row flex-col items-stretch sm:items-center gap-2 sm:gap-0 sm:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.3)] sm:rounded-lg w-full max-w-[500px] transition-all duration-300">
                 <input 
                   v-model="inputDonderId" 
                   type="text" 
                   placeholder="请输入广场 ID"
-                  class="box-border flex-1 bg-white/95 focus:bg-white px-4 py-3 border-2 border-white/30 focus:border-white/30 sm:border-r-0 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none h-12 text-[#333] placeholder:text-[#999] text-base transition-all duration-300"
+                  class="box-border flex-1 bg-white/95 focus:bg-white px-4 py-3 border-2 border-white/30 focus:border-white/30 sm:border-r-0 rounded-lg sm:rounded-r-none sm:rounded-l-lg focus:outline-none h-12 text-[#333] placeholder:text-[#999] text-base transition-all duration-300"
                   @keyup.enter="bindDonderId"
                 />
-                <button @click="bindDonderId" class="box-border flex items-center justify-center bg-[#607d8b] hover:bg-[#546e7a] active:bg-[#455a64] disabled:opacity-70 shadow-[0_4px_15px_rgba(96,125,139,0.3)] hover:shadow-[0_6px_20px_rgba(96,125,139,0.4)] px-6 border-none rounded-lg sm:rounded-r-lg sm:rounded-l-none h-12 font-semibold text-white text-base whitespace-nowrap transition-all duration-300 cursor-pointer disabled:cursor-not-allowed">绑定广场 ID →</button>
+                <button @click="bindDonderId" class="box-border flex justify-center items-center bg-[#607d8b] hover:bg-[#546e7a] active:bg-[#455a64] disabled:opacity-70 shadow-[0_4px_15px_rgba(96,125,139,0.3)] hover:shadow-[0_6px_20px_rgba(96,125,139,0.4)] px-6 border-none rounded-lg sm:rounded-r-lg sm:rounded-l-none h-12 font-semibold text-white text-base whitespace-nowrap transition-all duration-300 cursor-pointer disabled:cursor-not-allowed">绑定广场 ID →</button>
               </div>
+              <button 
+                @click="handleManualImport" 
+                class="bg-transparent px-6 py-2 border border-white/50 hover:border-white/80 rounded-lg font-medium text-white/90 hover:text-white text-sm transition-all duration-300 cursor-pointer"
+              >
+                我没有广场 ID，跳过并手动导入成绩
+              </button>
             </div>
 
             <!-- 步骤2：同步并分析数据 -->
@@ -302,18 +308,16 @@ const anyalyze = (input: string) => {
                 <span class="font-semibold text-white text-lg">{{ donderId }}</span>
                 <button @click="rebindDonderId" class="bg-white/20 hover:bg-white/30 px-4 py-1.5 border border-white/50 rounded-md font-medium text-white text-sm transition-all duration-300 cursor-pointer">重新绑定</button>
               </div>
-              <p class="m-0 max-w-[500px] text-white/95 text-sm text-left leading-relaxed">
-                1. 请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并同步你的成绩。
-                <br />
-                2. 请确保你在查分器中的成绩数据是最新的，否则分析结果可能不准确。
-                <br />
-                3. 完成上述操作后，您可以选择用如下方式同步你的成绩：
-                <br />
-                &nbsp;· 如果您想使用自动同步功能，请确保查分器的 <b>公开成绩</b> 选项已开启，然后点击下方 “分析数据” 按钮自动同步分析数据。
-                <br />
-                &nbsp;· 如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击上传成绩按钮手动导入成绩。
-              </p>
-              <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <div class="m-0 max-w-[500px] text-white/95 text-sm text-left leading-relaxed">
+                <p class="m-0 mb-2">1. 请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并同步你的成绩。</p>
+                <p class="m-0 mb-2">2. 请确保你在查分器中的成绩数据是最新的，否则分析结果可能不准确。</p>
+                <p class="m-0 mb-1">3. 完成上述操作后，您可以选择用如下方式同步你的成绩：</p>
+                <ul class="m-0 pl-5 list-disc">
+                  <li>如果您想使用自动同步功能，请确保查分器的 <b>公开成绩</b> 选项已开启，然后点击下方 "分析数据" 按钮自动同步分析数据。</li>
+                  <li>如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击上传成绩按钮手动导入成绩。</li>
+                </ul>
+              </div>
+              <div class="flex sm:flex-row flex-col justify-center gap-3">
               <button 
                 @click="handleUpload" 
                 :disabled="isLoading"
@@ -347,7 +351,7 @@ const anyalyze = (input: string) => {
               ← 返回
             </button>
           </div>
-            <p class="my-2.5 leading-relaxed">1. 须使用 Windows 系统</p>
+            <p class="my-2.5 leading-relaxed">1. 须使用 Windows 或 MacOS 系统</p>
             <p class="my-2.5 leading-relaxed">2. 启动传分器, 按照指引打开电脑端广场爬分, 直到传分器走到在 DonNote 点击上传按钮之前的一步(不需要打开 DonNote, 更不需要点击上传按钮)</p>
             <p class="my-2.5 leading-relaxed">3. 将浏览器代理设置到系统代理,打开 <a href="https://www.baidu.com/api/ahfsdafbaqwerhue" target="_blank" class="text-primary hover:underline no-underline">获取成绩</a>, 传分器会将分数传到页面中, ctrl + a 全选复制过来粘贴</p>
             <p class="my-2.5 leading-relaxed">4. 如果不会设置浏览器代理, 按 win 键搜索 PowerShell, 将以下代码粘贴并回车执行 <a href="javascript:void(0);" @click="copyPowerShellCode" class="text-primary hover:underline no-underline">点我复制代码</a></p>
