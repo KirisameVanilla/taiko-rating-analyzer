@@ -140,7 +140,8 @@ export function recommendSongs(
       if (!song) return 0
       const songData = findSongByTitle(filteredDatabase, s.title)
       if (!songData) return 0
-      const levelData = songData.level['5'] || songData.level['4']
+      // 根据 SongStats 的 level 字段选择对应难度的数据
+      const levelData = songData.level[s.level as 4 | 5]
       if (!levelData) return 0
       return getSongIndicatorValue(levelData, bestKey)
     })
@@ -167,14 +168,12 @@ export function recommendSongs(
     }
   }
 
-  const statsMap = new Map<string, SongStats>()
-  allStats.forEach(s => statsMap.set(s.title, s))
-
   // 构建 candidates: 有成绩的直接用 SongStats，无成绩的构造一个空 SongStats
+  // 根据 title 和 level 匹配对应难度的成绩
   const candidates: SongStats[] = allSongEntries
     .filter(entry => !best20Titles.has(entry.title))
     .map(entry => {
-      const stat = statsMap.get(entry.title)
+      const stat = allStats.find(s => s.title === entry.title && s.level === entry.level)
       if (stat) return stat
       // 构造未游玩 SongStats
       return {
@@ -201,7 +200,8 @@ export function recommendSongs(
     .map(s => {
       const songData = findSongByTitle(filteredDatabase, s.title)
       if (!songData) return 0
-      const levelData = songData.level['5'] || songData.level['4']
+      // 根据 SongStats 的 level 字段选择对应难度的数据
+      const levelData = songData.level[s.level as 4 | 5]
       if (!levelData) return 0
       return calcRatingIndicator(levelData.constant)
     })
@@ -252,8 +252,8 @@ export function recommendSongs(
     if (!songData) {
       return null // 找不到歌曲数据，直接排除
     }
-    // 使用优先级：难度5 > 难度4
-    const levelData = songData.level['5'] || songData.level['4']
+    // 根据 SongStats 的 level 字段选择对应难度的数据
+    const levelData = songData.level[song.level as 4 | 5]
     if (!levelData) {
       return null
     }
