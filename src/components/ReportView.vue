@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import html2canvas from 'html2canvas'
-import type { SongStats } from '../types'
+import type { SongStats, SongsDatabase } from '../types'
 import { eventBus } from '../utils/eventBus'
+import { difficultyMap } from '../utils/difficulty'
 import { 
   parsePastedScores, 
   calculateSongStats,
@@ -12,12 +13,16 @@ import {
   filterDuplicateSongs
 } from '../utils/calculator'
 import { loadSongsData } from '../data/songs'
+import { expandSongsDatabase } from '../utils/songHelpers'
 import RadarChart from './RadarChart.vue'
 import TopTable from './TopTable.vue'
 import duplicateSongs from '../data/duplicateSongs'
 
 const notice = ref('正在加载数据…')
 const results = ref<SongStats[]>([])
+const allResults = ref<SongStats[]>([])
+const onlyCnSongs = ref(false)
+const songsDB = ref<SongsDatabase | null>(null)
 const overallRating = ref(0)
 const radarData = ref({
   daigouryoku: 0,
@@ -48,8 +53,67 @@ const handleScreenshot = () => {
   saveElementAsImage(contentRef.value, `taiko-${activeSection.value}`)
 }
 
+function handleCnFilterChange(value: boolean) {
+  onlyCnSongs.value = value
+  applyCnFilter()
+}
+
+function applyCnFilter() {
+  if (!songsDB.value) {
+    console.warn('songsDB is not loaded')
+    return
+  }
+  
+  if (onlyCnSongs.value) {
+    // 只保留国服曲目
+    const cnSongIds = new Set(
+      songsDB.value.filter(song => song.is_cn === true).map(song => song.id)
+    )
+    console.log('CN songs count:', cnSongIds.size)
+    console.log('All results count:', allResults.value.length)
+    
+    // 创建 id 到 title_cn 的映射
+    const idToTitleCn = new Map<number, string>()
+    songsDB.value.forEach(song => {
+      if (song.title_cn) {
+        idToTitleCn.set(song.id, song.title_cn)
+      }
+    })
+    
+    // 筛选国服曲目，并替换标题为中文，添加难度标识
+    results.value = allResults.value
+      .filter(stat => cnSongIds.has(stat.id))
+      .map(stat => {
+        const titleCn = idToTitleCn.get(stat.id)
+        const difficulty = difficultyMap[stat.level] || ''
+        if (titleCn) {
+          return { ...stat, title: `${titleCn}${difficulty}` }
+        }
+        return { ...stat, title: `${stat.title}${difficulty}` }
+      })
+    console.log('Filtered results count:', results.value.length)
+  } else {
+    results.value = allResults.value.map(stat => {
+      const difficulty = difficultyMap[stat.level] || ''
+      return { ...stat, title: `${stat.title}${difficulty}` }
+    })
+  }
+  
+  // 重新计算统计数据
+  const filteredResults = filterDuplicateSongs(results.value, duplicateSongs)
+  calculateOverallStats(filteredResults)
+}
+
 onMounted(async () => {
   eventBus.on('trigger-screenshot', handleScreenshot)
+  eventBus.on('cn-filter-changed', handleCnFilterChange)
+  
+  // 从 localStorage 读取设置
+  const savedSetting = localStorage.getItem('onlyCnSongs')
+  if (savedSetting !== null) {
+    onlyCnSongs.value = savedSetting === 'true'
+  }
+  
   try {
     // 从 localStorage 读取数据
     const scoreInput = localStorage.getItem('taikoScoreData') || ''
@@ -58,27 +122,34 @@ onMounted(async () => {
       return
     }
     
-    const songsDB = await loadSongsData()
-    if (Object.keys(songsDB).length === 0) {
+    const db = await loadSongsData()
+    songsDB.value = db
+    if (db.length === 0) {
       notice.value = '歌曲数据加载失败, 请检查网络连接后刷新页面'
       return
     }
     const scores = parsePastedScores(scoreInput)
     const tempResults: SongStats[] = []
     
+    // 展开数据库并创建映射
+    const expandedEntries = expandSongsDatabase(db)
+    const entryMap = new Map()
+    expandedEntries.forEach(entry => {
+      const key = `${entry.id}-${entry.level}`
+      entryMap.set(key, entry)
+    })
+    
     scores.forEach(s => {
       const key = `${s.id}-${s.level}`
-      const songData = songsDB[key]
-      if (!songData) return
+      const entry = entryMap.get(key)
+      if (!entry) return
       
-      const stats = calculateSongStats(songData, s)
+      const stats = calculateSongStats(entry.data, s, entry.title)
       if (stats) tempResults.push(stats)
     })
     
-    results.value = tempResults
-    // 过滤掉包含关系的低rating曲目
-    const filteredResults = filterDuplicateSongs(tempResults, duplicateSongs)
-    calculateOverallStats(filteredResults)
+    allResults.value = tempResults
+    applyCnFilter()
     
     if (tempResults.length === 0) {
       notice.value = '未获取到成绩数据或无法计算, 可能是没有魔王难度、里魔王难度成绩'
@@ -93,6 +164,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   eventBus.off('trigger-screenshot', handleScreenshot)
+  eventBus.off('cn-filter-changed', handleCnFilterChange)
 })
 
 function calculateOverallStats(data: SongStats[]) {

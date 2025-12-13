@@ -50,7 +50,7 @@ def scrape_fumen_database():
         # 提取所有包含 table_song_name 的链接
         song_links = []
         song_name_divs = table_song_data.find_all(
-            "div", class_=lambda x: x and "table_song_name" in x
+            "div", class_=lambda x: bool(x and "table_song_name" in x)
         )
 
         print(f"找到 {len(song_name_divs)} 个歌曲条目")
@@ -58,9 +58,9 @@ def scrape_fumen_database():
         for div in song_name_divs:
             a_tag = div.find("a")
             if a_tag and a_tag.get("href"):
-                href = a_tag.get("href")
+                href: str = a_tag.get("href")  # pyright: ignore[reportAssignmentType]
                 # 如果是相对路径，转换为完整 URL
-                if href.startswith("/"):
+                if href and href.startswith("/"):
                     href = f"https://fumen-database.com{href}"
 
                 song_info = {"href": href, "title": a_tag.get_text(strip=True)}
@@ -209,7 +209,7 @@ def scrape_song_detail(url):
                 divs = song_info_area.find_all("div")
                 for div in divs:
                     # 查找包含 title_combo 的 img
-                    img = div.find("img", src=lambda x: x and "title_combo" in x)
+                    img = div.find("img", src=lambda x: x and "title_combo" in x)  # pyright: ignore[reportArgumentType]
                     if img:
                         # 找到这个 div 中的 p 标签
                         p_tag = div.find("p")
@@ -256,6 +256,54 @@ def save_to_json(data, filename="song_data.json"):
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     print(f"\n数据已保存到 {filename}")
+
+
+def convert_to_new_format(old_data):
+    """
+    将旧格式数据转换为新格式
+    旧格式: {"id-difficulty": {song_data}}
+    新格式: [{id, title, level: {4: {...}, 5: {...}}}]
+    """
+    songs_map = {}
+
+    for key, song_data in old_data.items():
+        # 解析 key: "id-difficulty"
+        last_dash_index = key.rfind("-")
+        if last_dash_index == -1:
+            print(f"警告: 跳过格式不正确的键: {key}")
+            continue
+
+        song_id = key[:last_dash_index]
+        difficulty = key[last_dash_index + 1 :]
+
+        # 验证 difficulty 是 4 或 5
+        if difficulty not in ["4", "5"]:
+            print(f"警告: 跳过不支持的难度: {key} (difficulty: {difficulty})")
+            continue
+
+        # 提取 title 和其他数据
+        title = (
+            song_data.pop("title", "")
+            .replace(" （おに裏）", "")
+            .replace(" （おに）", "")
+            .strip()
+        )
+
+        # 如果这个 id 还没有记录，创建新条目
+        if song_id not in songs_map:
+            songs_map[song_id] = {
+                "id": int(song_id),
+                "title": title,
+                "level": {},
+            }
+
+        # 添加难度数据
+        songs_map[song_id]["level"][difficulty] = song_data
+
+    # 转换为数组并按 id 排序
+    new_data = sorted(songs_map.values(), key=lambda x: x["id"])
+
+    return new_data
 
 
 def scrape_all_songs():
@@ -321,7 +369,24 @@ def scrape_all_songs():
         for fail in fails:
             print(f"  - {fail}")
 
-    return all_songs_data
+    # 转换为新格式
+    print("\n" + "=" * 50)
+    print("转换为新格式...")
+    new_format_data = convert_to_new_format(all_songs_data)
+    print(f"✓ 转换完成: {len(new_format_data)} 首歌曲")
+
+    # 统计信息
+    level4_count = sum(1 for song in new_format_data if "4" in song["level"])
+    level5_count = sum(1 for song in new_format_data if "5" in song["level"])
+    both_levels = sum(
+        1 for song in new_format_data if "4" in song["level"] and "5" in song["level"]
+    )
+
+    print(f"  - 包含难度4的歌曲: {level4_count}")
+    print(f"  - 包含难度5的歌曲: {level5_count}")
+    print(f"  - 同时包含难度4和5的歌曲: {both_levels}")
+
+    return new_format_data
 
 
 def test_single_page(url):
@@ -336,10 +401,17 @@ def test_single_page(url):
         print("\n" + "=" * 50)
         print("爬取成功！")
         print("\n歌曲 ID:", song_id)
-        print("\n歌曲数据:")
-        print(json.dumps(song_data, ensure_ascii=False, indent=2))
+        print("\n歌曲数据 (旧格式):")
+        print(json.dumps({song_id: song_data}, ensure_ascii=False, indent=2))
 
-        return {song_id: song_data}
+        # 转换为新格式
+        old_format = {song_id: song_data}
+        new_format = convert_to_new_format(old_format)
+
+        print("\n歌曲数据 (新格式):")
+        print(json.dumps(new_format, ensure_ascii=False, indent=2))
+
+        return new_format
     else:
         print("\n" + "=" * 50)
         print("爬取失败！")
@@ -360,5 +432,5 @@ if __name__ == "__main__":
         # 否则爬取所有歌曲
         all_songs_data = scrape_all_songs()
         if all_songs_data:
-            # 保存到 JSON 文件
+            # 保存到 JSON 文件 (新格式是数组)
             save_to_json(all_songs_data, "public/songs.json")

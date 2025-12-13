@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from 'vue'
-import type { SongStats } from '../types'
+import { ref, onMounted, watch, nextTick, onUnmounted } from 'vue'
+import type { SongStats, SongsDatabase } from '../types'
 import { recommendSongs, setSongsDatabase } from '../utils/recommend'
 import { parsePastedScores, calculateSongStats } from '../utils/calculator'
 import { loadSongsData } from '../data/songs'
+import { expandSongsDatabase } from '../utils/songHelpers'
+import { eventBus } from '../utils/eventBus'
+import { difficultyMap } from '../utils/difficulty'
 
 interface Props {
   title: string
@@ -17,6 +20,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const isLoading = ref(false)
+const onlyCnSongs = ref(false)
+const songsDB = ref<SongsDatabase | null>(null)
 
 const formatValue = (item: SongStats, key: keyof SongStats): string => {
   const value = item[key]
@@ -29,11 +34,28 @@ const formatValue = (item: SongStats, key: keyof SongStats): string => {
 // 仿照 SongsView 组件，合成全曲 SongStats
 const allStats = ref<SongStats[]>([])
 
+function handleCnFilterChange(value: boolean) {
+  onlyCnSongs.value = value
+  if (props.showMode === 'recommend') {
+    calculateRecommendations()
+  }
+}
+
 onMounted(async () => {
+  // 从 localStorage 读取设置
+  const savedSetting = localStorage.getItem('onlyCnSongs')
+  if (savedSetting !== null) {
+    onlyCnSongs.value = savedSetting === 'true'
+  }
+
+  // 监听国服筛选变化
+  eventBus.on('cn-filter-changed', handleCnFilterChange)
+
   try {
-    const songsDB = await loadSongsData()
+    const db = await loadSongsData()
+    songsDB.value = db
     // 设置推荐算法使用的歌曲数据库
-    setSongsDatabase(songsDB)
+    setSongsDatabase(db)
     
     const scoreInput = localStorage.getItem('taikoScoreData') || ''
     const userScores = scoreInput ? parsePastedScores(scoreInput) : []
@@ -42,10 +64,14 @@ onMounted(async () => {
       scoreMap.set(`${s.id}-${s.level}`, s)
     })
     const result: SongStats[] = []
-    for (const [key, data] of Object.entries(songsDB)) {
+    
+    // 使用新的展开函数处理数据库
+    const expandedEntries = expandSongsDatabase(db)
+    for (const entry of expandedEntries) {
+      const key = `${entry.id}-${entry.level}`
       const score = scoreMap.get(key)
       if (score) {
-        const stats = calculateSongStats(data, score)
+        const stats = calculateSongStats(entry.data, score, entry.title)
         if (stats) result.push(stats)
       }
     }
@@ -53,6 +79,10 @@ onMounted(async () => {
   } catch (e) {
     allStats.value = []
   }
+})
+
+onUnmounted(() => {
+  eventBus.off('cn-filter-changed', handleCnFilterChange)
 })
 
 // 推荐列表，取前10首，基于全曲数据
@@ -69,10 +99,47 @@ const calculateRecommendations = async () => {
   
   setTimeout(() => {
     try {
-      recommendedSongs.value = recommendSongs(
+      // 创建筛选函数
+      const filterFn = onlyCnSongs.value && songsDB.value
+        ? (id: number) => {
+            const song = songsDB.value!.find(s => s.id === id)
+            return song?.is_cn === true
+          }
+        : undefined
+
+      let songs = recommendSongs(
         allStats.value.length ? allStats.value : props.data, 
-        props.valueKey
+        props.valueKey,
+        20,
+        filterFn
       );
+      
+      // 如果启用了国服筛选，替换标题为中文，并添加难度标识
+      if (onlyCnSongs.value && songsDB.value) {
+        const idToTitleCn = new Map<number, string>()
+        songsDB.value.forEach(song => {
+          if (song.title_cn) {
+            idToTitleCn.set(song.id, song.title_cn)
+          }
+        })
+        
+        songs = songs.map(song => {
+          const titleCn = idToTitleCn.get(song.id)
+          const difficulty = difficultyMap[song.level] || ''
+          if (titleCn) {
+            return { ...song, title: `${titleCn}${difficulty}` }
+          }
+          return { ...song, title: `${song.title}${difficulty}` }
+        })
+      } else {
+        // 未启用国服筛选时也添加难度标识
+        songs = songs.map(song => {
+          const difficulty = difficultyMap[song.level] || ''
+          return { ...song, title: `${song.title}${difficulty}` }
+        })
+      }
+      
+      recommendedSongs.value = songs;
     } finally {
       isLoading.value = false;
     }
@@ -113,7 +180,7 @@ watch(
         <tbody>
           <tr v-for="(item, index) in data" :key="index" :class="{'bg-[#f2f2f2]': index % 2 === 1}">
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ index + 1 }}</td>
-            <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.title }}</td>
+            <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.title}}</td>
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.great }}</td>
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.good }}</td>
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.bad }}</td>

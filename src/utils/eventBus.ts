@@ -1,4 +1,4 @@
-type Callback = () => void
+type Callback = (...args: any[]) => void
 
 class EventBus {
   private listeners: Record<string, Callback[]> = {}
@@ -15,9 +15,9 @@ class EventBus {
     this.listeners[event] = this.listeners[event].filter(cb => cb !== callback)
   }
 
-  emit(event: string) {
+  emit(event: string, ...args: any[]) {
     if (!this.listeners[event]) return
-    this.listeners[event].forEach(cb => cb())
+    this.listeners[event].forEach(cb => cb(...args))
   }
 }
 

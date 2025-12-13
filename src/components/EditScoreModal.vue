@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import type { UserScore, SongData, SongStats } from '../types'
+import type { UserScore, SongLevelData, SongStats } from '../types'
 import { calculateSongStats } from '../utils/calculator'
 
 interface Props {
   show: boolean
   title: string
   initialScore?: UserScore
-  songData?: SongData
+  songData?: SongLevelData
 }
 
 const props = defineProps<Props>()

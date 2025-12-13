@@ -1,4 +1,5 @@
-import type { SongStats, SongData, SongsDatabase } from '../types'
+import type { SongStats, SongLevelData, SongsDatabase } from '../types'
+import { findSongByTitle } from './songHelpers'
 import {
   calcStaminaIndicator,
   calcSpeedIndicator,
@@ -10,7 +11,7 @@ import {
 } from './calculator'
 
 // 模块级变量，存储歌曲数据库
-let cachedSongsDatabase: SongsDatabase = {}
+let cachedSongsDatabase: SongsDatabase = []
 
 /**
  * 设置歌曲数据库缓存
@@ -37,26 +38,26 @@ function calculateMedian(values: number[]): number {
 
 /**
  * 根据维度获取歌曲的原始指标值
- * @param songData - 歌曲原始数据
+ * @param levelData - 歌曲难度数据
  * @param dimension - 维度名称
  * @returns 该维度的原始指标值
  */
-function getSongIndicatorValue(songData: SongData, dimension: keyof SongStats): number {
+function getSongIndicatorValue(levelData: SongLevelData, dimension: keyof SongStats): number {
   switch (dimension) {
     case 'rating':
-      return calcRatingIndicator(songData.constant)
+      return calcRatingIndicator(levelData.constant)
     case 'daigouryoku':
-      return calcDaigouryokuIndicator(songData.constant)
+      return calcDaigouryokuIndicator(levelData.constant)
     case 'stamina':
-      return calcStaminaIndicator(songData.avgDensity, songData.instDensity)
+      return calcStaminaIndicator(levelData.avgDensity, levelData.instDensity)
     case 'speed':
-      return calcSpeedIndicator(songData.instDensity, songData.avgDensity)
+      return calcSpeedIndicator(levelData.instDensity, levelData.avgDensity)
     case 'accuracy_power':
-      return calcAccuracyPowerIndicator(songData.constant)
+      return calcAccuracyPowerIndicator(levelData.constant)
     case 'rhythm':
-      return calcRhythmIndicator(songData.separation, songData.bpmChange)
+      return calcRhythmIndicator(levelData.separation, levelData.bpmChange)
     case 'complex':
-      return calcComplexityIndicator(songData.composite)
+      return calcComplexityIndicator(levelData.composite)
     default:
       return 0
   }
@@ -94,6 +95,7 @@ function calculateBalanceScore(indicatorDeviation: number, scoreDeviation: numbe
  * @param allStats - 用户所有歌曲统计数据
  * @param bestKey - 推荐维度（如 'rating', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex'）
  * @param limit - 推荐列表最大数量，默认为20
+ * @param filterFn - 可选的歌曲过滤函数，用于筛选特定歌曲
  * @returns 推荐歌曲列表，按推荐度排序（最适合练习的在前）
  * 
  * 推荐条件：
@@ -109,9 +111,17 @@ function calculateBalanceScore(indicatorDeviation: number, scoreDeviation: numbe
 export function recommendSongs(
   allStats: SongStats[],
   bestKey: keyof SongStats = 'rating',
-  limit: number = 20
+  limit: number = 20,
+  filterFn?: (id: number) => boolean
 ): SongStats[] {
-  if (!cachedSongsDatabase || Object.keys(cachedSongsDatabase).length === 0) return []
+  if (!cachedSongsDatabase || cachedSongsDatabase.length === 0) return []
+
+  // 应用过滤器到数据库
+  const filteredDatabase = filterFn 
+    ? cachedSongsDatabase.filter(song => filterFn(song.id))
+    : cachedSongsDatabase
+
+  if (filteredDatabase.length === 0) return []
 
   // 1. 找出指定维度的 Best 20
   const best20 = [...allStats]
@@ -119,11 +129,21 @@ export function recommendSongs(
     .slice(0, 20)
   if (best20.length === 0) return []
 
+  // 构建 id -> SongStats 映射
+  const statsById = new Map<number, SongStats>()
+  allStats.forEach(s => statsById.set(s.id, s))
+
   // 2. 计算 Best 20 歌曲在指定维度的原始指标值，并取中位数
   const best20IndicatorValues = best20
     .map(s => {
-      const songData = Object.values(cachedSongsDatabase).find(sd => sd.title === s.title)
-      return songData ? getSongIndicatorValue(songData, bestKey) : 0
+      const song = filteredDatabase.find(sd => sd.id === s.id)
+      if (!song) return 0
+      const songData = findSongByTitle(filteredDatabase, s.title)
+      if (!songData) return 0
+      // 根据 SongStats 的 level 字段选择对应难度的数据
+      const levelData = songData.level[s.level as 4 | 5]
+      if (!levelData) return 0
+      return getSongIndicatorValue(levelData, bestKey)
     })
     .filter(v => v > 0)
   if (best20IndicatorValues.length === 0) return []
@@ -137,23 +157,29 @@ export function recommendSongs(
   const best20Titles = new Set(best20.map(s => s.title))
 
   // 5. 构建所有候选歌曲（包含未游玩歌曲）
-  // 以数据库为基准，合并 allStats（有成绩）和未游玩（无成绩）
-  const allSongDataArr = Object.values(cachedSongsDatabase)
-  const statsMap = new Map<string, SongStats>()
-  allStats.forEach(s => statsMap.set(s.title, s))
+  // 展开数据库为所有难度的条目
+  const allSongEntries: Array<{ id: number; title: string; level: 4 | 5; levelData: SongLevelData }> = []
+  for (const song of filteredDatabase) {
+    if (song.level['4']) {
+      allSongEntries.push({ id: song.id, title: song.title, level: 4, levelData: song.level['4'] })
+    }
+    if (song.level['5']) {
+      allSongEntries.push({ id: song.id, title: song.title, level: 5, levelData: song.level['5'] })
+    }
+  }
 
   // 构建 candidates: 有成绩的直接用 SongStats，无成绩的构造一个空 SongStats
-  const candidates: SongStats[] = allSongDataArr
-    .filter(sd => !best20Titles.has(sd.title))
-    .map(sd => {
-      const stat = statsMap.get(sd.title)
+  // 根据 title 和 level 匹配对应难度的成绩
+  const candidates: SongStats[] = allSongEntries
+    .filter(entry => !best20Titles.has(entry.title))
+    .map(entry => {
+      const stat = allStats.find(s => s.title === entry.title && s.level === entry.level)
       if (stat) return stat
       // 构造未游玩 SongStats
-      // SongData 没有 id 字段，尝试用 allStats 查找同 title 的 id，否则用 -1
-      const statWithId = allStats.find(s => s.title === sd.title)
       return {
-        id: statWithId ? statWithId.id : -1,
-        title: sd.title,
+        id: entry.id,
+        level: entry.level,
+        title: entry.title,
         rating: 0,
         daigouryoku: 0,
         stamina: 0,
@@ -172,8 +198,12 @@ export function recommendSongs(
   // 6. 计算 Best20 的综合难度指标（rating）中位数
   const best20RatingValues = best20
     .map(s => {
-      const songData = Object.values(cachedSongsDatabase).find(sd => sd.title === s.title)
-      return songData ? calcRatingIndicator(songData.constant) : 0
+      const songData = findSongByTitle(filteredDatabase, s.title)
+      if (!songData) return 0
+      // 根据 SongStats 的 level 字段选择对应难度的数据
+      const levelData = songData.level[s.level as 4 | 5]
+      if (!levelData) return 0
+      return calcRatingIndicator(levelData.constant)
     })
     .filter(v => v > 0)
   const best20RatingMedian = best20RatingValues.length > 0 
@@ -183,17 +213,15 @@ export function recommendSongs(
   // 7. 计算所有维度的玩家表现排序（包含所有歌曲，不排除b20）
   const dimensionKeys: (keyof SongStats)[] = ['rating', 'daigouryoku', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex']
   // 生成每个维度的排序Map: { 维度: Map<曲名, 排名> }
-  // 排名基于所有歌曲（allStats + 未游玩），不排除b20
   const allStatsMap = new Map<string, SongStats>()
   allStats.forEach(s => allStatsMap.set(s.title, s))
-  const allSongStats: SongStats[] = Object.values(cachedSongsDatabase).map(sd => {
-    const stat = allStatsMap.get(sd.title)
+  const allSongStats: SongStats[] = allSongEntries.map(entry => {
+    const stat = allStatsMap.get(entry.title)
     if (stat) return stat
-    // 构造未游玩 SongStats
-    const statWithId = allStats.find(s => s.title === sd.title)
     return {
-      id: statWithId ? statWithId.id : -1,
-      title: sd.title,
+      id: entry.id,
+      level: entry.level,
+      title: entry.title,
       rating: 0,
       daigouryoku: 0,
       stamina: 0,
@@ -217,17 +245,23 @@ export function recommendSongs(
     dimensionRankMaps[key] = map
   }
 
-  // 7. 计算推荐分数，并写入每个维度的玩家表现排名
+  // 8. 计算推荐分数，并写入每个维度的玩家表现排名
   const scored = candidates.map(song => {
     // 查找歌曲的原始数据
-    const songData = Object.values(cachedSongsDatabase).find(sd => sd.title === song.title)
+    const songData = findSongByTitle(filteredDatabase, song.title)
     if (!songData) {
       return null // 找不到歌曲数据，直接排除
     }
+    // 根据 SongStats 的 level 字段选择对应难度的数据
+    const levelData = songData.level[song.level as 4 | 5]
+    if (!levelData) {
+      return null
+    }
+    
     // 获取歌曲在指定维度的原始指标值（难度定数）
-    const songIndicatorValue = getSongIndicatorValue(songData, bestKey)
+    const songIndicatorValue = getSongIndicatorValue(levelData, bestKey)
     // 获取歌曲的综合难度指标（rating）
-    const songRatingValue = calcRatingIndicator(songData.constant)
+    const songRatingValue = calcRatingIndicator(levelData.constant)
     // 获取用户在该歌曲的评分
     const userScoreValue = song[bestKey] as number
     // 条件1：歌曲综合难度定数指标（rating）不应超过 Best20 综合难度中位数 + 0.2
@@ -237,29 +271,22 @@ export function recommendSongs(
     // 判断是否为未游玩的歌曲（所有判定数都为0）
     const isUnplayed = song.great === 0 && song.good === 0 && song.bad === 0
     // 计算用户精度（准确率）
-    // 使用 calcAccuracy 函数的逻辑：准确率 = (良判数 * 权重) / 总音符数
-    // 注意：当前可判的权重为0，所以只计算良判
     const ACCURACY_WEIGHT_GREAT = 1
     const ACCURACY_WEIGHT_GOOD = 0
-    const userAccuracy = (song.great * ACCURACY_WEIGHT_GREAT + song.good * ACCURACY_WEIGHT_GOOD) / songData.totalNotes
-    // 计算精度因子：1 - 准确率，值越大表示精度越低，越需要练习
-    // 如果准确率低于50%或为0，设置精度因子为1（最高惩罚）
-    // 未游玩的歌曲设置精度因子为0.5（中等优先级）
+    const userAccuracy = (song.great * ACCURACY_WEIGHT_GREAT + song.good * ACCURACY_WEIGHT_GOOD) / levelData.totalNotes
+    // 计算精度因子
     const accuracyFactor = isUnplayed ? 0.5 : ((userAccuracy >= 0.5 && userAccuracy > 0) ? (1 - userAccuracy) : 1)
     // 计算偏差值
-    // 偏差1：歌曲指标偏差（歌曲难度定数 vs Best20中位数难度定数）
     const indicatorDeviationAbs = Math.abs(songIndicatorValue - best20IndicatorMedian)
     const indicatorDeviationPercent = indicatorDeviationAbs / best20IndicatorMedian
-    // 偏差2：用户评分偏差（用户评分 vs Best20指标中位数）
-    // 使用指标中位数作为评分基准，而不是用户得分中位数
     const scoreDeviationAbs = Math.abs(userScoreValue - best20IndicatorMedian)
     const scoreDeviationPercent = scoreDeviationAbs / best20IndicatorMedian
-    // 使用平衡算法计算综合分数（值越小越推荐）
+    // 使用平衡算法计算综合分数
     const balanceScore = calculateBalanceScore(indicatorDeviationPercent, scoreDeviationPercent, accuracyFactor)
-    // 判断是否在严格范围内（第一优先级）
+    // 判断是否在严格范围内
     const isInStrictRange = 
-      songIndicatorValue <= best20IndicatorMedian * 1.05 // 上浮不超过 5%
-      && songIndicatorValue >= best20IndicatorMedian * 0.9      // 下浮不超过 10%
+      songIndicatorValue <= best20IndicatorMedian * 1.05
+      && songIndicatorValue >= best20IndicatorMedian * 0.9
 
     // 组装所有维度的排名
     const dimensionRanks: Record<string, number> = {}
@@ -269,7 +296,7 @@ export function recommendSongs(
 
     return { 
       ...song,
-      _constant: songData.constant,
+      _constant: levelData.constant,
       _recommendScore: balanceScore,
       _indicatorDeviationPercent: indicatorDeviationPercent,
       _scoreDeviationPercent: scoreDeviationPercent,
@@ -282,63 +309,49 @@ export function recommendSongs(
       _songIndicatorValue: songIndicatorValue,
       _best20IndicatorMedian: best20IndicatorMedian,
       _userScoreValue: userScoreValue,
-      _scoreBaseline: best20UserScoreMedian,  // 评分基准值是 Best20 用户得分中位数
-      _dimensionRanks: dimensionRanks // 新增：所有维度的玩家表现排名
+      _scoreBaseline: best20UserScoreMedian,
+      _dimensionRanks: dimensionRanks
     }
   }).filter((song): song is NonNullable<typeof song> => song !== null)
 
-  // 8. 分三层排序
-  // 第一层：优先推荐在严格范围内的歌曲（指标偏差 +5%/-15%）
-  // 在严格范围内，未游玩的歌曲优先于已游玩的歌曲
+  // 9. 分层排序
   const strictRangeSongs = scored
     .filter(s => s._isInStrictRange)
     .sort((a, b) => {
-      // 先按是否未游玩排序（未游玩的优先）
       if (a._isUnplayed !== b._isUnplayed) {
         return a._isUnplayed ? -1 : 1
       }
-      // 再按推荐分数排序
       return a._recommendScore - b._recommendScore
     })
 
-  // 第二层：如果数量不足，继续从严格范围外的歌曲中补足
-  // 严格范围外的歌曲按难度偏差排序，优先选择难度偏差最小的
-  // 在相同难度偏差下，未游玩的歌曲优先
   const remainingSongs = scored
     .filter(s => !s._isInStrictRange)
     .sort((a, b) => {
-      // 先按难度偏差排序
       const deviationDiff = a._indicatorDeviationPercent - b._indicatorDeviationPercent
-      if (Math.abs(deviationDiff) > 0.01) { // 如果难度偏差差异超过1%，按偏差排序
+      if (Math.abs(deviationDiff) > 0.01) {
         return deviationDiff
       }
-      // 难度偏差接近时，未游玩的歌曲优先
       if (a._isUnplayed !== b._isUnplayed) {
         return a._isUnplayed ? -1 : 1
       }
       return 0
     })
 
-  // 合并排序结果，优先保证未游玩和已游玩曲目推荐数相近
+  // 合并排序结果
   const allSorted = [...strictRangeSongs, ...remainingSongs]
-  // 未游玩曲目需满足难度偏差阈值，否则不推荐
-  const UNPLAYED_INDICATOR_DEVIATION_THRESHOLD = 0.10 // 10% 偏差阈值
+  const UNPLAYED_INDICATOR_DEVIATION_THRESHOLD = 0.10
   const unplayed = allSorted.filter(s => s._isUnplayed && s._indicatorDeviationPercent <= UNPLAYED_INDICATOR_DEVIATION_THRESHOLD)
   const played = allSorted.filter(s => !s._isUnplayed)
 
-  // 目标：未游玩和已游玩各取一半，若不足则用另一类补足
   const half = Math.floor(limit / 2)
   const unplayedPick = unplayed.slice(0, half)
   const playedPick = played.slice(0, half)
   let result: typeof allSorted = []
   if (unplayedPick.length < half) {
-    // 未游玩不足，补足已游玩
     result = [...unplayedPick, ...played.slice(0, limit - unplayedPick.length)]
   } else if (playedPick.length < half) {
-    // 已游玩不足，补足未游玩（未游玩已被阈值过滤，可能补不满）
     result = [...playedPick, ...unplayed.slice(0, limit - playedPick.length)]
   } else {
-    // 均充足
     result = [...unplayedPick, ...playedPick]
   }
   return result.slice(0, limit)
