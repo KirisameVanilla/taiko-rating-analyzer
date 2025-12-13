@@ -313,7 +313,7 @@ const anyalyze = (input: string) => {
                 <br />
                 &nbsp;· 如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击上传成绩按钮手动导入成绩。
               </p>
-              <div>
+              <div class="flex flex-col sm:flex-row gap-3 justify-center">
               <button 
                 @click="handleUpload" 
                 :disabled="isLoading"
@@ -321,7 +321,6 @@ const anyalyze = (input: string) => {
               >
                 {{ isLoading ? '正在分析...' : '上传成绩并分析数据' }}
               </button>
-              &nbsp;&nbsp;
               <button 
                 @click="fetchAndAnalyze" 
                 :disabled="isLoading"
