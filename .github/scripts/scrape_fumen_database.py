@@ -50,7 +50,7 @@ def scrape_fumen_database():
         # 提取所有包含 table_song_name 的链接
         song_links = []
         song_name_divs = table_song_data.find_all(
-            "div", class_=lambda x: x and "table_song_name" in x
+            "div", class_=lambda x: bool(x and "table_song_name" in x)
         )
 
         print(f"找到 {len(song_name_divs)} 个歌曲条目")
@@ -58,9 +58,9 @@ def scrape_fumen_database():
         for div in song_name_divs:
             a_tag = div.find("a")
             if a_tag and a_tag.get("href"):
-                href = a_tag.get("href")
+                href: str = a_tag.get("href")  # pyright: ignore[reportAssignmentType]
                 # 如果是相对路径，转换为完整 URL
-                if href.startswith("/"):
+                if href and href.startswith("/"):
                     href = f"https://fumen-database.com{href}"
 
                 song_info = {"href": href, "title": a_tag.get_text(strip=True)}
@@ -209,7 +209,7 @@ def scrape_song_detail(url):
                 divs = song_info_area.find_all("div")
                 for div in divs:
                     # 查找包含 title_combo 的 img
-                    img = div.find("img", src=lambda x: x and "title_combo" in x)
+                    img = div.find("img", src=lambda x: x and "title_combo" in x)  # pyright: ignore[reportArgumentType]
                     if img:
                         # 找到这个 div 中的 p 标签
                         p_tag = div.find("p")
