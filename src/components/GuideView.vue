@@ -17,12 +17,6 @@ const inputDonderId = ref('')
 const wizardStep = ref(1)
 const isLoading = ref(false)
 
-// 折叠旧指南
-const showOldGuide = ref(false)
-const toggleOldGuide = () => {
-  showOldGuide.value = !showOldGuide.value
-}
-
 // 初始化：检查是否已绑定广场ID
 const initDonderId = () => {
   const savedId = localStorage.getItem('donderId')
@@ -77,8 +71,9 @@ const fetchAndAnalyze = async () => {
     if (!scoreData || scoreData.length === 0) {
       showModal(`未找到数据，请确认：
 1.您绑定的广场 ID 是否正确？
-2.查分器分数是否已经同步到最新？
-3.是否有魔王难度的分数记录？`, '分析失败')
+2.您的查分器是否打开了 “公开成绩” 选项？
+3.查分器分数是否已经同步到最新？
+4.是否有魔王难度的分数记录？`, '分析失败')
       isLoading.value = false
       return
     }
@@ -152,8 +147,14 @@ const handleUpload = () => {
         if (!fileHandle) return
         const file = await fileHandle.getFile()
         const text = await file.text()
-        scoreInput.value = text
-        showModal('文件内容已粘贴到文本框！')
+        const output = tryParseTaikoScoreGetter(text) || tryParseDonderTool(text)
+        if (!output) {
+          showModal('文件内容格式不正确', '错误')
+          return
+        }
+        anyalyze(output)
+        // scoreInput.value = text
+        // showModal('文件内容已粘贴到文本框！')
       } catch (err: any) {
         if (err?.name !== 'AbortError') {
           showModal('读取文件失败', '错误')
@@ -301,23 +302,35 @@ const anyalyze = (input: string) => {
                 <span class="font-semibold text-white text-lg">{{ donderId }}</span>
                 <button @click="rebindDonderId" class="bg-white/20 hover:bg-white/30 px-4 py-1.5 border border-white/50 rounded-md font-medium text-white text-sm transition-all duration-300 cursor-pointer">重新绑定</button>
               </div>
-              <p class="m-0 max-w-[500px] text-white/95 text-sm text-center leading-relaxed">
-                请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并同步你的成绩。
+              <p class="m-0 max-w-[500px] text-white/95 text-sm text-left leading-relaxed">
+                1. 请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并同步你的成绩。
                 <br />
-                请确保你在查分器中的成绩数据是最新的，否则分析结果可能不准确。
-                <br />完成上述操作后，请点击下方 “分析数据” 按钮自动同步分析数据。
+                2. 请确保你在查分器中的成绩数据是最新的，否则分析结果可能不准确。
+                <br />
+                3. 完成上述操作后，您可以选择用如下方式同步你的成绩：
+                <br />
+                &nbsp;· 如果您想使用自动同步功能，请确保查分器的 <b>公开成绩</b> 选项已开启，然后点击下方 “分析数据” 按钮自动同步分析数据。
+                <br />
+                &nbsp;· 如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击上传成绩按钮手动导入成绩。
               </p>
               <div>
+              <button 
+                @click="handleUpload" 
+                :disabled="isLoading"
+                class="bg-white disabled:opacity-70 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] px-8 py-3 border-none rounded-lg min-w-[160px] font-semibold text-[#546e7a] text-base transition-all hover:translate-y-[-2px] active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
+              >
+                {{ isLoading ? '正在分析...' : '上传成绩并分析数据' }}
+              </button>
               &nbsp;&nbsp;
               <button 
                 @click="fetchAndAnalyze" 
                 :disabled="isLoading"
                 class="bg-white disabled:opacity-70 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] px-8 py-3 border-none rounded-lg min-w-[160px] font-semibold text-[#546e7a] text-base transition-all hover:translate-y-[-2px] active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
               >
-                {{ isLoading ? '正在分析...' : '分析数据' }}
+                {{ isLoading ? '正在分析...' : '同步成绩并分析数据' }}
               </button>
               </div>
-              <p class="m-0 max-w-[500px] text-white/95 text-sm text-center leading-relaxed">如果自动同步分析数据遇到问题，您可以尝试<button @click="handleManualImport" class="bg-transparent px-4 py-2 border-none text-white/90 hover:text-white text-sm underline transition-all duration-300 cursor-pointer">可以手动导入成绩</button></p>
+              <p class="m-0 max-w-[500px] text-white/95 text-sm text-center leading-relaxed">如果自动同步分析数据遇到问题，您可以尝试<button @click="handleManualImport" class="bg-transparent px-4 py-2 border-none text-white/90 hover:text-white text-sm underline transition-all duration-300 cursor-pointer">手动导入成绩</button></p>
             </div>
           </div>
         </div>
@@ -327,7 +340,7 @@ const anyalyze = (input: string) => {
       <transition name="fade">
         <div v-show="showGuideContent">
           <div class="flex justify-between items-center mb-4">
-            <h2 class="m-0 font-bold text-[#333]">使用指南</h2>
+            <h2 class="m-0 font-bold text-[#333]">手动导入成绩</h2>
             <button 
               @click="backToWizard" 
               class="bg-[#607d8b] hover:bg-[#546e7a] px-4 py-2 border-none rounded-lg font-medium text-white text-sm transition-all duration-300 cursor-pointer"
@@ -335,32 +348,23 @@ const anyalyze = (input: string) => {
               ← 返回
             </button>
           </div>
-          <p class="my-2.5 leading-relaxed">访问 <a href="https://donder-tool.llx.life/score" class="text-primary hover:underline no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，同步成绩后，点击"导出成绩"按钮，将导出的文件<b>上传</b>，或将其内容手动复制<b>粘贴</b>到下方文本框中即可。</p>
-          <p class="my-2.5 leading-relaxed">如果 Donder 查分器无法访问或导出格式异常，可以尝试使用传分器导出数据。<button @click="toggleOldGuide" class="text-primary hover:underline no-underline">{{ showOldGuide ? '隐藏传分器指南' : '查看传分器指南' }}</button></p>
+            <p class="my-2.5 leading-relaxed">1. 须使用 Windows 系统</p>
+            <p class="my-2.5 leading-relaxed">2. 启动传分器, 按照指引打开电脑端广场爬分, 直到传分器走到在 DonNote 点击上传按钮之前的一步(不需要打开 DonNote, 更不需要点击上传按钮)</p>
+            <p class="my-2.5 leading-relaxed">3. 将浏览器代理设置到系统代理,打开 <a href="https://www.baidu.com/api/ahfsdafbaqwerhue" target="_blank" class="text-primary hover:underline no-underline">获取成绩</a>, 传分器会将分数传到页面中, ctrl + a 全选复制过来粘贴</p>
+            <p class="my-2.5 leading-relaxed">4. 如果不会设置浏览器代理, 按 win 键搜索 PowerShell, 将以下代码粘贴并回车执行 <a href="javascript:void(0);" @click="copyPowerShellCode" class="text-primary hover:underline no-underline">点我复制代码</a></p>
+            <div class="bg-[#f5f5f5] my-[15px] px-5 py-[15px] border-primary border-l-4 rounded-lg">
+            <p class="m-0 mb-2.5 font-bold text-[#333]">传分器链接:</p>
+            <ul class="m-0 p-0 list-none">
+              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://gitee.com/donnote/taiko-score-getter/releases/tag/latest" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">旧版@Gitee donnote/taiko-score-getter</a></li>
+              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/tag/v0.1.2" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">新版@GitHub Steve-xmh/taiko-score-getter-rs</a></li>
+              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">点我下载新版传分器</a></li>
+              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://ghproxy.vanillaaaa.org/https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">点我使用代理下载新版传分器，大部分时间不用翻墙</a></li>
+            </ul>
+          </div>
         </div>
       </transition>
       
     </section>
-    <transition name="fade">
-      <section v-show="showOldGuide">
-        <div class="flex justify-center items-center">
-          <h2 class="mr-2 font-bold text-[#333] text-center">传分器指南</h2>
-        </div>
-        <p class="my-2.5 leading-relaxed">1. 须使用 Windows 系统</p>
-        <p class="my-2.5 leading-relaxed">2. 启动传分器, 按照指引打开电脑端广场爬分, 直到传分器走到在 DonNote 点击上传按钮之前的一步(不需要打开 DonNote, 更不需要点击上传按钮)</p>
-        <p class="my-2.5 leading-relaxed">3. 将浏览器代理设置到系统代理,打开 <a href="https://www.baidu.com/api/ahfsdafbaqwerhue" target="_blank" class="text-primary hover:underline no-underline">获取成绩</a>, 传分器会将分数传到页面中, ctrl + a 全选复制过来粘贴</p>
-        <p class="my-2.5 leading-relaxed">4. 如果不会设置浏览器代理, 按 win 键搜索 PowerShell, 将以下代码粘贴并回车执行 <a href="javascript:void(0);" @click="copyPowerShellCode" class="text-primary hover:underline no-underline">点我复制代码</a></p>
-        <div class="bg-[#f5f5f5] my-[15px] px-5 py-[15px] border-primary border-l-4 rounded-lg">
-          <p class="m-0 mb-2.5 font-bold text-[#333]">传分器链接:</p>
-          <ul class="m-0 p-0 list-none">
-            <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://gitee.com/donnote/taiko-score-getter/releases/tag/latest" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">旧版@Gitee donnote/taiko-score-getter</a></li>
-            <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/tag/v0.1.2" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">新版@GitHub Steve-xmh/taiko-score-getter-rs</a></li>
-            <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">点我下载新版传分器</a></li>
-            <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://ghproxy.vanillaaaa.org/https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">点我使用代理下载新版传分器，大部分时间不用翻墙</a></li>
-          </ul>
-        </div>
-      </section>
-    </transition>
     <transition name="fade">
       <div v-show="showGuideContent" class="my-5">
         <div class="flex flex-wrap gap-2 mb-2">
