@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { eventBus } from '../utils/eventBus'
 
 const route = useRoute()
 const isOpen = ref(false)
+const onlyCnSongs = ref(false)
 
 const isReportPage = computed(() => route.name === 'report')
+
+onMounted(() => {
+  // 从 localStorage 读取设置
+  const savedSetting = localStorage.getItem('onlyCnSongs')
+  if (savedSetting !== null) {
+    onlyCnSongs.value = savedSetting === 'true'
+  }
+})
 
 function toggleMenu() {
   isOpen.value = !isOpen.value
@@ -19,6 +28,13 @@ function closeMenu() {
 function handleScreenshot() {
   eventBus.emit('trigger-screenshot')
   closeMenu()
+}
+
+function toggleCnSongs() {
+  onlyCnSongs.value = !onlyCnSongs.value
+  localStorage.setItem('onlyCnSongs', String(onlyCnSongs.value))
+  // 触发全局事件通知其他组件更新
+  eventBus.emit('cn-filter-changed', onlyCnSongs.value)
 }
 </script>
 
@@ -43,6 +59,16 @@ function handleScreenshot() {
           </div>
           
           <div class="flex flex-col gap-2.5">
+            <!-- 只查看国服设置 -->
+            <button
+              @click="toggleCnSongs"
+              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
+              :class="{ 'bg-primary/10 border-primary': onlyCnSongs }"
+            >
+              <span class="w-6 text-xl text-center">{{ onlyCnSongs ? '✓' : '○' }}</span>
+              <span>只查看国服</span>
+            </button>
+
             <a 
               href="https://qm.qq.com/q/EhuH4pBPmU" 
               target="_blank" 

@@ -1,15 +1,18 @@
-const duplicateSongs: number[][] = [
-    [399.4, 400.4], [399.5, 400.5],     // 圣墟和 Pico Pico Ruin
-    [450.4, 1257.4],                    // 浓红
-    [141.4, 1258.4],                    // Fly away
-    [137.4, 1259.4],                    // ファミレスウォーズ
-    [750.4, 1260.4],                    // CYBERgenicALICE
-    [527.4, 1261.4],                    // マリオネットピュア
-    [323.4, 1262.4],                    // Pheonix
-    [939.4, 1263.4],                    // 不如就这样继续下去
-    [1146.4, 1264.4], [1146.5, 1264.5], // Hater
-    [433.5, 1265.5], [433.4, 1265.4],   // 天使梦
-    [191.4, 1266.4],                    // 我是合成器
+const duplicateSongs: Array<Array<{id: number, level: number}>> = [
+    [{id: 399, level: 4}, {id: 400, level: 4}],                     // 圣墟和 Pico Pico Ruin (鬼)
+    [{id: 399, level: 5}, {id: 400, level: 5}],                     // 圣墟和 Pico Pico Ruin (里)
+    [{id: 450, level: 4}, {id: 1257, level: 4}],                    // 浓红
+    [{id: 141, level: 4}, {id: 1258, level: 4}],                    // Fly away
+    [{id: 137, level: 4}, {id: 1259, level: 4}],                    // ファミレスウォーズ
+    [{id: 750, level: 4}, {id: 1260, level: 4}],                    // CYBERgenicALICE
+    [{id: 527, level: 4}, {id: 1261, level: 4}],                    // マリオネットピュア
+    [{id: 323, level: 4}, {id: 1262, level: 4}],                    // Pheonix
+    [{id: 939, level: 4}, {id: 1263, level: 4}],                    // 不如就这样继续下去
+    [{id: 1146, level: 4}, {id: 1264, level: 4}],                   // Hater (鬼)
+    [{id: 1146, level: 5}, {id: 1264, level: 5}],                   // Hater (里)
+    [{id: 433, level: 5}, {id: 1265, level: 5}],                    // 天使梦 (里)
+    [{id: 433, level: 4}, {id: 1265, level: 4}],                    // 天使梦 (鬼)
+    [{id: 191, level: 4}, {id: 1266, level: 4}],                    // 我是合成器
 ];
 
 export default duplicateSongs;

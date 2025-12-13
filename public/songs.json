@@ -91,7 +91,7 @@
   },
   {
     "id": 9,
-    "title": "キミと響くハーモニー(裏)",
+    "title": "キミと響くハーモニー",
     "level": {
       "4": {
         "constant": 6.2,
@@ -209,7 +209,7 @@
   },
   {
     "id": 15,
-    "title": "竜と黒炎の姫君(裏)",
+    "title": "竜と黒炎の姫君",
     "level": {
       "4": {
         "constant": 8.2,
@@ -669,7 +669,7 @@
   },
   {
     "id": 45,
-    "title": "蒼の旋律(裏)",
+    "title": "蒼の旋律",
     "level": {
       "4": {
         "constant": 9.6,
@@ -715,7 +715,7 @@
   },
   {
     "id": 48,
-    "title": "アサルト BGM1(裏)",
+    "title": "アサルト BGM1",
     "level": {
       "4": {
         "constant": 8.5,
@@ -743,7 +743,7 @@
   },
   {
     "id": 49,
-    "title": "サンバ アレグリーア(裏)",
+    "title": "サンバ アレグリーア",
     "level": {
       "4": {
         "constant": 7.7,
@@ -879,7 +879,7 @@
   },
   {
     "id": 60,
-    "title": "夜桜謝肉祭(裏)",
+    "title": "夜桜謝肉祭",
     "level": {
       "4": {
         "constant": 9.6,
@@ -1123,7 +1123,7 @@
   },
   {
     "id": 73,
-    "title": "Black Rose Apostle(裏)",
+    "title": "Black Rose Apostle",
     "level": {
       "4": {
         "constant": 10,
@@ -1169,7 +1169,7 @@
   },
   {
     "id": 76,
-    "title": "ソードバトラーズ(裏)",
+    "title": "ソードバトラーズ",
     "level": {
       "4": {
         "constant": 7.4,
@@ -1192,7 +1192,7 @@
         "hsChange": 0
       }
     },
-    "title_cn": "ソードバトラーズ(裏)",
+    "title_cn": "ソードバトラーズ",
     "is_cn": false
   },
   {
@@ -1215,7 +1215,7 @@
   },
   {
     "id": 80,
-    "title": "練習曲Op.10-4(裏)",
+    "title": "練習曲Op.10-4",
     "level": {
       "4": {
         "constant": 9.8,
@@ -1297,7 +1297,7 @@
   },
   {
     "id": 84,
-    "title": "カルメン 組曲一番終曲(裏)",
+    "title": "カルメン 組曲一番終曲",
     "level": {
       "4": {
         "constant": 7.6,
@@ -1451,7 +1451,7 @@
   },
   {
     "id": 92,
-    "title": "亡き王女のためのパヴァーヌ(裏)",
+    "title": "亡き王女のためのパヴァーヌ",
     "level": {
       "4": {
         "constant": 6.4,
@@ -1515,7 +1515,7 @@
   },
   {
     "id": 95,
-    "title": "白鳥の湖(裏)",
+    "title": "白鳥の湖",
     "level": {
       "4": {
         "constant": 9.5,
@@ -1615,7 +1615,7 @@
   },
   {
     "id": 100,
-    "title": "迅風丸(裏)",
+    "title": "迅風丸",
     "level": {
       "4": {
         "constant": 8.4,
@@ -1751,7 +1751,7 @@
   },
   {
     "id": 109,
-    "title": "Many wow bang!(裏)",
+    "title": "Many wow bang!",
     "level": {
       "4": {
         "constant": 8.2,
@@ -1923,7 +1923,7 @@
   },
   {
     "id": 118,
-    "title": "さちさちにしてあげる♪(裏)",
+    "title": "さちさちにしてあげる♪",
     "level": {
       "4": {
         "constant": 7.1,
@@ -2167,7 +2167,7 @@
   },
   {
     "id": 135,
-    "title": "残酷な天使のテーゼ(裏)",
+    "title": "残酷な天使のテーゼ",
     "level": {
       "4": {
         "constant": 7.5,
@@ -2249,7 +2249,7 @@
   },
   {
     "id": 139,
-    "title": "dance storm(裏)",
+    "title": "dance storm",
     "level": {
       "4": {
         "constant": 8.4,
@@ -2277,7 +2277,7 @@
   },
   {
     "id": 140,
-    "title": "＋♂(プラス男子)(裏)",
+    "title": "＋♂(プラス男子)",
     "level": {
       "4": {
         "constant": 7.4,
@@ -2395,7 +2395,7 @@
   },
   {
     "id": 149,
-    "title": "サタデー太鼓フィーバー(裏)",
+    "title": "サタデー太鼓フィーバー",
     "level": {
       "4": {
         "constant": 8,
@@ -2423,7 +2423,7 @@
   },
   {
     "id": 150,
-    "title": "冬竜 ～Toryu～(裏)",
+    "title": "冬竜 ～Toryu～",
     "level": {
       "4": {
         "constant": 8.9,
@@ -2505,7 +2505,7 @@
   },
   {
     "id": 154,
-    "title": "Garakuta Doll Play(裏)",
+    "title": "Garakuta Doll Play",
     "level": {
       "4": {
         "constant": 9.7,
@@ -2551,7 +2551,7 @@
   },
   {
     "id": 156,
-    "title": "KAGEKIYO(裏)",
+    "title": "KAGEKIYO",
     "level": {
       "4": {
         "constant": 8.4,
@@ -2615,7 +2615,7 @@
   },
   {
     "id": 160,
-    "title": "No Way Back(裏)",
+    "title": "No Way Back",
     "level": {
       "4": {
         "constant": 8.4,
@@ -2661,7 +2661,7 @@
   },
   {
     "id": 163,
-    "title": "DON'T CUT(裏)",
+    "title": "DON'T CUT",
     "level": {
       "4": {
         "constant": 8.4,
@@ -2689,7 +2689,7 @@
   },
   {
     "id": 164,
-    "title": "Got more raves？(裏)",
+    "title": "Got more raves？",
     "level": {
       "4": {
         "constant": 9.7,
@@ -2843,7 +2843,7 @@
   },
   {
     "id": 178,
-    "title": "春竜 ～Haryu～(裏)",
+    "title": "春竜 ～Haryu～",
     "level": {
       "4": {
         "constant": 8.9,
@@ -2907,7 +2907,7 @@
   },
   {
     "id": 181,
-    "title": "8OROCHI(裏)",
+    "title": "8OROCHI",
     "level": {
       "4": {
         "constant": 10.2,
@@ -2971,7 +2971,7 @@
   },
   {
     "id": 184,
-    "title": "月影SASURAI(裏)",
+    "title": "月影SASURAI",
     "level": {
       "4": {
         "constant": 8.5,
@@ -3017,7 +3017,7 @@
   },
   {
     "id": 187,
-    "title": "六兆年と一夜物語(裏)",
+    "title": "六兆年と一夜物語",
     "level": {
       "4": {
         "constant": 9.4,
@@ -3189,7 +3189,7 @@
   },
   {
     "id": 200,
-    "title": "Star!!(裏)",
+    "title": "Star!!",
     "level": {
       "4": {
         "constant": 6.2,
@@ -3217,7 +3217,7 @@
   },
   {
     "id": 202,
-    "title": "Honey Heartbeat ～10 Stars Mix～(裏)",
+    "title": "Honey Heartbeat ～10 Stars Mix～",
     "level": {
       "4": {
         "constant": 9.6,
@@ -3245,7 +3245,7 @@
   },
   {
     "id": 203,
-    "title": "自分REST＠RT(裏)",
+    "title": "自分REST＠RT",
     "level": {
       "4": {
         "constant": 7.5,
@@ -3471,7 +3471,7 @@
   },
   {
     "id": 218,
-    "title": "FLOWER(裏)",
+    "title": "FLOWER",
     "level": {
       "4": {
         "constant": 9.5,
@@ -3535,7 +3535,7 @@
   },
   {
     "id": 221,
-    "title": "夏竜 ～Karyu～(裏)",
+    "title": "夏竜 ～Karyu～",
     "level": {
       "4": {
         "constant": 8.9,
@@ -3563,7 +3563,7 @@
   },
   {
     "id": 222,
-    "title": "メタナイトの逆襲メドレー(裏)",
+    "title": "メタナイトの逆襲メドレー",
     "level": {
       "4": {
         "constant": 8,
@@ -3663,7 +3663,7 @@
   },
   {
     "id": 231,
-    "title": "限界突破×サバイバー(裏)",
+    "title": "限界突破×サバイバー",
     "level": {
       "4": {
         "constant": 2,
@@ -3709,7 +3709,7 @@
   },
   {
     "id": 235,
-    "title": "もりのくまさん(裏)",
+    "title": "もりのくまさん",
     "level": {
       "4": {
         "constant": 1,
@@ -3732,7 +3732,7 @@
         "hsChange": 47.95
       }
     },
-    "title_cn": "もりのくまさん(裏)",
+    "title_cn": "もりのくまさん",
     "is_cn": false
   },
   {
@@ -3917,7 +3917,7 @@
   },
   {
     "id": 248,
-    "title": "LOVE戦!!(裏)",
+    "title": "LOVE戦!!",
     "level": {
       "4": {
         "constant": 8.7,
@@ -3999,7 +3999,7 @@
   },
   {
     "id": 253,
-    "title": "ルカルカ★ナイトフィーバー(裏)",
+    "title": "ルカルカ★ナイトフィーバー",
     "level": {
       "4": {
         "constant": 8.1,
@@ -4022,7 +4022,7 @@
         "hsChange": 72.12
       }
     },
-    "title_cn": "ルカルカ★ナイトフィーバー(裏)",
+    "title_cn": "ルカルカ★ナイトフィーバー",
     "is_cn": false
   },
   {
@@ -4045,7 +4045,7 @@
   },
   {
     "id": 256,
-    "title": "めざせポケモンマスター -20th Anniversary-(裏)",
+    "title": "めざせポケモンマスター -20th Anniversary-",
     "level": {
       "4": {
         "constant": 7.8,
@@ -4163,7 +4163,7 @@
   },
   {
     "id": 264,
-    "title": "メカデス。(裏)",
+    "title": "メカデス。",
     "level": {
       "4": {
         "constant": 8.2,
@@ -4209,7 +4209,7 @@
   },
   {
     "id": 266,
-    "title": "ドドンガド～ン(裏)",
+    "title": "ドドンガド～ン",
     "level": {
       "4": {
         "constant": 8.7,
@@ -4291,7 +4291,7 @@
   },
   {
     "id": 270,
-    "title": "めたるぽりす(裏)",
+    "title": "めたるぽりす",
     "level": {
       "4": {
         "constant": 9.1,
@@ -4319,7 +4319,7 @@
   },
   {
     "id": 271,
-    "title": "Extreme MGG★★★(裏)",
+    "title": "Extreme MGG★★★",
     "level": {
       "4": {
         "constant": 6.6,
@@ -4342,12 +4342,12 @@
         "hsChange": 14.9
       }
     },
-    "title_cn": "Extreme MGG★★★(裏)",
+    "title_cn": "Extreme MGG★★★",
     "is_cn": false
   },
   {
     "id": 272,
-    "title": "ミュージック・リボルバー(裏)",
+    "title": "ミュージック・リボルバー",
     "level": {
       "4": {
         "constant": 5.5,
@@ -4370,12 +4370,12 @@
         "hsChange": 1.44
       }
     },
-    "title_cn": "ミュージック・リボルバー(裏)",
+    "title_cn": "ミュージック・リボルバー",
     "is_cn": false
   },
   {
     "id": 273,
-    "title": "季曲(裏)",
+    "title": "季曲",
     "level": {
       "4": {
         "constant": 7,
@@ -4403,7 +4403,7 @@
   },
   {
     "id": 274,
-    "title": "蓄勢(裏)",
+    "title": "蓄勢",
     "level": {
       "4": {
         "constant": 7.5,
@@ -4431,7 +4431,7 @@
   },
   {
     "id": 275,
-    "title": "蛻変(裏)",
+    "title": "蛻変",
     "level": {
       "4": {
         "constant": 6.8,
@@ -4459,7 +4459,7 @@
   },
   {
     "id": 276,
-    "title": "春遊(裏)",
+    "title": "春遊",
     "level": {
       "4": {
         "constant": 7.6,
@@ -4487,7 +4487,7 @@
   },
   {
     "id": 277,
-    "title": "綻放(裏)",
+    "title": "綻放",
     "level": {
       "4": {
         "constant": 7.2,
@@ -4515,7 +4515,7 @@
   },
   {
     "id": 278,
-    "title": "花漾(裏)",
+    "title": "花漾",
     "level": {
       "4": {
         "constant": 7.5,
@@ -4597,7 +4597,7 @@
   },
   {
     "id": 283,
-    "title": "初音ミクの消失-劇場版-(裏)",
+    "title": "初音ミクの消失-劇場版-",
     "level": {
       "4": {
         "constant": 10,
@@ -4625,7 +4625,7 @@
   },
   {
     "id": 284,
-    "title": "カゲロウデイズ(裏)",
+    "title": "カゲロウデイズ",
     "level": {
       "4": {
         "constant": 7.5,
@@ -4653,7 +4653,7 @@
   },
   {
     "id": 285,
-    "title": "千本桜(裏)",
+    "title": "千本桜",
     "level": {
       "4": {
         "constant": 7.6,
@@ -5023,7 +5023,7 @@
   },
   {
     "id": 309,
-    "title": "ナイトメア・サバイバー(裏)",
+    "title": "ナイトメア・サバイバー",
     "level": {
       "4": {
         "constant": 8.8,
@@ -5051,7 +5051,7 @@
   },
   {
     "id": 310,
-    "title": "脳漿炸裂ガール(裏)",
+    "title": "脳漿炸裂ガール",
     "level": {
       "4": {
         "constant": 8.8,
@@ -5133,7 +5133,7 @@
   },
   {
     "id": 314,
-    "title": "おどるポンポコリン(裏)",
+    "title": "おどるポンポコリン",
     "level": {
       "4": {
         "constant": 5,
@@ -5197,7 +5197,7 @@
   },
   {
     "id": 317,
-    "title": "鏡の国のアリス(裏)",
+    "title": "鏡の国のアリス",
     "level": {
       "4": {
         "constant": 7.1,
@@ -5315,7 +5315,7 @@
   },
   {
     "id": 324,
-    "title": "Phantom Rider(裏)",
+    "title": "Phantom Rider",
     "level": {
       "4": {
         "constant": 8.9,
@@ -5631,7 +5631,7 @@
   },
   {
     "id": 348,
-    "title": "らいとにんぐ ぱっしょん(裏)",
+    "title": "らいとにんぐ ぱっしょん",
     "level": {
       "4": {
         "constant": 7.5,
@@ -5803,7 +5803,7 @@
   },
   {
     "id": 357,
-    "title": "Ridge Racer(裏)",
+    "title": "Ridge Racer",
     "level": {
       "4": {
         "constant": 8.4,
@@ -5885,7 +5885,7 @@
   },
   {
     "id": 361,
-    "title": "Venomous(裏)",
+    "title": "Venomous",
     "level": {
       "4": {
         "constant": 9.7,
@@ -5985,7 +5985,7 @@
   },
   {
     "id": 366,
-    "title": "きみのあかり(裏)",
+    "title": "きみのあかり",
     "level": {
       "4": {
         "constant": 5.5,
@@ -6031,7 +6031,7 @@
   },
   {
     "id": 368,
-    "title": "さんぽ(裏)",
+    "title": "さんぽ",
     "level": {
       "4": {
         "constant": 5,
@@ -6059,7 +6059,7 @@
   },
   {
     "id": 371,
-    "title": "旋風ノ舞【天】(裏)",
+    "title": "旋風ノ舞【天】",
     "level": {
       "4": {
         "constant": 9.5,
@@ -6501,7 +6501,7 @@
   },
   {
     "id": 399,
-    "title": "ピコピコ ルイン(裏)",
+    "title": "ピコピコ ルイン",
     "level": {
       "4": {
         "constant": 9.4,
@@ -6529,7 +6529,7 @@
   },
   {
     "id": 400,
-    "title": "セイクリッド ルイン(裏)",
+    "title": "セイクリッド ルイン",
     "level": {
       "4": {
         "constant": 9.4,
@@ -6575,7 +6575,7 @@
   },
   {
     "id": 402,
-    "title": "Rotter Tarmination(裏)",
+    "title": "Rotter Tarmination",
     "level": {
       "4": {
         "constant": 8.7,
@@ -6603,7 +6603,7 @@
   },
   {
     "id": 403,
-    "title": "らんぶる乱舞(裏)",
+    "title": "らんぶる乱舞",
     "level": {
       "4": {
         "constant": 8.4,
@@ -6649,7 +6649,7 @@
   },
   {
     "id": 405,
-    "title": "やわらか戦車(裏)",
+    "title": "やわらか戦車",
     "level": {
       "4": {
         "constant": 7.1,
@@ -6803,7 +6803,7 @@
   },
   {
     "id": 414,
-    "title": "チルノのパーフェクトさんすう教室(裏)",
+    "title": "チルノのパーフェクトさんすう教室",
     "level": {
       "4": {
         "constant": 8.4,
@@ -6867,7 +6867,7 @@
   },
   {
     "id": 417,
-    "title": "Grip ＆ Break down !! -達人Edit.-(裏)",
+    "title": "Grip ＆ Break down !! -達人Edit.-",
     "level": {
       "4": {
         "constant": 7.1,
@@ -6967,7 +6967,7 @@
   },
   {
     "id": 422,
-    "title": "NeGa/PoSi*ラブ/コール(裏)",
+    "title": "NeGa/PoSi*ラブ/コール",
     "level": {
       "4": {
         "constant": 6.8,
@@ -7031,7 +7031,7 @@
   },
   {
     "id": 425,
-    "title": "タイコタイム(裏)",
+    "title": "タイコタイム",
     "level": {
       "4": {
         "constant": 9.1,
@@ -7185,7 +7185,7 @@
   },
   {
     "id": 433,
-    "title": "エンジェル ドリーム(裏)",
+    "title": "エンジェル ドリーム",
     "level": {
       "4": {
         "constant": 8.5,
@@ -7429,7 +7429,7 @@
   },
   {
     "id": 447,
-    "title": "White Rose Insanity(裏)",
+    "title": "White Rose Insanity",
     "level": {
       "4": {
         "constant": 7.5,
@@ -7457,7 +7457,7 @@
   },
   {
     "id": 448,
-    "title": "三瀬川乱舞(裏)",
+    "title": "三瀬川乱舞",
     "level": {
       "4": {
         "constant": 8.5,
@@ -7521,7 +7521,7 @@
   },
   {
     "id": 451,
-    "title": "Xa(裏)",
+    "title": "Xa",
     "level": {
       "4": {
         "constant": 9.2,
@@ -7855,7 +7855,7 @@
   },
   {
     "id": 470,
-    "title": "零の夜想曲(裏)",
+    "title": "零の夜想曲",
     "level": {
       "4": {
         "constant": 8.1,
@@ -8075,7 +8075,7 @@
   },
   {
     "id": 482,
-    "title": "GOIN'!!!(裏)",
+    "title": "GOIN'!!!",
     "level": {
       "4": {
         "constant": 6,
@@ -8139,7 +8139,7 @@
   },
   {
     "id": 487,
-    "title": "ラッスンゴレライ(裏)",
+    "title": "ラッスンゴレライ",
     "level": {
       "4": {
         "constant": 7.4,
@@ -8162,7 +8162,7 @@
         "hsChange": 88.95
       }
     },
-    "title_cn": "ラッスンゴレライ(裏)",
+    "title_cn": "ラッスンゴレライ",
     "is_cn": false
   },
   {
@@ -8239,7 +8239,7 @@
   },
   {
     "id": 493,
-    "title": "ウルトラマンX(裏)",
+    "title": "ウルトラマンX",
     "level": {
       "4": {
         "constant": 7.7,
@@ -8357,7 +8357,7 @@
   },
   {
     "id": 500,
-    "title": "希望へのメロディー(裏)",
+    "title": "希望へのメロディー",
     "level": {
       "4": {
         "constant": 7.6,
@@ -8439,7 +8439,7 @@
   },
   {
     "id": 504,
-    "title": "Abyss of hell(裏)",
+    "title": "Abyss of hell",
     "level": {
       "4": {
         "constant": 8.6,
@@ -8485,7 +8485,7 @@
   },
   {
     "id": 506,
-    "title": "チェインクロニクル 通常バトルメドレー(裏)",
+    "title": "チェインクロニクル 通常バトルメドレー",
     "level": {
       "4": {
         "constant": 8.4,
@@ -8513,7 +8513,7 @@
   },
   {
     "id": 507,
-    "title": "チェインクロニクル 最終決戦メドレー(裏)",
+    "title": "チェインクロニクル 最終決戦メドレー",
     "level": {
       "4": {
         "constant": 8.7,
@@ -8559,7 +8559,7 @@
   },
   {
     "id": 511,
-    "title": "Shine!!(裏)",
+    "title": "Shine!!",
     "level": {
       "4": {
         "constant": 6.2,
@@ -8713,7 +8713,7 @@
   },
   {
     "id": 519,
-    "title": "秋竜 ～Shiuryu～(裏)",
+    "title": "秋竜 ～Shiuryu～",
     "level": {
       "4": {
         "constant": 9.4,
@@ -8741,7 +8741,7 @@
   },
   {
     "id": 520,
-    "title": "Silent Jealousy(裏)",
+    "title": "Silent Jealousy",
     "level": {
       "4": {
         "constant": 9.4,
@@ -8931,7 +8931,7 @@
   },
   {
     "id": 537,
-    "title": "ギガンティックO.T.N(裏)",
+    "title": "ギガンティックO.T.N",
     "level": {
       "4": {
         "constant": 9.5,
@@ -8977,7 +8977,7 @@
   },
   {
     "id": 539,
-    "title": "Scream out！ -達人Edit.-(裏)",
+    "title": "Scream out！ -達人Edit.-",
     "level": {
       "4": {
         "constant": 8.4,
@@ -9203,7 +9203,7 @@
   },
   {
     "id": 551,
-    "title": "蝶戀(裏)",
+    "title": "蝶戀",
     "level": {
       "4": {
         "constant": 7.4,
@@ -9249,7 +9249,7 @@
   },
   {
     "id": 553,
-    "title": "BLAZING VORTEX(裏)",
+    "title": "BLAZING VORTEX",
     "level": {
       "4": {
         "constant": 8.3,
@@ -9655,7 +9655,7 @@
   },
   {
     "id": 579,
-    "title": "真・画竜点睛(裏)",
+    "title": "真・画竜点睛",
     "level": {
       "4": {
         "constant": 9.3,
@@ -9683,7 +9683,7 @@
   },
   {
     "id": 580,
-    "title": "スポーツダイジェスドン(裏)",
+    "title": "スポーツダイジェスドン",
     "level": {
       "4": {
         "constant": 7.3,
@@ -9927,7 +9927,7 @@
   },
   {
     "id": 601,
-    "title": "スプラトゥーン2 メドレー(裏)",
+    "title": "スプラトゥーン2 メドレー",
     "level": {
       "4": {
         "constant": 7.6,
@@ -9950,7 +9950,7 @@
         "hsChange": 10.26
       }
     },
-    "title_cn": "スプラトゥーン2 メドレー(裏)",
+    "title_cn": "スプラトゥーン2 メドレー",
     "is_cn": false
   },
   {
@@ -10279,7 +10279,7 @@
   },
   {
     "id": 626,
-    "title": "美しく忙しきドナウ(裏)",
+    "title": "美しく忙しきドナウ",
     "level": {
       "4": {
         "constant": 9.3,
@@ -10523,7 +10523,7 @@
   },
   {
     "id": 645,
-    "title": "華蕾夢ミル狂詩曲～魂ノ導～(裏)",
+    "title": "華蕾夢ミル狂詩曲～魂ノ導～",
     "level": {
       "4": {
         "constant": 8.9,
@@ -10551,7 +10551,7 @@
   },
   {
     "id": 646,
-    "title": "ミツボシ☆☆★(裏)",
+    "title": "ミツボシ☆☆★",
     "level": {
       "4": {
         "constant": 6.2,
@@ -10597,7 +10597,7 @@
   },
   {
     "id": 648,
-    "title": "チェインクロニクル 総力戦メドレー(裏)",
+    "title": "チェインクロニクル 総力戦メドレー",
     "level": {
       "4": {
         "constant": 7.6,
@@ -10679,7 +10679,7 @@
   },
   {
     "id": 652,
-    "title": "曙光(裏)",
+    "title": "曙光",
     "level": {
       "4": {
         "constant": 7.6,
@@ -10815,7 +10815,7 @@
   },
   {
     "id": 664,
-    "title": "どん子のファーストデート(裏)",
+    "title": "どん子のファーストデート",
     "level": {
       "4": {
         "constant": 4.5,
@@ -10897,7 +10897,7 @@
   },
   {
     "id": 671,
-    "title": "Tulip(裏)",
+    "title": "Tulip",
     "level": {
       "4": {
         "constant": 6,
@@ -10979,7 +10979,7 @@
   },
   {
     "id": 676,
-    "title": "TOKIMEKIエスカレート(裏)",
+    "title": "TOKIMEKIエスカレート",
     "level": {
       "4": {
         "constant": 6.4,
@@ -11061,7 +11061,7 @@
   },
   {
     "id": 681,
-    "title": "チルノのパーフェクトさんすう教室 ⑨周年バージョン(裏)",
+    "title": "チルノのパーフェクトさんすう教室 ⑨周年バージョン",
     "level": {
       "4": {
         "constant": 9.3,
@@ -11179,7 +11179,7 @@
   },
   {
     "id": 689,
-    "title": "ゴーゴー・キッチン(裏)",
+    "title": "ゴーゴー・キッチン",
     "level": {
       "4": {
         "constant": 7.5,
@@ -11315,7 +11315,7 @@
   },
   {
     "id": 700,
-    "title": "Taiko Drum Monster(裏)",
+    "title": "Taiko Drum Monster",
     "level": {
       "4": {
         "constant": 10.7,
@@ -11487,7 +11487,7 @@
   },
   {
     "id": 711,
-    "title": "見たこともない景色(裏)",
+    "title": "見たこともない景色",
     "level": {
       "4": {
         "constant": 5.5,
@@ -11510,7 +11510,7 @@
         "hsChange": 0
       }
     },
-    "title_cn": "見たこともない景色(裏)",
+    "title_cn": "見たこともない景色",
     "is_cn": false
   },
   {
@@ -11569,7 +11569,7 @@
   },
   {
     "id": 716,
-    "title": "彼は誰時の誘惑(裏)",
+    "title": "彼は誰時の誘惑",
     "level": {
       "4": {
         "constant": 9.5,
@@ -11597,7 +11597,7 @@
   },
   {
     "id": 717,
-    "title": "SAMURAI ROCKET(裏)",
+    "title": "SAMURAI ROCKET",
     "level": {
       "4": {
         "constant": 8.5,
@@ -11620,7 +11620,7 @@
         "hsChange": 0
       }
     },
-    "title_cn": "SAMURAI ROCKET(裏)",
+    "title_cn": "SAMURAI ROCKET",
     "is_cn": false
   },
   {
@@ -11661,7 +11661,7 @@
   },
   {
     "id": 721,
-    "title": "ダンガンノーツ(裏)",
+    "title": "ダンガンノーツ",
     "level": {
       "4": {
         "constant": 10.1,
@@ -11815,7 +11815,7 @@
   },
   {
     "id": 730,
-    "title": "ヒバナ(裏)",
+    "title": "ヒバナ",
     "level": {
       "4": {
         "constant": 8.5,
@@ -11897,7 +11897,7 @@
   },
   {
     "id": 735,
-    "title": "D絶対！SAMURAIインザレイン(裏)",
+    "title": "D絶対！SAMURAIインザレイン",
     "level": {
       "4": {
         "constant": 8.6,
@@ -11925,7 +11925,7 @@
   },
   {
     "id": 736,
-    "title": "人のお金で焼肉を食したい！(裏)",
+    "title": "人のお金で焼肉を食したい！",
     "level": {
       "4": {
         "constant": 7.3,
@@ -12025,7 +12025,7 @@
   },
   {
     "id": 741,
-    "title": "フリフリ♪ノリノリ♪(裏)",
+    "title": "フリフリ♪ノリノリ♪",
     "level": {
       "4": {
         "constant": 7.3,
@@ -12413,7 +12413,7 @@
   },
   {
     "id": 765,
-    "title": "第六天魔王(裏)",
+    "title": "第六天魔王",
     "level": {
       "4": {
         "constant": 11.5,
@@ -12459,7 +12459,7 @@
   },
   {
     "id": 771,
-    "title": "カンタービレ×パッシオーネ(裏)",
+    "title": "カンタービレ×パッシオーネ",
     "level": {
       "4": {
         "constant": 7.4,
@@ -12523,7 +12523,7 @@
   },
   {
     "id": 775,
-    "title": "パン vs ごはん！ 大決戦！(裏)",
+    "title": "パン vs ごはん！ 大決戦！",
     "level": {
       "4": {
         "constant": 10.6,
@@ -12551,7 +12551,7 @@
   },
   {
     "id": 776,
-    "title": "GO GET'EM！(裏)",
+    "title": "GO GET'EM！",
     "level": {
       "4": {
         "constant": 9.5,
@@ -12795,7 +12795,7 @@
   },
   {
     "id": 793,
-    "title": "雨とペトラ(裏)",
+    "title": "雨とペトラ",
     "level": {
       "4": {
         "constant": 6.6,
@@ -12841,7 +12841,7 @@
   },
   {
     "id": 795,
-    "title": "残響(裏)",
+    "title": "残響",
     "level": {
       "4": {
         "constant": 6.6,
@@ -12977,7 +12977,7 @@
   },
   {
     "id": 804,
-    "title": "Altale(裏)",
+    "title": "Altale",
     "level": {
       "4": {
         "constant": 8.7,
@@ -13000,7 +13000,7 @@
         "hsChange": 60.77
       }
     },
-    "title_cn": "Altale(裏)",
+    "title_cn": "Altale",
     "is_cn": false
   },
   {
@@ -13059,7 +13059,7 @@
   },
   {
     "id": 811,
-    "title": "あなたとトゥラッタッタ♪(裏)",
+    "title": "あなたとトゥラッタッタ♪",
     "level": {
       "4": {
         "constant": 1,
@@ -13123,7 +13123,7 @@
   },
   {
     "id": 816,
-    "title": "星屑ストラック(裏)",
+    "title": "星屑ストラック",
     "level": {
       "4": {
         "constant": 10.1,
@@ -13187,7 +13187,7 @@
   },
   {
     "id": 819,
-    "title": "カラフルボイス(裏)",
+    "title": "カラフルボイス",
     "level": {
       "4": {
         "constant": 9.9,
@@ -13287,7 +13287,7 @@
   },
   {
     "id": 824,
-    "title": "ドラマツルギー(裏)",
+    "title": "ドラマツルギー",
     "level": {
       "4": {
         "constant": 3,
@@ -13351,7 +13351,7 @@
   },
   {
     "id": 831,
-    "title": "ゲゲゲの鬼太郎(裏)",
+    "title": "ゲゲゲの鬼太郎",
     "level": {
       "4": {
         "constant": 2,
@@ -13397,7 +13397,7 @@
   },
   {
     "id": 834,
-    "title": "疾風怒濤(裏)",
+    "title": "疾風怒濤",
     "level": {
       "4": {
         "constant": 10.4,
@@ -13443,7 +13443,7 @@
   },
   {
     "id": 842,
-    "title": "紅蓮華(裏)",
+    "title": "紅蓮華",
     "level": {
       "4": {
         "constant": 6,
@@ -13507,7 +13507,7 @@
   },
   {
     "id": 845,
-    "title": "Dreadnought(裏)",
+    "title": "Dreadnought",
     "level": {
       "4": {
         "constant": 9.3,
@@ -13643,7 +13643,7 @@
   },
   {
     "id": 856,
-    "title": "Calamity Fortune(裏)",
+    "title": "Calamity Fortune",
     "level": {
       "4": {
         "constant": 10.2,
@@ -13797,7 +13797,7 @@
   },
   {
     "id": 866,
-    "title": "氷竜 ～Kooryu～(裏)",
+    "title": "氷竜 ～Kooryu～",
     "level": {
       "4": {
         "constant": 9.5,
@@ -13843,7 +13843,7 @@
   },
   {
     "id": 868,
-    "title": "モノクロボイス(裏)",
+    "title": "モノクロボイス",
     "level": {
       "4": {
         "constant": 10.4,
@@ -13997,7 +13997,7 @@
   },
   {
     "id": 881,
-    "title": "MEGALOVANIA(裏)",
+    "title": "MEGALOVANIA",
     "level": {
       "4": {
         "constant": 9.5,
@@ -14025,7 +14025,7 @@
   },
   {
     "id": 882,
-    "title": "乙女解剖(裏)",
+    "title": "乙女解剖",
     "level": {
       "4": {
         "constant": 6,
@@ -14251,7 +14251,7 @@
   },
   {
     "id": 898,
-    "title": "God knows...(裏)",
+    "title": "God knows...",
     "level": {
       "4": {
         "constant": 6.6,
@@ -14387,7 +14387,7 @@
   },
   {
     "id": 911,
-    "title": "神様の言うとおりに(裏)",
+    "title": "神様の言うとおりに",
     "level": {
       "4": {
         "constant": 7.2,
@@ -14523,7 +14523,7 @@
   },
   {
     "id": 920,
-    "title": "ゴッドソング(裏)",
+    "title": "ゴッドソング",
     "level": {
       "4": {
         "constant": 8.3,
@@ -14623,7 +14623,7 @@
   },
   {
     "id": 926,
-    "title": "命に嫌われている。(裏)",
+    "title": "命に嫌われている。",
     "level": {
       "4": {
         "constant": 6.6,
@@ -14831,7 +14831,7 @@
   },
   {
     "id": 938,
-    "title": "零の交響曲(裏)",
+    "title": "零の交響曲",
     "level": {
       "4": {
         "constant": 8.5,
@@ -15075,7 +15075,7 @@
   },
   {
     "id": 951,
-    "title": "アイドル狂戦士(feat.佐藤貴文)(裏)",
+    "title": "アイドル狂戦士(feat.佐藤貴文)",
     "level": {
       "4": {
         "constant": 7.7,
@@ -15121,7 +15121,7 @@
   },
   {
     "id": 954,
-    "title": "Central Dogma Pt.1(裏)",
+    "title": "Central Dogma Pt.1",
     "level": {
       "4": {
         "constant": 10.3,
@@ -15144,7 +15144,7 @@
         "hsChange": 24.15
       }
     },
-    "title_cn": "Central Dogma Pt.1(裏)",
+    "title_cn": "Central Dogma Pt.1",
     "is_cn": false
   },
   {
@@ -15167,7 +15167,7 @@
   },
   {
     "id": 956,
-    "title": "だから僕は音楽を辞めた(裏)",
+    "title": "だから僕は音楽を辞めた",
     "level": {
       "4": {
         "constant": 6.4,
@@ -15195,7 +15195,7 @@
   },
   {
     "id": 958,
-    "title": "儚姫は原初に舞う(裏)",
+    "title": "儚姫は原初に舞う",
     "level": {
       "4": {
         "constant": 9.9,
@@ -15223,7 +15223,7 @@
   },
   {
     "id": 959,
-    "title": "螺旋周回軌道(裏)",
+    "title": "螺旋周回軌道",
     "level": {
       "4": {
         "constant": 9.3,
@@ -15251,7 +15251,7 @@
   },
   {
     "id": 960,
-    "title": "Vixtory(裏)",
+    "title": "Vixtory",
     "level": {
       "4": {
         "constant": 10.6,
@@ -15441,7 +15441,7 @@
   },
   {
     "id": 972,
-    "title": "ラパスの虹(裏)",
+    "title": "ラパスの虹",
     "level": {
       "4": {
         "constant": 9.7,
@@ -15613,7 +15613,7 @@
   },
   {
     "id": 981,
-    "title": "1・2・さんしのでドンドカッカッ！(裏)",
+    "title": "1・2・さんしのでドンドカッカッ！",
     "level": {
       "4": {
         "constant": 7.4,
@@ -15803,7 +15803,7 @@
   },
   {
     "id": 993,
-    "title": "彁(裏)",
+    "title": "彁",
     "level": {
       "4": {
         "constant": 11,
@@ -15826,7 +15826,7 @@
         "hsChange": 100
       }
     },
-    "title_cn": "彁(裏)",
+    "title_cn": "彁",
     "is_cn": false
   },
   {
@@ -15867,7 +15867,7 @@
   },
   {
     "id": 997,
-    "title": "twinkle night (feat. somunia)(裏)",
+    "title": "twinkle night (feat. somunia)",
     "level": {
       "4": {
         "constant": 7.5,
@@ -16075,7 +16075,7 @@
   },
   {
     "id": 1012,
-    "title": "4+1のそれぞれの未来(裏)",
+    "title": "4+1のそれぞれの未来",
     "level": {
       "4": {
         "constant": 10.4,
@@ -16193,7 +16193,7 @@
   },
   {
     "id": 1020,
-    "title": "乱数調整のリバースシンデレラ(裏)",
+    "title": "乱数調整のリバースシンデレラ",
     "level": {
       "4": {
         "constant": 8.3,
@@ -16239,7 +16239,7 @@
   },
   {
     "id": 1022,
-    "title": "ウィーアー！(裏)",
+    "title": "ウィーアー！",
     "level": {
       "4": {
         "constant": 5,
@@ -16321,7 +16321,7 @@
   },
   {
     "id": 1027,
-    "title": "夏祭り / ジッタリン・ジン(裏)",
+    "title": "夏祭り / ジッタリン・ジン",
     "level": {
       "4": {
         "constant": 8,
@@ -16385,7 +16385,7 @@
   },
   {
     "id": 1031,
-    "title": "Hello, Worldooon!!(裏)",
+    "title": "Hello, Worldooon!!",
     "level": {
       "4": {
         "constant": 8,
@@ -16413,7 +16413,7 @@
   },
   {
     "id": 1032,
-    "title": "Emma(裏)",
+    "title": "Emma",
     "level": {
       "4": {
         "constant": 7.4,
@@ -16441,7 +16441,7 @@
   },
   {
     "id": 1033,
-    "title": "Aloft in the wind(裏)",
+    "title": "Aloft in the wind",
     "level": {
       "4": {
         "constant": 7.4,
@@ -16487,7 +16487,7 @@
   },
   {
     "id": 1035,
-    "title": "マツヨイナイトバグ(裏)",
+    "title": "マツヨイナイトバグ",
     "level": {
       "4": {
         "constant": 8.5,
@@ -16605,7 +16605,7 @@
   },
   {
     "id": 1042,
-    "title": "刻竜 ～Kokuryu～(裏)",
+    "title": "刻竜 ～Kokuryu～",
     "level": {
       "4": {
         "constant": 10.6,
@@ -16633,7 +16633,7 @@
   },
   {
     "id": 1043,
-    "title": "憎悪と醜悪の花束(裏)",
+    "title": "憎悪と醜悪の花束",
     "level": {
       "4": {
         "constant": 10.5,
@@ -16715,7 +16715,7 @@
   },
   {
     "id": 1048,
-    "title": "アンリミテッドゲームズ(裏)",
+    "title": "アンリミテッドゲームズ",
     "level": {
       "4": {
         "constant": 10.4,
@@ -16797,7 +16797,7 @@
   },
   {
     "id": 1052,
-    "title": "仮想現実のテレスコープ(裏)",
+    "title": "仮想現実のテレスコープ",
     "level": {
       "4": {
         "constant": 9.7,
@@ -16825,7 +16825,7 @@
   },
   {
     "id": 1053,
-    "title": "平等院鳳凰ドン vs 鳥獣戯カッ(裏)",
+    "title": "平等院鳳凰ドン vs 鳥獣戯カッ",
     "level": {
       "4": {
         "constant": 7.9,
@@ -16925,7 +16925,7 @@
   },
   {
     "id": 1058,
-    "title": "大好きな太鼓の音(裏)",
+    "title": "大好きな太鼓の音",
     "level": {
       "4": {
         "constant": 8.7,
@@ -17125,7 +17125,7 @@
   },
   {
     "id": 1072,
-    "title": "The Future of the 太鼓ドラム(裏)",
+    "title": "The Future of the 太鼓ドラム",
     "level": {
       "4": {
         "constant": 10.7,
@@ -17207,7 +17207,7 @@
   },
   {
     "id": 1077,
-    "title": "シンデレラ(裏)",
+    "title": "シンデレラ",
     "level": {
       "4": {
         "constant": 7.5,
@@ -17253,7 +17253,7 @@
   },
   {
     "id": 1080,
-    "title": "業 -善なる神とこの世の悪について-(裏)",
+    "title": "業 -善なる神とこの世の悪について-",
     "level": {
       "4": {
         "constant": 9.5,
@@ -17281,7 +17281,7 @@
   },
   {
     "id": 1081,
-    "title": "めためた☆ゆにば～すっ！(裏)",
+    "title": "めためた☆ゆにば～すっ！",
     "level": {
       "4": {
         "constant": 8.5,
@@ -17309,7 +17309,7 @@
   },
   {
     "id": 1082,
-    "title": "ラブユー☆どんちゃん(裏)",
+    "title": "ラブユー☆どんちゃん",
     "level": {
       "4": {
         "constant": 8.3,
@@ -17355,7 +17355,7 @@
   },
   {
     "id": 1084,
-    "title": "喫茶レイン(裏)",
+    "title": "喫茶レイン",
     "level": {
       "4": {
         "constant": 6.2,
@@ -17491,7 +17491,7 @@
   },
   {
     "id": 1096,
-    "title": "ねこくじら(裏)",
+    "title": "ねこくじら",
     "level": {
       "4": {
         "constant": 8.4,
@@ -17514,12 +17514,12 @@
         "hsChange": 1.99
       }
     },
-    "title_cn": "ねこくじら(裏)",
+    "title_cn": "ねこくじら",
     "is_cn": false
   },
   {
     "id": 1097,
-    "title": "ON SAY GO SAY(裏)",
+    "title": "ON SAY GO SAY",
     "level": {
       "4": {
         "constant": 8.4,
@@ -17542,7 +17542,7 @@
         "hsChange": 70.57
       }
     },
-    "title_cn": "ON SAY GO SAY(裏)",
+    "title_cn": "ON SAY GO SAY",
     "is_cn": false
   },
   {
@@ -17583,7 +17583,7 @@
   },
   {
     "id": 1100,
-    "title": "Kill My Fortune(裏)",
+    "title": "Kill My Fortune",
     "level": {
       "4": {
         "constant": 7.6,
@@ -17827,7 +17827,7 @@
   },
   {
     "id": 1116,
-    "title": "ミックスナッツ(裏)",
+    "title": "ミックスナッツ",
     "level": {
       "4": {
         "constant": 7.2,
@@ -17909,7 +17909,7 @@
   },
   {
     "id": 1120,
-    "title": "そして勇者は眠りにつく(裏)",
+    "title": "そして勇者は眠りにつく",
     "level": {
       "4": {
         "constant": 9.6,
@@ -17937,7 +17937,7 @@
   },
   {
     "id": 1121,
-    "title": "SUPERNOVA(裏)",
+    "title": "SUPERNOVA",
     "level": {
       "4": {
         "constant": 10.2,
@@ -17965,7 +17965,7 @@
   },
   {
     "id": 1122,
-    "title": "狂瀾怒濤(裏)",
+    "title": "狂瀾怒濤",
     "level": {
       "4": {
         "constant": 9.6,
@@ -18047,7 +18047,7 @@
   },
   {
     "id": 1129,
-    "title": "神竜 ～Shinryu～(裏)",
+    "title": "神竜 ～Shinryu～",
     "level": {
       "4": {
         "constant": 10.6,
@@ -18093,7 +18093,7 @@
   },
   {
     "id": 1131,
-    "title": "ラブリーX(裏)",
+    "title": "ラブリーX",
     "level": {
       "4": {
         "constant": 7.5,
@@ -18139,7 +18139,7 @@
   },
   {
     "id": 1133,
-    "title": "Doppelgangers(裏)",
+    "title": "Doppelgangers",
     "level": {
       "4": {
         "constant": 8.7,
@@ -18275,7 +18275,7 @@
   },
   {
     "id": 1140,
-    "title": "スカーレット警察のゲットーパトロール24時(裏)",
+    "title": "スカーレット警察のゲットーパトロール24時",
     "level": {
       "4": {
         "constant": 8.3,
@@ -18303,7 +18303,7 @@
   },
   {
     "id": 1144,
-    "title": "六本の薔薇と采の歌(裏)",
+    "title": "六本の薔薇と采の歌",
     "level": {
       "4": {
         "constant": 5,
@@ -18331,7 +18331,7 @@
   },
   {
     "id": 1145,
-    "title": "LΔchesis(裏)",
+    "title": "LΔchesis",
     "level": {
       "4": {
         "constant": 9.6,
@@ -18359,7 +18359,7 @@
   },
   {
     "id": 1146,
-    "title": "ヘイラ(裏)",
+    "title": "ヘイラ",
     "level": {
       "4": {
         "constant": 9.5,
@@ -18405,7 +18405,7 @@
   },
   {
     "id": 1148,
-    "title": "Habit(裏)",
+    "title": "Habit",
     "level": {
       "4": {
         "constant": 7.6,
@@ -18433,7 +18433,7 @@
   },
   {
     "id": 1149,
-    "title": "フォニイ(裏)",
+    "title": "フォニイ",
     "level": {
       "4": {
         "constant": 7.4,
@@ -18569,7 +18569,7 @@
   },
   {
     "id": 1157,
-    "title": "リンダは今日も絶好調(裏)",
+    "title": "リンダは今日も絶好調",
     "level": {
       "4": {
         "constant": 7.8,
@@ -18777,7 +18777,7 @@
   },
   {
     "id": 1168,
-    "title": "オーバード(裏)",
+    "title": "オーバード",
     "level": {
       "4": {
         "constant": 7.4,
@@ -18800,7 +18800,7 @@
         "hsChange": 6.04
       }
     },
-    "title_cn": "オーバード(裏)",
+    "title_cn": "オーバード",
     "is_cn": false
   },
   {
@@ -18841,7 +18841,7 @@
   },
   {
     "id": 1171,
-    "title": "共奏鼓祭(裏)",
+    "title": "共奏鼓祭",
     "level": {
       "4": {
         "constant": 8.5,
@@ -19265,7 +19265,7 @@
   },
   {
     "id": 1196,
-    "title": "ラ・モレーナ・クモナイ(裏)",
+    "title": "ラ・モレーナ・クモナイ",
     "level": {
       "4": {
         "constant": 8.8,
@@ -19288,12 +19288,12 @@
         "hsChange": 2.47
       }
     },
-    "title_cn": "ラ・モレーナ・クモナイ(裏)",
+    "title_cn": "ラ・モレーナ・クモナイ",
     "is_cn": false
   },
   {
     "id": 1197,
-    "title": "Re：End of a Dream(裏)",
+    "title": "Re：End of a Dream",
     "level": {
       "4": {
         "constant": 8,
@@ -19375,7 +19375,7 @@
   },
   {
     "id": 1201,
-    "title": "ドドドドドンだフル！(裏)",
+    "title": "ドドドドドンだフル！",
     "level": {
       "4": {
         "constant": 6,
@@ -19583,7 +19583,7 @@
   },
   {
     "id": 1212,
-    "title": "Rat A Tat!!!(裏)",
+    "title": "Rat A Tat!!!",
     "level": {
       "4": {
         "constant": 5.5,
@@ -19629,7 +19629,7 @@
   },
   {
     "id": 1214,
-    "title": "GORI × GORI × SafaRI(裏)",
+    "title": "GORI × GORI × SafaRI",
     "level": {
       "4": {
         "constant": 8.7,
@@ -19657,7 +19657,7 @@
   },
   {
     "id": 1215,
-    "title": "Nosferatu(裏)",
+    "title": "Nosferatu",
     "level": {
       "4": {
         "constant": 9.9,
@@ -19685,7 +19685,7 @@
   },
   {
     "id": 1216,
-    "title": "CUT! into the FUTURE(裏)",
+    "title": "CUT! into the FUTURE",
     "level": {
       "4": {
         "constant": 10.5,
@@ -19731,7 +19731,7 @@
   },
   {
     "id": 1218,
-    "title": "絆ノ奇跡(裏)",
+    "title": "絆ノ奇跡",
     "level": {
       "4": {
         "constant": 5.5,
@@ -19759,7 +19759,7 @@
   },
   {
     "id": 1219,
-    "title": "うまぴょい伝説(裏)",
+    "title": "うまぴょい伝説",
     "level": {
       "4": {
         "constant": 7.6,
@@ -19782,12 +19782,12 @@
         "hsChange": 91.89
       }
     },
-    "title_cn": "うまぴょい伝説(裏)",
+    "title_cn": "うまぴょい伝説",
     "is_cn": false
   },
   {
     "id": 1220,
-    "title": "Destr0yer(裏)",
+    "title": "Destr0yer",
     "level": {
       "4": {
         "constant": 7.3,
@@ -19815,7 +19815,7 @@
   },
   {
     "id": 1225,
-    "title": "太鼓侍(裏)",
+    "title": "太鼓侍",
     "level": {
       "4": {
         "constant": 8.4,
@@ -19843,7 +19843,7 @@
   },
   {
     "id": 1226,
-    "title": "拝啓、学校にて・・・(裏)",
+    "title": "拝啓、学校にて・・・",
     "level": {
       "4": {
         "constant": 7,
@@ -19871,7 +19871,7 @@
   },
   {
     "id": 1227,
-    "title": "23時54分、陽の旅路へのプレリュード(裏)",
+    "title": "23時54分、陽の旅路へのプレリュード",
     "level": {
       "4": {
         "constant": 10.9,
@@ -20025,7 +20025,7 @@
   },
   {
     "id": 1235,
-    "title": "Unwelcome School (MRM REMIX)(裏)",
+    "title": "Unwelcome School (MRM REMIX)",
     "level": {
       "4": {
         "constant": 9.7,
@@ -20071,7 +20071,7 @@
   },
   {
     "id": 1237,
-    "title": "Mood Swing(裏)",
+    "title": "Mood Swing",
     "level": {
       "4": {
         "constant": 7.7,
@@ -20099,7 +20099,7 @@
   },
   {
     "id": 1240,
-    "title": "勇者(裏)",
+    "title": "勇者",
     "level": {
       "4": {
         "constant": 7.5,
@@ -20271,7 +20271,7 @@
   },
   {
     "id": 1249,
-    "title": "最果の魔法使い(裏)",
+    "title": "最果の魔法使い",
     "level": {
       "4": {
         "constant": 9.5,
@@ -20317,7 +20317,7 @@
   },
   {
     "id": 1251,
-    "title": "リヒト(裏)",
+    "title": "リヒト",
     "level": {
       "4": {
         "constant": 7.4,
@@ -20417,7 +20417,7 @@
   },
   {
     "id": 1256,
-    "title": "転生〈TENSEI〉-喜与志が待つ強者-(裏)",
+    "title": "転生〈TENSEI〉-喜与志が待つ強者-",
     "level": {
       "4": {
         "constant": 8.6,
@@ -20571,7 +20571,7 @@
   },
   {
     "id": 1264,
-    "title": "ヘイラ（ましろ爻）(裏)",
+    "title": "ヘイラ（ましろ爻）",
     "level": {
       "4": {
         "constant": 9.5,
@@ -20599,7 +20599,7 @@
   },
   {
     "id": 1265,
-    "title": "エンジェル ドリーム（フレン・E・ルスタリオ）(裏)",
+    "title": "エンジェル ドリーム（フレン・E・ルスタリオ）",
     "level": {
       "4": {
         "constant": 8.5,
@@ -20663,7 +20663,7 @@
   },
   {
     "id": 1268,
-    "title": "きゅうくらりん(裏)",
+    "title": "きゅうくらりん",
     "level": {
       "4": {
         "constant": 8.9,
@@ -20727,7 +20727,7 @@
   },
   {
     "id": 1271,
-    "title": "ラ・カンパネラ(裏)",
+    "title": "ラ・カンパネラ",
     "level": {
       "4": {
         "constant": 7.9,
@@ -20791,7 +20791,7 @@
   },
   {
     "id": 1274,
-    "title": "風魔モジュール6768(裏)",
+    "title": "風魔モジュール6768",
     "level": {
       "4": {
         "constant": 8,
@@ -20814,7 +20814,7 @@
         "hsChange": 79.16
       }
     },
-    "title_cn": "風魔モジュール6768(裏)",
+    "title_cn": "風魔モジュール6768",
     "is_cn": false
   },
   {
@@ -20837,7 +20837,7 @@
   },
   {
     "id": 1276,
-    "title": "とける(裏)",
+    "title": "とける",
     "level": {
       "4": {
         "constant": 10.5,
@@ -21117,7 +21117,7 @@
   },
   {
     "id": 1295,
-    "title": "うんぴフレンズ(裏)",
+    "title": "うんぴフレンズ",
     "level": {
       "4": {
         "constant": 2,
@@ -21289,7 +21289,7 @@
   },
   {
     "id": 1304,
-    "title": "who are you? who are you?(裏)",
+    "title": "who are you? who are you?",
     "level": {
       "4": {
         "constant": 7.3,
@@ -21371,7 +21371,7 @@
   },
   {
     "id": 1308,
-    "title": "GIGALODOON(裏)",
+    "title": "GIGALODOON",
     "level": {
       "4": {
         "constant": 9.9,
@@ -21394,12 +21394,12 @@
         "hsChange": 71.03
       }
     },
-    "title_cn": "GIGALODOON(裏)",
+    "title_cn": "GIGALODOON",
     "is_cn": false
   },
   {
     "id": 1309,
-    "title": "ココドコ？多分ドッカ島！(裏)",
+    "title": "ココドコ？多分ドッカ島！",
     "level": {
       "4": {
         "constant": 9,
@@ -21427,7 +21427,7 @@
   },
   {
     "id": 1310,
-    "title": "Genesis Ray(裏)",
+    "title": "Genesis Ray",
     "level": {
       "4": {
         "constant": 8.7,
@@ -21455,7 +21455,7 @@
   },
   {
     "id": 1311,
-    "title": "あめふりのロンド(裏)",
+    "title": "あめふりのロンド",
     "level": {
       "4": {
         "constant": 9.5,
@@ -21483,7 +21483,7 @@
   },
   {
     "id": 1312,
-    "title": "誰我為(裏)",
+    "title": "誰我為",
     "level": {
       "4": {
         "constant": 7,
@@ -21601,7 +21601,7 @@
   },
   {
     "id": 1318,
-    "title": "Irregular Clock(裏)",
+    "title": "Irregular Clock",
     "level": {
       "4": {
         "constant": 10,
@@ -21629,7 +21629,7 @@
   },
   {
     "id": 1319,
-    "title": "オペレート・ミー(裏)",
+    "title": "オペレート・ミー",
     "level": {
       "4": {
         "constant": 9.6,
@@ -21657,7 +21657,7 @@
   },
   {
     "id": 1320,
-    "title": "for Q(裏)",
+    "title": "for Q",
     "level": {
       "4": {
         "constant": 9.6,
@@ -21793,7 +21793,7 @@
   },
   {
     "id": 1327,
-    "title": "はいよろこんで(裏)",
+    "title": "はいよろこんで",
     "level": {
       "4": {
         "constant": 7.2,
@@ -21839,7 +21839,7 @@
   },
   {
     "id": 1329,
-    "title": "Synthesis.(裏)",
+    "title": "Synthesis.",
     "level": {
       "4": {
         "constant": 9.4,
@@ -22083,7 +22083,7 @@
   },
   {
     "id": 1343,
-    "title": "おはようメルちゃん(裏)",
+    "title": "おはようメルちゃん",
     "level": {
       "4": {
         "constant": 4.5,
@@ -22111,7 +22111,7 @@
   },
   {
     "id": 1344,
-    "title": "メズマライザー(裏)",
+    "title": "メズマライザー",
     "level": {
       "4": {
         "constant": 6.6,
@@ -22134,12 +22134,12 @@
         "hsChange": 24.98
       }
     },
-    "title_cn": "メズマライザー(裏)",
+    "title_cn": "メズマライザー",
     "is_cn": false
   },
   {
     "id": 1345,
-    "title": "トルコ行進曲(裏)",
+    "title": "トルコ行進曲",
     "level": {
       "4": {
         "constant": 7.4,
@@ -22293,7 +22293,7 @@
   },
   {
     "id": 1353,
-    "title": "ファタール(裏)",
+    "title": "ファタール",
     "level": {
       "4": {
         "constant": 6.8,
@@ -22375,7 +22375,7 @@
   },
   {
     "id": 1357,
-    "title": "初音ミクの激唱(裏)",
+    "title": "初音ミクの激唱",
     "level": {
       "4": {
         "constant": 9.9,
@@ -22398,7 +22398,7 @@
         "hsChange": 17.7
       }
     },
-    "title_cn": "初音ミクの激唱(裏)",
+    "title_cn": "初音ミクの激唱",
     "is_cn": false
   },
   {
@@ -22511,7 +22511,7 @@
   },
   {
     "id": 1364,
-    "title": "蒼鷺之火(裏)",
+    "title": "蒼鷺之火",
     "level": {
       "4": {
         "constant": 9,
@@ -22534,7 +22534,7 @@
         "hsChange": 7.98
       }
     },
-    "title_cn": "蒼鷺之火(裏)",
+    "title_cn": "蒼鷺之火",
     "is_cn": false
   },
   {
@@ -22557,7 +22557,7 @@
   },
   {
     "id": 1366,
-    "title": "宝の丘(裏)",
+    "title": "宝の丘",
     "level": {
       "4": {
         "constant": 7.9,
@@ -22580,7 +22580,7 @@
         "hsChange": 55.52
       }
     },
-    "title_cn": "宝の丘(裏)",
+    "title_cn": "宝の丘",
     "is_cn": false
   },
   {
@@ -22657,7 +22657,7 @@
   },
   {
     "id": 1371,
-    "title": "沓の子を打つ(裏)",
+    "title": "沓の子を打つ",
     "level": {
       "4": {
         "constant": 8.7,
@@ -22680,7 +22680,7 @@
         "hsChange": 81.51
       }
     },
-    "title_cn": "沓の子を打つ(裏)",
+    "title_cn": "沓の子を打つ",
     "is_cn": false
   },
   {
@@ -22721,7 +22721,7 @@
   },
   {
     "id": 1380,
-    "title": "Oshama Scramble!(裏)",
+    "title": "Oshama Scramble!",
     "level": {
       "4": {
         "constant": 8.6,
@@ -22744,7 +22744,7 @@
         "hsChange": 79.28
       }
     },
-    "title_cn": "Oshama Scramble!(裏)",
+    "title_cn": "Oshama Scramble!",
     "is_cn": false
   },
   {
@@ -22767,7 +22767,7 @@
   },
   {
     "id": 1382,
-    "title": "Taiko Session(裏)",
+    "title": "Taiko Session",
     "level": {
       "4": {
         "constant": 7.2,
@@ -22790,7 +22790,7 @@
         "hsChange": 0
       }
     },
-    "title_cn": "Taiko Session(裏)",
+    "title_cn": "Taiko Session",
     "is_cn": false
   },
   {
@@ -22867,7 +22867,7 @@
   },
   {
     "id": 1387,
-    "title": "バブリー革命 ～ばんばんバブル～(裏)",
+    "title": "バブリー革命 ～ばんばんバブル～",
     "level": {
       "4": {
         "constant": 7.2,
@@ -22890,12 +22890,12 @@
         "hsChange": 0
       }
     },
-    "title_cn": "バブリー革命 ～ばんばんバブル～(裏)",
+    "title_cn": "バブリー革命 ～ばんばんバブル～",
     "is_cn": false
   },
   {
     "id": 1388,
-    "title": "雑踏、僕らの街(裏)",
+    "title": "雑踏、僕らの街",
     "level": {
       "4": {
         "constant": 8.5,
@@ -22918,7 +22918,7 @@
         "hsChange": 0
       }
     },
-    "title_cn": "雑踏、僕らの街(裏)",
+    "title_cn": "雑踏、僕らの街",
     "is_cn": false
   },
   {
@@ -22941,7 +22941,7 @@
   },
   {
     "id": 1390,
-    "title": "イガク(裏)",
+    "title": "イガク",
     "level": {
       "4": {
         "constant": 8,
@@ -22964,7 +22964,7 @@
         "hsChange": 100
       }
     },
-    "title_cn": "イガク(裏)",
+    "title_cn": "イガク",
     "is_cn": false
   },
   {
@@ -23311,7 +23311,7 @@
   },
   {
     "id": 1411,
-    "title": "Lightning Boys(裏)",
+    "title": "Lightning Boys",
     "level": {
       "4": {
         "constant": 10.2,
@@ -23334,12 +23334,12 @@
         "hsChange": 29.44
       }
     },
-    "title_cn": "Lightning Boys(裏)",
+    "title_cn": "Lightning Boys",
     "is_cn": false
   },
   {
     "id": 1412,
-    "title": "案山子姫 -Princess Scarecrow-(裏)",
+    "title": "案山子姫 -Princess Scarecrow-",
     "level": {
       "4": {
         "constant": 9,
@@ -23362,12 +23362,12 @@
         "hsChange": 22.75
       }
     },
-    "title_cn": "案山子姫 -Princess Scarecrow-(裏)",
+    "title_cn": "案山子姫 -Princess Scarecrow-",
     "is_cn": false
   },
   {
     "id": 1413,
-    "title": "ピッチフェイダ(裏)",
+    "title": "ピッチフェイダ",
     "level": {
       "4": {
         "constant": 9.8,
@@ -23390,7 +23390,7 @@
         "hsChange": 84.31
       }
     },
-    "title_cn": "ピッチフェイダ(裏)",
+    "title_cn": "ピッチフェイダ",
     "is_cn": false
   },
   {
@@ -23467,7 +23467,7 @@
   },
   {
     "id": 1419,
-    "title": "vs.VIGVANGS(裏)",
+    "title": "vs.VIGVANGS",
     "level": {
       "4": {
         "constant": 10.7,
@@ -23490,7 +23490,7 @@
         "hsChange": 88.88
       }
     },
-    "title_cn": "vs.VIGVANGS(裏)",
+    "title_cn": "vs.VIGVANGS",
     "is_cn": false
   },
   {

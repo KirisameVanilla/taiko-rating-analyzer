@@ -95,6 +95,7 @@ function calculateBalanceScore(indicatorDeviation: number, scoreDeviation: numbe
  * @param allStats - 用户所有歌曲统计数据
  * @param bestKey - 推荐维度（如 'rating', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex'）
  * @param limit - 推荐列表最大数量，默认为20
+ * @param filterFn - 可选的歌曲过滤函数，用于筛选特定歌曲
  * @returns 推荐歌曲列表，按推荐度排序（最适合练习的在前）
  * 
  * 推荐条件：
@@ -110,9 +111,17 @@ function calculateBalanceScore(indicatorDeviation: number, scoreDeviation: numbe
 export function recommendSongs(
   allStats: SongStats[],
   bestKey: keyof SongStats = 'rating',
-  limit: number = 20
+  limit: number = 20,
+  filterFn?: (id: number) => boolean
 ): SongStats[] {
   if (!cachedSongsDatabase || cachedSongsDatabase.length === 0) return []
+
+  // 应用过滤器到数据库
+  const filteredDatabase = filterFn 
+    ? cachedSongsDatabase.filter(song => filterFn(song.id))
+    : cachedSongsDatabase
+
+  if (filteredDatabase.length === 0) return []
 
   // 1. 找出指定维度的 Best 20
   const best20 = [...allStats]
@@ -127,13 +136,13 @@ export function recommendSongs(
   // 2. 计算 Best 20 歌曲在指定维度的原始指标值，并取中位数
   const best20IndicatorValues = best20
     .map(s => {
-      const song = cachedSongsDatabase.find(sd => sd.id === s.id)
+      const song = filteredDatabase.find(sd => sd.id === s.id)
       if (!song) return 0
       // 从 SongStats 中获取 level 信息
       // SongStats.id 对应 song ID，但需要知道是哪个难度
       // 我们需要从 allStats 中获取这个信息 - 但 SongStats 没有 level 字段
       // 需要根据 title 匹配
-      const songData = findSongByTitle(cachedSongsDatabase, s.title)
+      const songData = findSongByTitle(filteredDatabase, s.title)
       if (!songData) return 0
       // 这里有个问题：我们不知道用户玩的是哪个难度
       // 需要检查两个难度，选择有数据的那个
@@ -157,7 +166,7 @@ export function recommendSongs(
   // 5. 构建所有候选歌曲（包含未游玩歌曲）
   // 展开数据库为所有难度的条目
   const allSongEntries: Array<{ id: number; title: string; level: 4 | 5; levelData: SongLevelData }> = []
-  for (const song of cachedSongsDatabase) {
+  for (const song of filteredDatabase) {
     if (song.level['4']) {
       allSongEntries.push({ id: song.id, title: song.title, level: 4, levelData: song.level['4'] })
     }
@@ -197,7 +206,7 @@ export function recommendSongs(
   // 6. 计算 Best20 的综合难度指标（rating）中位数
   const best20RatingValues = best20
     .map(s => {
-      const songData = findSongByTitle(cachedSongsDatabase, s.title)
+      const songData = findSongByTitle(filteredDatabase, s.title)
       if (!songData) return 0
       const levelData = songData.level['5'] || songData.level['4']
       if (!levelData) return 0
@@ -245,7 +254,7 @@ export function recommendSongs(
   // 8. 计算推荐分数，并写入每个维度的玩家表现排名
   const scored = candidates.map(song => {
     // 查找歌曲的原始数据
-    const songData = findSongByTitle(cachedSongsDatabase, song.title)
+    const songData = findSongByTitle(filteredDatabase, song.title)
     if (!songData) {
       return null // 找不到歌曲数据，直接排除
     }

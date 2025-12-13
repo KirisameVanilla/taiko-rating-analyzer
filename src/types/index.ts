@@ -12,6 +12,8 @@ export interface SongLevelData {
 export interface SongData {
   id: number
   title: string
+  is_cn?: boolean
+  title_cn?: string
   level: {
     '4'?: SongLevelData
     '5'?: SongLevelData
@@ -37,6 +39,7 @@ export interface UserScore {
 
 export interface SongStats {
   id: number
+  level: number
   title: string
   rating: number
   daigouryoku: number

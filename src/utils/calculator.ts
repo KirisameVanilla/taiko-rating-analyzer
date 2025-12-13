@@ -365,7 +365,8 @@ export function calculateSongStats(levelData: SongLevelData, userScore: UserScor
   const complex = calcIndividualRating(rating, raw_complex)
   
   return {
-    id: userScore.id + userScore.level * 0.1,
+    id: userScore.id,
+    level: userScore.level,
     title: title,
     rating,
     daigouryoku,
@@ -436,37 +437,39 @@ export function parsePastedScores(raw: string | any[]): UserScore[] {
 
 /**
  * 过滤重复/包含关系的曲目
- * 根据shouldFilterList中指定的id分组，每组只保留rating最高的那个
+ * 根据shouldFilterList中指定的{id,level}分组，每组只保留rating最高的那个
  * @param data - 所有歌曲的统计数据数组
- * @param shouldFilterList - 二维数组，每个子数组包含一组互相重复的曲目id
+ * @param shouldFilterList - 二维数组，每个子数组包含一组互相重复的曲目 {id, level} 对象
  * @returns 过滤后的数据数组
  */
-export function filterDuplicateSongs(data: SongStats[], shouldFilterList: number[][] = []): SongStats[] {
+export function filterDuplicateSongs(data: SongStats[], shouldFilterList: Array<Array<{id: number, level: number}>> = []): SongStats[] {
   // 如果没有筛选列表，直接返回原数据
   if (shouldFilterList.length === 0) {
     return data
   }
 
-  // 创建id到筛选组索引的映射
-  const idToGroupIndex = new Map<number, number>()
+  // 创建 "id-level" 字符串到筛选组索引的映射
+  const keyToGroupIndex = new Map<string, number>()
   shouldFilterList.forEach((group, groupIndex) => {
-    group.forEach(id => {
-      idToGroupIndex.set(id, groupIndex)
+    group.forEach(item => {
+      const key = `${item.id}-${item.level}`
+      keyToGroupIndex.set(key, groupIndex)
     })
   })
 
-  // 为每个筛选组找到rating最高的曲目id
-  const groupBestIds = new Map<number, number>()
+  // 为每个筛选组找到rating最高的曲目key
+  const groupBestKeys = new Map<number, string>()
   data.forEach(song => {
-    const groupIndex = idToGroupIndex.get(song.id)
+    const key = `${song.id}-${song.level}`
+    const groupIndex = keyToGroupIndex.get(key)
     if (groupIndex !== undefined) {
-      const currentBest = groupBestIds.get(groupIndex)
+      const currentBest = groupBestKeys.get(groupIndex)
       if (currentBest === undefined) {
-        groupBestIds.set(groupIndex, song.id)
+        groupBestKeys.set(groupIndex, key)
       } else {
-        const currentBestSong = data.find(s => s.id === currentBest)
+        const currentBestSong = data.find(s => `${s.id}-${s.level}` === currentBest)
         if (currentBestSong && song.rating > currentBestSong.rating) {
-          groupBestIds.set(groupIndex, song.id)
+          groupBestKeys.set(groupIndex, key)
         }
       }
     }
@@ -474,13 +477,14 @@ export function filterDuplicateSongs(data: SongStats[], shouldFilterList: number
 
   // 筛选结果：保留不在筛选列表中的曲目，以及每组中rating最高的曲目
   return data.filter(song => {
-    const groupIndex = idToGroupIndex.get(song.id)
+    const key = `${song.id}-${song.level}`
+    const groupIndex = keyToGroupIndex.get(key)
     // 不在任何筛选组中，保留
     if (groupIndex === undefined) {
       return true
     }
     // 在筛选组中，只保留该组rating最高的
-    return groupBestIds.get(groupIndex) === song.id
+    return groupBestKeys.get(groupIndex) === key
   })
 }
 

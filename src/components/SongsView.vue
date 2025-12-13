@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { loadSongsData } from '../data/songs'
 import { parsePastedScores, calculateSongStats } from '../utils/calculator'
 import type { UserScore, SongStats, SongsDatabase } from '../types'
 import { findSongByIdLevel, expandSongsDatabase } from '../utils/songHelpers'
+import { eventBus } from '../utils/eventBus'
+import { difficultyMap, difficultyBadgeMap } from '../utils/difficulty'
 import EditScoreModal from './EditScoreModal.vue'
 
 interface SongRow {
   id: string
   title: string
+  title_cn?: string
   level: number
   constant: number
+  isCn: boolean
   userScore?: UserScore
   stats?: SongStats
 }
@@ -18,9 +22,11 @@ interface SongRow {
 type SortKey = 'title' | 'constant' | 'score' | 'rating' | 'great' | 'good' | 'bad' | 'drumroll' | 'combo' | 'updatedAt'
 
 const songs = ref<SongRow[]>([])
+const allSongs = ref<SongRow[]>([])
 const songsDB = ref<SongsDatabase | null>(null)
 const loading = ref(true)
 const searchTerm = ref('')
+const onlyCnSongs = ref(false)
 
 // Edit Modal State
 const showEditModal = ref(false)
@@ -207,15 +213,16 @@ watch(maxConstant, (v) => {
   if (v < minConstant.value) maxConstant.value = minConstant.value
 })
 
-const difficultyMap: Record<number, string> = {
-  1: '简单',
-  2: '普通',
-  3: '困难',
-  4: '鬼',
-  5: '裏'
-}
-
 onMounted(async () => {
+  // 从 localStorage 读取设置
+  const savedSetting = localStorage.getItem('onlyCnSongs')
+  if (savedSetting !== null) {
+    onlyCnSongs.value = savedSetting === 'true'
+  }
+
+  // 监听国服筛选变化
+  eventBus.on('cn-filter-changed', handleCnFilterChange)
+
   try {
     const db = await loadSongsData()
     songsDB.value = db
@@ -242,11 +249,15 @@ onMounted(async () => {
         }
       }
 
+      const song = db.find(s => s.id === entry.id)
+
       rows.push({
         id: key,
         title: entry.title,
+        title_cn: song?.title_cn,
         level: entry.level,
         constant: entry.data.constant,
+        isCn: song?.is_cn || false,
         userScore: score,
         stats: stats
       })
@@ -256,7 +267,8 @@ onMounted(async () => {
     // Let's sort by constant desc
     rows.sort((a, b) => b.constant - a.constant)
     
-    songs.value = rows
+    allSongs.value = rows
+    applyCnFilter()
     
     // Calculate min/max constant
     if (rows.length > 0) {
@@ -277,6 +289,31 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+onUnmounted(() => {
+  eventBus.off('cn-filter-changed', handleCnFilterChange)
+})
+
+function handleCnFilterChange(value: boolean) {
+  onlyCnSongs.value = value
+  applyCnFilter()
+}
+
+function applyCnFilter() {
+  if (onlyCnSongs.value) {
+    // 筛选国服曲目，并替换为中文标题
+    songs.value = allSongs.value
+      .filter(song => song.isCn)
+      .map(song => {
+        if (song.title_cn) {
+          return { ...song, title: song.title_cn }
+        }
+        return song
+      })
+  } else {
+    songs.value = allSongs.value
+  }
+}
 
 const sortKey = ref<SortKey>('constant')
 const sortOrder = ref<'asc' | 'desc'>('desc')
@@ -522,7 +559,7 @@ const filteredSongs = computed(() => {
         </thead>
         <tbody>
           <tr v-for="song in filteredSongs" :key="song.id" @click="openEditModal(song)" class="hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
-            <td class="min-w-[200px] font-medium">{{ song.title }}</td>
+            <td class="min-w-[200px] font-medium">{{ song.title }}{{ difficultyMap[song.level] || '' }}</td>
             <td>
               <span class="px-2 py-0.5 rounded-xl text-white text-xs" :class="{
                 'bg-[#4caf50]': song.level === 1,
@@ -531,7 +568,7 @@ const filteredSongs = computed(() => {
                 'bg-primary': song.level === 4,
                 'bg-[#9c27b0]': song.level === 5
               }">
-                {{ difficultyMap[song.level] || song.level }}
+                {{ difficultyBadgeMap[song.level] || song.level }}
               </span>
             </td>
             <td>{{ song.constant.toFixed(1) }}</td>
