@@ -69,8 +69,6 @@ function applyCnFilter() {
     const cnSongIds = new Set(
       songsDB.value.filter(song => song.is_cn === true).map(song => song.id)
     )
-    console.log('CN songs count:', cnSongIds.size)
-    console.log('All results count:', allResults.value.length)
     
     // 创建 id 到 title_cn 的映射
     const idToTitleCn = new Map<number, string>()
@@ -91,7 +89,6 @@ function applyCnFilter() {
         }
         return { ...stat, title: `${stat.title}${difficulty}` }
       })
-    console.log('Filtered results count:', results.value.length)
   } else {
     results.value = allResults.value.map(stat => {
       const difficulty = difficultyMap[stat.level] || ''

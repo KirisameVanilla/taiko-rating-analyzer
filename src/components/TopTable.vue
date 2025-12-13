@@ -220,7 +220,7 @@ watch(
               <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">精度</th>
               <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">歌曲难度指标</th> -->
               <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">难度偏差</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left w32">用户评分<span class="text-[10px] font-normal">（当前/目标/顺位）</span></th>
+              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left w32">用户评分<span class="font-normal text-[10px]">（当前/目标/顺位）</span></th>
               <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">Rating 偏差</th> -->
             </tr>
           </thead>
@@ -253,7 +253,7 @@ watch(
               <td class="p-1.5 border-[#ddd] border-b text-left">
                 <div v-if="(song as any)._maxRatings" class="flex items-center gap-1.5">
                   <!-- 进度条（包含分数文本） -->
-                  <div class="relative bg-gray-200 rounded-full h-5 overflow-hidden w-28">
+                  <div class="relative bg-gray-200 rounded-full w-28 h-5 overflow-hidden">
                     <div 
                       class="h-full transition-all duration-500 ease-out"
                       :class="{
@@ -351,27 +351,17 @@ watch(
                         })()
                       }"
                     ></div>
-                    <!-- 分数文本（绝对定位在进度条上） -->
-                    <div class="absolute inset-0 flex items-center justify-center text-[11px] font-bold whitespace-nowrap">
+                    <!-- 当前rating/最高rating（绝对定位在进度条上） -->
+                    <div class="absolute inset-0 flex justify-center items-center font-bold text-[11px] whitespace-nowrap">
                       <span class="text-gray-800">
                         {{
                           (() => {
-                            const maxRatings = (song as any)._maxRatings;
-                            const key = valueKey as string;
-                            let maxValue = 0;
-                            if (key === 'rating') maxValue = maxRatings.maxRating;
-                            else if (key === 'daigouryoku') maxValue = maxRatings.maxDaigouryoku;
-                            else if (key === 'stamina') maxValue = maxRatings.maxStamina;
-                            else if (key === 'speed') maxValue = maxRatings.maxSpeed;
-                            else if (key === 'accuracy_power') maxValue = maxRatings.maxAccuracyPower;
-                            else if (key === 'rhythm') maxValue = maxRatings.maxRhythm;
-                            else if (key === 'complex') maxValue = maxRatings.maxComplex;
                             const currentValue = (song as any)._isUnplayed ? '0.00' : formatValue(song, valueKey);
                             return currentValue;
                           })()
                         }}
                       </span>
-                      <span class="text-gray-600 text-[9px] ml-0.5">
+                      <span class="ml-0.5 text-[9px] text-gray-600">
                         / {{
                           (() => {
                             const maxRatings = (song as any)._maxRatings;
@@ -392,10 +382,10 @@ watch(
                   </div>
                   <!-- 排名徽章（低调样式） -->
                   <span v-if="(song as any)._dimensionRanks && (song as any)._dimensionRanks[valueKey] && !(song as any)._isUnplayed" 
-                        class="text-[9px] font-medium px-1.5 py-0.5 rounded bg-gray-300 text-gray-700 whitespace-nowrap flex-shrink-0">
+                        class="flex-shrink-0 bg-gray-300 px-1.5 py-0.5 rounded font-medium text-[9px] text-gray-700 whitespace-nowrap">
                     #{{ (song as any)._dimensionRanks[valueKey] }}
                   </span>
-                  <span v-else class="text-[9px] text-gray-400 whitespace-nowrap flex-shrink-0">未玩</span>
+                  <span v-else class="flex-shrink-0 text-[9px] text-gray-400 whitespace-nowrap">未玩</span>
                 </div>
                 <div v-else class="text-gray-400 text-xs">-</div>
               </td>
