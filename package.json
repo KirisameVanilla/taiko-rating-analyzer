@@ -11,6 +11,7 @@
     "extract-songs": "node extract-songs.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.6.1",
     "chart.js": "^4.4.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "html2canvas": "^1.4.1",
