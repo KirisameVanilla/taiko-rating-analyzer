@@ -301,15 +301,8 @@ function handleCnFilterChange(value: boolean) {
 
 function applyCnFilter() {
   if (onlyCnSongs.value) {
-    // 筛选国服曲目，并替换为中文标题
-    songs.value = allSongs.value
-      .filter(song => song.isCn)
-      .map(song => {
-        if (song.title_cn) {
-          return { ...song, title: song.title_cn }
-        }
-        return song
-      })
+    // 筛选国服曲目
+    songs.value = allSongs.value.filter(song => song.isCn)
   } else {
     songs.value = allSongs.value
   }
@@ -559,7 +552,7 @@ const filteredSongs = computed(() => {
         </thead>
         <tbody>
           <tr v-for="song in filteredSongs" :key="song.id" @click="openEditModal(song)" class="hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
-            <td class="min-w-[200px] font-medium">{{ song.title }}{{ difficultyMap[song.level] || '' }}</td>
+            <td class="min-w-[200px] font-medium">{{ (onlyCnSongs && song.title_cn) ? song.title_cn : song.title }}{{ difficultyMap[song.level] || '' }}</td>
             <td>
               <span class="px-2 py-0.5 rounded-xl text-white text-xs" :class="{
                 'bg-[#4caf50]': song.level === 1,

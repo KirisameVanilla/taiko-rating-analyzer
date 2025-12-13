@@ -138,16 +138,8 @@ export function recommendSongs(
     .map(s => {
       const song = filteredDatabase.find(sd => sd.id === s.id)
       if (!song) return 0
-      // 从 SongStats 中获取 level 信息
-      // SongStats.id 对应 song ID，但需要知道是哪个难度
-      // 我们需要从 allStats 中获取这个信息 - 但 SongStats 没有 level 字段
-      // 需要根据 title 匹配
       const songData = findSongByTitle(filteredDatabase, s.title)
       if (!songData) return 0
-      // 这里有个问题：我们不知道用户玩的是哪个难度
-      // 需要检查两个难度，选择有数据的那个
-      // 但实际上 SongStats 应该包含level信息...让我检查原始数据
-      // 先假设优先使用难度5，如果没有则使用难度4
       const levelData = songData.level['5'] || songData.level['4']
       if (!levelData) return 0
       return getSongIndicatorValue(levelData, bestKey)

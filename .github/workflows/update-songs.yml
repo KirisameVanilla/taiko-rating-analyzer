@@ -25,6 +25,9 @@ jobs:
           
       - name: Run scraper
         run: python .github/scripts/scrape_fumen_database.py
+
+      - name: Run fetcher
+        run: python .github/scripts/fetch_cn_songs.py
         
       - name: Check for changes
         id: git-check
