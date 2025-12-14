@@ -8,6 +8,7 @@ import { expandSongsDatabase } from '../utils/songHelpers'
 import { eventBus } from '../utils/eventBus'
 import { difficultyMap } from '../utils/difficulty'
 import RatingProgressCell from './RatingProgressCell.vue'
+import GuideModal from './GuideModal.vue'
 
 interface Props {
   title: string
@@ -275,23 +276,23 @@ watch(
     <!-- 推荐歌曲列表 -->
     <div v-else-if="showMode === 'recommend'" class="mt-8 text-left">
       <!-- 难度调整工具栏 -->
-      <div class="flex items-center justify-between py-3">
+      <div class="flex justify-between items-center py-3">
         <div class="flex items-center gap-3">
-          <span class="text-sm font-semibold text-gray-700">难度定数偏好调整</span>
-          <div class="inline-flex items-stretch border border-gray-300 rounded-md overflow-hidden shadow-sm bg-white">
+          <span class="font-semibold text-gray-700 text-sm">难度定数偏好调整</span>
+          <div class="inline-flex items-stretch bg-white shadow-sm border border-gray-300 rounded-md overflow-hidden">
             <button 
               @click="decreaseDifficulty" 
-              class="px-3 py-1.5 bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 border-r border-gray-300 text-xs font-medium transition-colors"
+              class="bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 px-3 py-1.5 border-gray-300 border-r font-medium text-gray-700 disabled:text-gray-400 text-xs transition-colors disabled:cursor-not-allowed"
               :disabled="isLoading"
               title="降低难度"
             >
               - 降低
             </button>
-            <span v-if="isLoading" class="px-3 py-1.5 bg-gray-50 text-xs text-gray-500 min-w-[4.5rem] flex items-center justify-center font-medium border-r border-gray-300">
+            <span v-if="isLoading" class="flex justify-center items-center bg-gray-50 px-3 py-1.5 border-gray-300 border-r min-w-[4.5rem] font-medium text-gray-500 text-xs">
               计算中...
             </span>
-            <span v-else class="px-3 py-1.5 bg-gradient-to-r from-pink-50 to-purple-50 text-xs font-bold text-gray-800 min-w-[4.5rem] flex items-center justify-center border-r border-gray-300">
-              <span class="font-normal text-gray-500 text-[10px]">
+            <span v-else class="flex justify-center items-center bg-gradient-to-r from-pink-50 to-purple-50 px-3 py-1.5 border-gray-300 border-r min-w-[4.5rem] font-bold text-gray-800 text-xs">
+              <span class="font-normal text-[10px] text-gray-500">
                 {{ best20ConstantBase > 0 ? best20ConstantBase.toFixed(1) : '-' }}
               </span>
               <span class="ml-1" :class="difficultyAdjustment >= 0 ? 'text-pink-600' : 'text-blue-600'">
@@ -300,7 +301,7 @@ watch(
             </span>
             <button 
               @click="increaseDifficulty" 
-              class="px-3 py-1.5 bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 text-xs font-medium transition-colors"
+              class="bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 px-3 py-1.5 font-medium text-gray-700 disabled:text-gray-400 text-xs transition-colors disabled:cursor-not-allowed"
               :disabled="isLoading"
               title="提高难度"
             >
@@ -310,93 +311,14 @@ watch(
         </div>
         <button 
           @click="showGuide = !showGuide" 
-          class="px-4 py-1.5 bg-white hover:bg-pink-50 active:bg-pink-100 text-gray-700 rounded-md border border-gray-200 hover:border-pink-300 text-xs font-medium transition-all flex items-center gap-2 shadow-sm"
-          title="查看使用说明"
+          class="flex items-center gap-2 bg-white hover:bg-pink-50 active:bg-pink-100 shadow-sm px-4 py-1.5 border border-gray-200 hover:border-pink-300 rounded-md font-medium text-gray-700 text-xs transition-all"
+          title="使用说明"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>{{ showGuide ? '收起使用说明' : '查看使用说明' }}</span>
-          <span class="text-[10px]">{{ showGuide ? '▲' : '▼' }}</span>
+          <span>{{ '使用说明' }}</span>
         </button>
-      </div>
-      
-      <!-- 使用说明区域 -->
-      <div v-if="showGuide" class="mb-4 bg-white p-5 rounded-lg border border-pink-200 shadow-sm text-sm leading-relaxed">
-        <div class="flex items-center gap-2 mb-4">
-          <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <h3 class="text-lg font-bold text-[#e91e63]">曲目推荐使用说明</h3>
-        </div>
-        
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4 rounded">
-          <p class="font-semibold text-yellow-800">⚠️ 请注意：推荐算法会持续优化，推荐结果可能会有所变化。</p>
-        </div>
-        
-        <h4 class="text-base font-bold text-[#333] mt-4 mb-2 flex items-center gap-2">
-          <span class="w-1 h-5 bg-[#e91e63] rounded"></span>
-          推荐原理
-        </h4>
-        <p class="mb-2">推荐系统基于您的B20成绩（各维度前20最佳成绩）进行智能分析：</p>
-        <ul class="list-disc pl-6 mb-3 space-y-1">
-          <li><strong>进步空间优先</strong>：优先推荐您尚未游玩或成绩提升空间较大的曲目</li>
-          <li><strong>难度适配</strong>：根据您B20的定数中位数，推荐难度适中的曲目（默认难度范围可调整）</li>
-          <li><strong>维度针对性</strong>：在选定维度上为您推荐能有效提升该项能力的曲目</li>
-        </ul>
-        
-        <h4 class="text-base font-bold text-[#333] mt-4 mb-2 flex items-center gap-2">
-          <span class="w-1 h-5 bg-[#e91e63] rounded"></span>
-          如何使用
-        </h4>
-        
-        <div class="mb-3 bg-gray-50 p-3 rounded-md border-l-4 border-pink-400">
-          <h5 class="font-semibold text-[#e91e63] mb-1">1. 选择维度</h5>
-          <p class="text-gray-700">点击左侧菜单选择您想提升的维度（Rating/大歌力/体力/高速力/精度力/节奏处理/复合处理）</p>
-        </div>
-        
-        <div class="mb-3 bg-gray-50 p-3 rounded-md border-l-4 border-purple-400">
-          <h5 class="font-semibold text-purple-600 mb-2">2. 调整筛选条件</h5>
-          <ul class="list-disc pl-5 space-y-1 text-gray-700">
-            <li><strong>国服筛选</strong>：如果您在主菜单中开启了"只查看国服"的选项，计算可能会出现一定偏差，由于目前国服部分歌曲数据缺失，无法准确计算定数</li>
-            <li><strong>难度调整</strong>：通过滑块调整推荐曲目的难度范围。难度定数的基数=您当前维度的B20曲目的综合难度定数中位数+0.1，难度偏好修正值通常为 0，但也会会根据您其它歌曲的表现进行动态调整。您可以根据您的游戏偏好手动调整修正值。如果您发现无法继续降低难度定数，说明在这个条件下会筛选出永远无法刷新您的 B20 的曲目，对于练习的帮助非常小，故不再进行推荐。</li>
-          </ul>
-        </div>
-        
-        <div class="mb-3 bg-gray-50 p-3 rounded-md border-l-4 border-blue-400">
-          <h5 class="font-semibold text-blue-600 mb-2">3. 理解推荐列表</h5>
-          <p class="text-gray-700 mb-2">推荐列表按推荐优先级排序，每首曲目显示：</p>
-          <ul class="list-disc pl-5 space-y-1 text-gray-700">
-            <li><strong>排名</strong>：曲目在当前维度下评分在全曲中的排名</li>
-            <li><strong>曲名</strong>：曲目标题及表里谱标识</li>
-            <li><strong>定数</strong>：该曲目难度定数</li>
-            <li><strong>精度</strong>：该曲您的良判定百分比</li>
-            <li><strong>难度偏差</strong>：曲目的当前维度难度定数和当前维度 B20 评分中位数的差距百分比</li>
-            <li><strong>用户评分</strong>：您在该维度上已获得的评分以及能获得的最高分数</li>
-          </ul>
-        </div>
-        
-        <h4 class="text-base font-bold text-[#333] mt-4 mb-2 flex items-center gap-2">
-          <span class="w-1 h-5 bg-[#e91e63] rounded"></span>
-          推荐策略
-        </h4>
-        <ul class="list-disc pl-6 mb-3 space-y-1.5 text-gray-700">
-          <li>未游玩曲目和已游玩曲目会尽量按照1:1比例混合推荐</li>
-          <li>已全良的曲目不会出现在推荐列表中</li>
-          <li>过滤重复曲目（如普通版和翻唱版）</li>
-          <li>推荐曲目的难度定数不会超过您B20定数基数+调整值，避免过难导致挫败</li>
-        </ul>
-        
-        <h4 class="text-base font-bold text-[#333] mt-4 mb-2 flex items-center gap-2">
-          <span class="w-1 h-5 bg-[#e91e63] rounded"></span>
-          最佳实践
-        </h4>
-        <ul class="list-disc pl-6 space-y-1.5 text-gray-700">
-          <li><strong class="text-pink-600">新手玩家</strong>：建议从综合 Rating 维度开始练习，这是综合能力的体现</li>
-          <li><strong class="text-purple-600">针对性提升</strong>：如果某项能力明显偏弱，可专注练习该维度的推荐曲目</li>
-          <li><strong class="text-blue-600">循序渐进</strong>：建议根据自身的游戏（冲星 / 精度）倾向，将难度调整设为 ±0~0.2 范围，避免跨度过大</li>
-          <li><strong class="text-green-600">定期更新</strong>：完成推荐曲目后重新分析成绩，获取新的推荐</li>
-        </ul>
       </div>
       
       <!-- 加载提示 -->
@@ -474,5 +396,8 @@ watch(
         </table>
       </div>
     </div>
+    
+    <!-- 使用说明弹窗 -->
+    <GuideModal :show="showGuide" @close="showGuide = false" />
   </div>
 </template>
