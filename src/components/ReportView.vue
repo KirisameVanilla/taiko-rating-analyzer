@@ -10,10 +10,11 @@ import {
   getTop20Median,
   getTop20WeightedAverage,
   topValueCompensate,
-  filterDuplicateSongs
+  filterDuplicateSongs,
+  calcMaxRatings
 } from '../utils/calculator'
 import { loadSongsData } from '../data/songs'
-import { expandSongsDatabase } from '../utils/songHelpers'
+import { expandSongsDatabase, findSongByIdLevel } from '../utils/songHelpers'
 import RadarChart from './RadarChart.vue'
 import TopTable from './TopTable.vue'
 import duplicateSongs from '../data/duplicateSongs'
@@ -192,18 +193,59 @@ function calculateOverallStats(data: SongStats[]) {
   }
 }
 
+// 增强歌曲数据，添加定数和最大评分等信息
+function enhanceSongStats(songs: SongStats[], allFilteredSongs: SongStats[]): SongStats[] {
+  if (!songsDB.value) return songs
+  
+  // 计算所有维度的排名（使用过滤后的所有歌曲）
+  const dimensionKeys: (keyof SongStats)[] = ['rating', 'daigouryoku', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex']
+  const dimensionRankMaps: Record<string, Map<string, number>> = {}
+  
+  for (const key of dimensionKeys) {
+    const sorted = [...allFilteredSongs].sort((a, b) => (b[key] as number) - (a[key] as number))
+    const map = new Map<string, number>()
+    sorted.forEach((s, idx) => {
+      map.set(s.title, idx + 1)
+    })
+    dimensionRankMaps[key] = map
+  }
+
+  return songs.map(song => {
+    const result = findSongByIdLevel(songsDB.value!, song.id, song.level as 4 | 5)
+    if (!result) return song
+    
+    const levelData = result.levelData
+    const maxRatings = calcMaxRatings(levelData)
+    
+    const dimensionRanks: Record<string, number> = {}
+    for (const key of dimensionKeys) {
+      dimensionRanks[key] = dimensionRankMaps[key].get(song.title) ?? 0
+    }
+    
+    return {
+      ...song,
+      _constant: levelData.constant,
+      _maxRatings: maxRatings,
+      _dimensionRanks: dimensionRanks,
+      _isUnplayed: song.great === 0 && song.good === 0 && song.bad === 0
+    }
+  })
+}
+
 // 取前 20 名列表
 const topLists = computed(() => {
   // 先过滤掉包含关系的低rating曲目
   const filtered = filterDuplicateSongs(results.value, duplicateSongs)
+  
+  // 为每个维度的 top20 增强数据（传入过滤后的完整数据用于计算排名）
   return {
-    rating: [...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20),
-    daigouryoku: [...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20),
-    stamina: [...filtered].sort((a, b) => b.stamina - a.stamina).slice(0, 20),
-    speed: [...filtered].sort((a, b) => b.speed - a.speed).slice(0, 20),
-    accuracy_power: [...filtered].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20),
-    rhythm: [...filtered].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20),
-    complex: [...filtered].sort((a, b) => b.complex - a.complex).slice(0, 20)
+    rating: enhanceSongStats([...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20), filtered),
+    daigouryoku: enhanceSongStats([...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20), filtered),
+    stamina: enhanceSongStats([...filtered].sort((a, b) => b.stamina - a.stamina).slice(0, 20), filtered),
+    speed: enhanceSongStats([...filtered].sort((a, b) => b.speed - a.speed).slice(0, 20), filtered),
+    accuracy_power: enhanceSongStats([...filtered].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20), filtered),
+    rhythm: enhanceSongStats([...filtered].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20), filtered),
+    complex: enhanceSongStats([...filtered].sort((a, b) => b.complex - a.complex).slice(0, 20), filtered)
   }
 })
 

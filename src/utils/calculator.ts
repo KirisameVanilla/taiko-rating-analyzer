@@ -84,8 +84,10 @@ const CONSTANT_TO_X_MAP: Record<number, number> = {
   11.6: 15.50
 }
 
+// 最大定数值
+export const MAX_CONSTANT_VALUE = 11.6
 // 归一化系数
-const NORMALIZATION_FACTOR = 15.5
+export const NORMALIZATION_FACTOR = CONSTANT_TO_X_MAP[MAX_CONSTANT_VALUE]
 
 /**
  * 根据定数获取对应的x值（定数得点）
@@ -343,7 +345,7 @@ export function calcMaxRatings(levelData: SongLevelData): { maxRating: number; m
   const y = calcY(1)  // 理论最高准确率对应的Y值
   const maxRating = calcSingleRating(x, y)
   const maxDaigouryoku = calcDaigouryokuIndicator(levelData.constant)
-  const maxAccuracyPower = calcAccuracyPowerIndicator(levelData.constant)
+  const maxAccuracyPower = SQRT(maxRating * y)  // 精度力 = √(maxRating × y)
   const maxStamina = calcIndividualRating(maxRating, calcStaminaIndicator(levelData.avgDensity, levelData.instDensity))
   const maxSpeed = calcIndividualRating(maxRating, calcSpeedIndicator(levelData.instDensity, levelData.avgDensity))
   const maxRhythm = calcIndividualRating(maxRating, calcRhythmIndicator(levelData.separation, levelData.bpmChange))

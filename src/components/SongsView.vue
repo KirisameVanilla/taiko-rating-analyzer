@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { loadSongsData } from '../data/songs'
-import { parsePastedScores, calculateSongStats } from '../utils/calculator'
+import { parsePastedScores, calculateSongStats, MAX_CONSTANT_VALUE } from '../utils/calculator'
 import type { UserScore, SongStats, SongsDatabase } from '../types'
 import { findSongByIdLevel, expandSongsDatabase } from '../utils/songHelpers'
 import { eventBus } from '../utils/eventBus'
@@ -164,9 +164,9 @@ const handleClearScore = () => {
 // Filter State
 const showFilter = ref(false)
 const minConstant = ref(1.0)
-const maxConstant = ref(11.6)
+const maxConstant = ref(MAX_CONSTANT_VALUE)
 const limitMin = ref(1.0)
-const limitMax = ref(11.6)
+const limitMax = ref(MAX_CONSTANT_VALUE)
 
 const filterPlayed = ref(false)
 const filterNotPlayed = ref(false)

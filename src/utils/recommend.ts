@@ -68,13 +68,17 @@ function filterAndScoreCandidates(
   best20IndicatorMedian: number,
   best20UserScoreMedian: number,
   dimensionKeys: (keyof SongStats)[],
-  dimensionRankMaps: Record<string, Map<string, number>>
+  dimensionRankMaps: Record<string, Map<string, number>>,
+  best20ConstantBase: number,
+  difficultyAdjustment: number
 ) {
   return candidates.map(song => {
     const songData = findSongByTitle(filteredDatabase, song.title)
     if (!songData) return null
     const levelData = songData.level[song.level as 4 | 5]
     if (!levelData) return null
+
+    if (levelData.constant > best20ConstantBase + difficultyAdjustment) return null
     
     const songRatingValue = calcRatingIndicator(levelData.constant)
     const songIndicatorValue = getSongIndicatorValue(levelData, bestKey)
@@ -99,6 +103,9 @@ function filterAndScoreCandidates(
     const improvementPotential = isUnplayed 
       ? 1.0
       : (songMaxScore > 0 ? Math.max(0, (songMaxScore - userScoreValue) / songMaxScore) : 0)
+    
+    // 过滤掉已经达到满分的歌曲（进步空间等于0）
+    if (!isUnplayed && improvementPotential === 0) return null
     
     const difficultyDeviation = Math.abs(songRatingValue - best20RatingMedian)
     const recommendScore = calculateRecommendScore(improvementPotential, difficultyDeviation)
@@ -126,6 +133,7 @@ function filterAndScoreCandidates(
       _songIndicatorValue: songIndicatorValue,
       _best20RatingMedian: best20RatingMedian,
       _best20IndicatorMedian: best20IndicatorMedian,
+      _best20ConstantBase: best20ConstantBase,
       _scoreBaseline: best20UserScoreMedian
     }
   }).filter((song): song is NonNullable<typeof song> => song !== null)
@@ -135,7 +143,9 @@ export function recommendSongs(
   allStats: SongStats[],
   bestKey: keyof SongStats = 'rating',
   limit: number = 20,
-  filterFn?: (id: number) => boolean
+  filterFn?: (id: number) => boolean,
+  difficultyAdjustment: number = 0,
+  constantBase?: number
 ): SongStats[] {
   if (!cachedSongsDatabase || cachedSongsDatabase.length === 0) return []
 
@@ -151,6 +161,17 @@ export function recommendSongs(
   if (best20.length === 0) return []
   
   const best10Titles = new Set(best20.slice(0, 10).map(s => s.title))
+
+  // 计算 B20 中的定数中位数
+  const best20Constants = best20
+    .map(s => {
+      const songData = findSongByTitle(filteredDatabase, s.title)
+      if (!songData) return 0
+      const levelData = songData.level[s.level as 4 | 5]
+      return levelData?.constant ?? 0
+    })
+    .filter(c => c > 0)
+  const best20ConstantBase = constantBase !== undefined ? constantBase : (best20Constants.length > 0 ? calculateMedian(best20Constants) : 0)
 
   const statsById = new Map<number, SongStats>()
   allStats.forEach(s => statsById.set(s.id, s))
@@ -268,7 +289,9 @@ export function recommendSongs(
     best20IndicatorMedian,
     best20UserScoreMedian,
     dimensionKeys,
-    dimensionRankMaps
+    dimensionRankMaps,
+    best20ConstantBase,
+    difficultyAdjustment
   )
 
   // 按推荐分数排序
