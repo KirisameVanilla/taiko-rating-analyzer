@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from pathlib import Path
 
@@ -56,27 +57,29 @@ def fetch_and_save_songs():
     """
     从API获取歌曲数据并保存到public/songs_cn.json
     """
-    api_url = "https://hasura.llx.life/api/rest/donder/get-song"
+    # 从环境变量读取敏感信息
+    api_url = os.getenv("TAIKO_API_URL")
+    api_token = os.getenv("TAIKO_API_TOKEN")
+
+    if not api_url:
+        raise ValueError("环境变量 TAIKO_API_URL 未设置")
+    if not api_token:
+        raise ValueError("环境变量 TAIKO_API_TOKEN 未设置")
 
     try:
         # 发送GET请求
-        print(f"正在从 {api_url} 获取数据...")
-        response = requests.get(api_url)
-        response.raise_for_status()
+        response = requests.post(
+            api_url,
+            headers={
+                "Authorization": api_token,
+                "Content-Type": "application/json",
+            },
+            json={"page": 1, "pageSize": 2000},
+        )
+        response.raise_for_status()  # 如果状态码不是 2xx 则抛出异常
 
-        # 解析JSON响应
-        json_data = response.json()
-
-        song_data = json_data.get("song", [])
-
-        # 提取data字段
-        if "data" not in song_data:
-            print("警告: 响应中没有找到 'data' 字段")
-            return
-
-        # data字段是一个JSON字符串,需要再次解析
-        songs_data_str = song_data["data"]
-        songs_data = json.loads(songs_data_str)
+        result = response.json()
+        songs_data = result["data"]["list"]
 
         # 确定保存路径
         script_dir = Path(__file__).parent

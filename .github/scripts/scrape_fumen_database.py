@@ -341,7 +341,7 @@ def scrape_all_songs():
         while retry_count < max_retries and result is None:
             if retry_count > 0:
                 print(f"  → 第 {retry_count + 1} 次尝试...")
-                time.sleep(2)  # 重试前等待2秒
+                time.sleep(1)  # 重试前等待1秒
 
             result = scrape_song_detail(song_link["href"])
             retry_count += 1
@@ -357,7 +357,8 @@ def scrape_all_songs():
 
         # 添加延迟，避免请求过快
         if i < len(song_links):
-            time.sleep(1)  # 每个请求间隔1秒
+            pass
+            # time.sleep(1)  # 每个请求间隔1秒
 
     print("\n" + "=" * 50)
     print("爬取完成！")
@@ -374,17 +375,6 @@ def scrape_all_songs():
     print("转换为新格式...")
     new_format_data = convert_to_new_format(all_songs_data)
     print(f"✓ 转换完成: {len(new_format_data)} 首歌曲")
-
-    # 统计信息
-    level4_count = sum(1 for song in new_format_data if "4" in song["level"])
-    level5_count = sum(1 for song in new_format_data if "5" in song["level"])
-    both_levels = sum(
-        1 for song in new_format_data if "4" in song["level"] and "5" in song["level"]
-    )
-
-    print(f"  - 包含难度4的歌曲: {level4_count}")
-    print(f"  - 包含难度5的歌曲: {level5_count}")
-    print(f"  - 同时包含难度4和5的歌曲: {both_levels}")
 
     return new_format_data
 
