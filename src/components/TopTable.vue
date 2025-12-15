@@ -234,7 +234,7 @@ watch(
 
 <template>
   <div class="bg-white mt-0 p-2.5 rounded-lg">
-    <div class="flex justify-center items-center mb-5">
+    <div class="flex justify-center items-center mb-5 font-bold">
       <h2 class="m-0 text-[#333]">{{ title }}</h2>
     </div>
     
@@ -276,10 +276,10 @@ watch(
     <!-- 推荐歌曲列表 -->
     <div v-else-if="showMode === 'recommend'" class="mt-8 text-left">
       <!-- 难度调整工具栏 -->
-      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 gap-3">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+      <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-3 py-3">
+        <div class="flex sm:flex-row flex-col sm:items-center gap-3">
           <span class="font-semibold text-gray-700 text-sm">难度定数偏好调整</span>
-          <div class="inline-flex items-stretch bg-white shadow-sm border border-gray-300 rounded-md overflow-hidden self-start sm:self-auto">
+          <div class="inline-flex items-stretch self-start sm:self-auto bg-white shadow-sm border border-gray-300 rounded-md overflow-hidden">
             <button 
               @click="decreaseDifficulty" 
               class="bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 px-3 py-1.5 border-gray-300 border-r font-medium text-gray-700 disabled:text-gray-400 text-xs transition-colors disabled:cursor-not-allowed"
@@ -311,7 +311,7 @@ watch(
         </div>
         <button 
           @click="showGuide = !showGuide" 
-          class="flex items-center gap-2 bg-white hover:bg-pink-50 active:bg-pink-100 shadow-sm px-4 py-1.5 border border-gray-200 hover:border-pink-300 rounded-md font-medium text-gray-700 text-xs transition-all self-start sm:self-auto"
+          class="flex items-center self-start sm:self-auto gap-2 bg-white hover:bg-pink-50 active:bg-pink-100 shadow-sm px-4 py-1.5 border border-gray-200 hover:border-pink-300 rounded-md font-medium text-gray-700 text-xs transition-all"
           title="使用说明"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

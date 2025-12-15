@@ -44,7 +44,7 @@ const createChart = () => {
     data: {
       labels: ['大歌力', '体力', '高速力', '精度力', '节奏处理', '复合处理'],
       datasets: [{
-        label: '玩家能力值',
+        label: '能力值',
         data: stats,
         backgroundColor: 'rgba(233, 30, 99, 0.2)',
         borderColor: 'rgba(233, 30, 99, 1)',
@@ -55,13 +55,17 @@ const createChart = () => {
     },
     options: {
       layout: {
-        padding: 10
+        padding: 0
       },
       scales: {
         r: {
           suggestedMin: minVal > 0 ? minVal : 0,
           pointLabels: {
-            padding: 20
+            padding: 20,
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
           },
           ticks: {
             display: true,

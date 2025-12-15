@@ -309,12 +309,12 @@ const anyalyze = (input: string) => {
                 <button @click="rebindDonderId" class="bg-white/20 hover:bg-white/30 px-4 py-1.5 border border-white/50 rounded-md font-medium text-white text-sm transition-all duration-300 cursor-pointer">重新绑定</button>
               </div>
               <div class="m-0 max-w-[500px] text-white/95 text-sm text-left leading-relaxed">
-                <p class="m-0 mb-2">1. 请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并同步你的成绩。</p>
-                <p class="m-0 mb-2">2. 请确保你在查分器中的成绩数据是最新的，否则分析结果可能不准确。</p>
+                <p class="m-0 mb-2">1. 请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并点击同步成绩。</p>
+                <p class="m-0 mb-2">2. 请确保你在 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a> 中的成绩数据是最新的。</p>
                 <p class="m-0 mb-1">3. 完成上述操作后，您可以选择用如下方式同步你的成绩：</p>
                 <ul class="m-0 pl-5 list-disc">
-                  <li>如果您想使用自动同步功能，请确保查分器的 <b>公开成绩</b> 选项已开启，然后点击下方 "分析数据" 按钮自动同步分析数据。</li>
-                  <li>如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击上传成绩按钮手动导入成绩。</li>
+                  <li>如果您想使用自动同步功能，请确保查分器的 <b>公开成绩</b> 选项已开启，然后点击下方 "同步成绩" 按钮自动同步分析数据。</li>
+                  <li>如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击下方 "上传成绩" 按钮手动导入成绩。</li>
                 </ul>
               </div>
               <div class="flex sm:flex-row flex-col justify-center gap-3">
@@ -323,14 +323,14 @@ const anyalyze = (input: string) => {
                 :disabled="isLoading"
                 class="bg-white disabled:opacity-70 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] px-8 py-3 border-none rounded-lg min-w-[160px] font-semibold text-[#546e7a] text-base transition-all hover:translate-y-[-2px] active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
               >
-                {{ isLoading ? '正在分析...' : '上传成绩并分析数据' }}
+                {{ isLoading ? '正在分析...' : '上传成绩' }}
               </button>
               <button 
                 @click="fetchAndAnalyze" 
                 :disabled="isLoading"
                 class="bg-white disabled:opacity-70 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] px-8 py-3 border-none rounded-lg min-w-[160px] font-semibold text-[#546e7a] text-base transition-all hover:translate-y-[-2px] active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
               >
-                {{ isLoading ? '正在分析...' : '同步成绩并分析数据' }}
+                {{ isLoading ? '正在分析...' : '同步成绩' }}
               </button>
               </div>
               <p class="m-0 max-w-[500px] text-white/95 text-sm text-center leading-relaxed">如果自动同步分析数据遇到问题，您可以尝试<button @click="handleManualImport" class="bg-transparent px-4 py-2 border-none text-white/90 hover:text-white text-sm underline transition-all duration-300 cursor-pointer">手动导入成绩</button></p>

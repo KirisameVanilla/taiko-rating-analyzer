@@ -439,7 +439,6 @@ const filteredSongs = computed(() => {
 <template>
   <div class="mx-auto p-5 max-w-[1200px]">
     <div class="mb-5">
-      <h1>所有曲目列表</h1>
       <div class="relative flex max-md:flex-col items-center max-md:items-stretch gap-5 max-md:gap-2.5">
         <input v-model="searchTerm" placeholder="搜索曲名..." class="max-md:box-border px-3 py-2 border border-[#ddd] rounded w-[300px] max-md:w-full text-base" />
         <div class="relative max-md:w-full">

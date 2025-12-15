@@ -309,13 +309,13 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                     <!-- Overview Section -->
                     <div v-if="activeSection === 'overview'" class="flex flex-col items-center px-2.5 pb-2.5">
                         <div class="mb-5 w-full text-center">
-                            <h1 class="m-0 text-[#333] text-2xl">玩家 Rating 及六维雷达图</h1>
+                            <h1 class="m-0 font-bold text-[#333] text-2xl">Rating 及六维雷达图</h1>
                         </div>
 
                         <div class="flex justify-center mb-[30px] w-full">
-                            <div class="bg-[#f8f9fa] p-[15px] rounded-lg min-w-[120px] text-center">
+                            <div class="bg-[#f8f9fa] p-[10px] rounded-lg min-w-[120px] text-center">
+                                <div class="text-gray-600 text-m">Rating</div>
                                 <div class="font-bold text-[28px] text-primary">{{ overallRating.toFixed(2) }}</div>
-                                <div class="text-gray-600 text-sm">Rating</div>
                             </div>
                         </div>
 
