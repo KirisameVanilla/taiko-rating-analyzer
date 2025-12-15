@@ -8,9 +8,9 @@ const { modalState, hideModal } = useModal()
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col min-h-screen">
     <NavigationBar />
-    <main class="main-content">
+    <main class="flex-1 p-5">
       <router-view />
     </main>
     <FloatingMenu />
@@ -22,16 +22,3 @@ const { modalState, hideModal } = useModal()
     />
   </div>
 </template>
-
-<style scoped>
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-}
-</style>

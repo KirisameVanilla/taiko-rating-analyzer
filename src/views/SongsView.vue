@@ -458,7 +458,7 @@ const filteredSongs = computed(() => {
                   :min="limitMin" 
                   :max="limitMax" 
                   step="0.1" 
-                  class="thumb-left thumb" 
+                  class="top-1/2 left-0 z-[2] absolute [&::-moz-range-thumb]:bg-[#2196f3] [&::-webkit-slider-thumb]:bg-[#2196f3] [&::-moz-range-thumb]:shadow-[0_1px_3px_rgba(0,0,0,0.3)] [&::-webkit-slider-thumb]:shadow-[0_1px_3px_rgba(0,0,0,0.3)] m-0 [&::-webkit-slider-thumb]:-mt-1.5 [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full [&::-webkit-slider-thumb]:rounded-full w-full [&::-moz-range-thumb]:w-4 [&::-webkit-slider-thumb]:w-4 h-0 [&::-moz-range-thumb]:h-4 [&::-webkit-slider-thumb]:h-4 appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-moz-range-thumb]:cursor-pointer [&::-webkit-slider-thumb]:cursor-pointer pointer-events-none [&::-moz-range-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:pointer-events-auto" 
                 />
                 <input 
                   type="range" 
@@ -466,7 +466,7 @@ const filteredSongs = computed(() => {
                   :min="limitMin" 
                   :max="limitMax" 
                   step="0.1" 
-                  class="thumb-right thumb" 
+                  class="top-1/2 left-0 z-[2] absolute [&::-moz-range-thumb]:bg-[#2196f3] [&::-webkit-slider-thumb]:bg-[#2196f3] [&::-moz-range-thumb]:shadow-[0_1px_3px_rgba(0,0,0,0.3)] [&::-webkit-slider-thumb]:shadow-[0_1px_3px_rgba(0,0,0,0.3)] m-0 [&::-webkit-slider-thumb]:-mt-1.5 [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full [&::-webkit-slider-thumb]:rounded-full w-full [&::-moz-range-thumb]:w-4 [&::-webkit-slider-thumb]:w-4 h-0 [&::-moz-range-thumb]:h-4 [&::-webkit-slider-thumb]:h-4 appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-moz-range-thumb]:cursor-pointer [&::-webkit-slider-thumb]:cursor-pointer pointer-events-none [&::-moz-range-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:pointer-events-auto" 
                 />
               </div>
             </div>
@@ -511,43 +511,43 @@ const filteredSongs = computed(() => {
       <table class="bg-white w-full border-collapse">
         <thead>
           <tr>
-            <th @click="toggleSort('title')" class="sortable">
+            <th @click="toggleSort('title')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               曲名 <span v-if="sortKey === 'title'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th>难度</th>
-            <th @click="toggleSort('constant')" class="sortable">
+            <th class="bg-[#f8f9fa] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap select-none">难度</th>
+            <th @click="toggleSort('constant')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               定数 <span v-if="sortKey === 'constant'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('score')" class="sortable">
+            <th @click="toggleSort('score')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               分数 <span v-if="sortKey === 'score'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('rating')" class="sortable">
+            <th @click="toggleSort('rating')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               Rating <span v-if="sortKey === 'rating'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('great')" class="sortable">
+            <th @click="toggleSort('great')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               良 <span v-if="sortKey === 'great'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('good')" class="sortable">
+            <th @click="toggleSort('good')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               可 <span v-if="sortKey === 'good'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('bad')" class="sortable">
+            <th @click="toggleSort('bad')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               不可 <span v-if="sortKey === 'bad'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('drumroll')" class="sortable">
+            <th @click="toggleSort('drumroll')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               连打 <span v-if="sortKey === 'drumroll'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('combo')" class="sortable">
+            <th @click="toggleSort('combo')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               连击 <span v-if="sortKey === 'combo'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th @click="toggleSort('updatedAt')" class="sortable">
+            <th @click="toggleSort('updatedAt')" class="bg-[#f8f9fa] hover:bg-[#e9ecef] p-3 border-[#eee] border-b font-semibold text-left whitespace-nowrap cursor-pointer select-none">
               上次游玩 <span v-if="sortKey === 'updatedAt'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="song in filteredSongs" :key="song.id" @click="openEditModal(song)" class="hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
-            <td class="min-w-[200px] font-medium">{{ (onlyCnSongs && song.title_cn) ? song.title_cn : song.title }}{{ difficultyMap[song.level] || '' }}</td>
-            <td>
+          <tr v-for="song in filteredSongs" :key="song.id" @click="openEditModal(song)" class="hover:bg-[#f5f5f5] transition-colors duration-200 cursor-pointer">
+            <td class="p-3 border-[#eee] border-b min-w-[200px] font-medium text-left">{{ (onlyCnSongs && song.title_cn) ? song.title_cn : song.title }}{{ difficultyMap[song.level] || '' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">
               <span class="px-2 py-0.5 rounded-xl text-white text-xs" :class="{
                 'bg-[#4caf50]': song.level === 1,
                 'bg-[#8bc34a]': song.level === 2,
@@ -558,22 +558,22 @@ const filteredSongs = computed(() => {
                 {{ difficultyBadgeMap[song.level] || song.level }}
               </span>
             </td>
-            <td>{{ song.constant.toFixed(1) }}</td>
-            <td>{{ song.userScore?.score ?? '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.constant.toFixed(1) }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.score ?? '-' }}</td>
             <td 
               :class="{ 'text-[#2196f3] font-bold': song.stats }" 
-              class="relative"
+              class="relative p-3 border-[#eee] border-b text-left"
               @mouseenter="song.stats && showTooltip($event, song.stats)"
               @mouseleave="hideTooltip"
             >
               {{ song.stats?.rating.toFixed(2) || '-' }}
             </td>
-            <td>{{ song.userScore?.great ?? '-' }}</td>
-            <td>{{ song.userScore?.good ?? '-' }}</td>
-            <td>{{ song.userScore?.bad ?? '-' }}</td>
-            <td>{{ song.userScore?.drumroll ?? '-' }}</td>
-            <td>{{ song.userScore?.combo ?? '-' }}</td>
-            <td>{{ song.userScore?.updatedAt ? new Date(song.userScore.updatedAt).toLocaleDateString('zh-CN') : '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.great ?? '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.good ?? '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.bad ?? '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.drumroll ?? '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.combo ?? '-' }}</td>
+            <td class="p-3 border-[#eee] border-b text-left">{{ song.userScore?.updatedAt ? new Date(song.userScore.updatedAt).toLocaleDateString('zh-CN') : '-' }}</td>
           </tr>
         </tbody>
       </table>
@@ -593,7 +593,7 @@ const filteredSongs = computed(() => {
       <Transition name="tooltip-fade">
         <div 
           v-if="tooltipVisible && tooltipStats" 
-          class="rating-tooltip-fixed"
+          class="before:top-1/2 before:right-full z-[9999] fixed before:absolute bg-black/90 px-3 py-2 before:border-[5px] before:border-transparent before:border-r-black/90 rounded text-white text-xs before:content-[''] whitespace-nowrap -translate-y-1/2 before:-translate-y-1/2 pointer-events-none"
           :style="tooltipStyle"
         >
           <div>大歌力: {{ tooltipStats.daigouryoku.toFixed(2) }}</div>
@@ -609,29 +609,6 @@ const filteredSongs = computed(() => {
 </template>
 
 <style scoped>
-.rating-tooltip-fixed {
-  position: fixed;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  z-index: 9999;
-  pointer-events: none;
-}
-
-.rating-tooltip-fixed::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
-  border: 5px solid transparent;
-  border-right-color: rgba(0, 0, 0, 0.9);
-}
-
 .tooltip-fade-enter-active,
 .tooltip-fade-leave-active {
   transition: opacity 0.2s ease;
@@ -640,67 +617,5 @@ const filteredSongs = computed(() => {
 .tooltip-fade-enter-from,
 .tooltip-fade-leave-to {
   opacity: 0;
-}
-
-.thumb {
-  position: absolute;
-  width: 100%;
-  height: 0;
-  top: 50%;
-  left: 0;
-  margin: 0;
-  pointer-events: none;
-  -webkit-appearance: none;
-  appearance: none;
-  z-index: 2;
-}
-
-.thumb::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #2196f3;
-  border-radius: 50%;
-  cursor: pointer;
-  pointer-events: auto;
-  margin-top: -6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-.thumb::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #2196f3;
-  border-radius: 50%;
-  cursor: pointer;
-  pointer-events: auto;
-  border: none;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  white-space: nowrap;
-  user-select: none;
-}
-
-th.sortable {
-  cursor: pointer;
-}
-
-th.sortable:hover {
-  background-color: #e9ecef;
-}
-
-table tbody tr:hover {
-  background-color: #f5f5f5;
 }
 </style>

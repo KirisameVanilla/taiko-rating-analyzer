@@ -296,7 +296,7 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                     class="flex flex-col flex-shrink-0 max-md:mb-5 pr-5 max-md:pr-0 max-md:pb-2.5 border-[#eee] border-r max-md:border-r-0 max-md:border-b w-[200px] max-md:w-full no-capture">
                     <div class="max-md:flex flex-1 max-md:gap-2.5 max-md:pb-1.5 max-md:overflow-x-auto">
                         <div v-for="item in menuItems" :key="item.id"
-                            class="hover:bg-[#f5f5f5] mb-1.5 max-md:mb-0 px-[15px] py-3 rounded-md text-gray-600 hover:text-[#333] max-md:whitespace-nowrap transition-all duration-300 cursor-pointer"
+                            class="hover:bg-[#ffbfbe] mb-1.5 max-md:mb-0 px-[15px] py-3 rounded-md text-gray-600 hover:text-[#333] max-md:whitespace-nowrap transition-all duration-300 cursor-pointer"
                             :class="{ 'bg-primary text-white': activeSection === item.id }"
                             @click="activeSection = item.id">
                             {{ item.label }}
@@ -345,14 +345,6 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                     </div>
                 </div>
             </div>
-
-            <!-- Floating Action Button removed, moved to global FloatingMenu -->
         </template>
     </div>
 </template>
-
-<style scoped>
-.icon {
-    line-height: 1;
-}
-</style>
