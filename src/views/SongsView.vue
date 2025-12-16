@@ -584,6 +584,8 @@ const filteredSongs = computed(() => {
       :title="onlyCnSongs? editingSong?.title_cn || '' : editingSong?.title || ''"
       :initial-score="editingSong?.userScore"
       :song-data="editingSongData"
+      :song-id="editingSong ? parseInt(editingSong.id.split('-')[0]) : undefined"
+      :difficulty="editingSong ? parseInt(editingSong.id.split('-')[1]) : undefined"
       @close="closeEditModal"
       @save="handleSaveScore"
       @clear="handleClearScore"

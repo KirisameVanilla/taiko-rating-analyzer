@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SongLevelData, SongStats, UserScore } from '@/types'
+import type { SongLevelData, SongStats, UserScore, LockedScores } from '@/types'
 import { calculateSongStats } from '@utils/calculator'
 import { computed, ref, watch } from 'vue'
 
@@ -8,6 +8,8 @@ interface Props {
   title: string
   initialScore?: UserScore
   songData?: SongLevelData
+  songId?: number
+  difficulty?: number
 }
 
 const props = defineProps<Props>()
@@ -26,6 +28,74 @@ const form = ref({
   drumroll: 0,
   combo: 0
 })
+
+const isLocked = ref(false)
+
+const getLockKey = () => {
+  if (props.songId !== undefined && props.difficulty !== undefined) {
+    return `${props.songId}-${props.difficulty}`
+  }
+  if (props.initialScore) {
+    return `${props.initialScore.id}-${props.initialScore.level}`
+  }
+  return null
+}
+
+const checkLockStatus = () => {
+  const key = getLockKey()
+  if (!key) {
+    isLocked.value = false
+    return
+  }
+  try {
+    const lockedDataStr = localStorage.getItem('taiko-locked-songs')
+    if (lockedDataStr) {
+      const lockedData: LockedScores = JSON.parse(lockedDataStr)
+      isLocked.value = !!lockedData[key]
+    } else {
+      isLocked.value = false
+    }
+  } catch (e) {
+    isLocked.value = false
+  }
+}
+
+const toggleLock = () => {
+  const key = getLockKey()
+  if (!key) return
+
+  try {
+    const lockedDataStr = localStorage.getItem('taiko-locked-songs')
+    let lockedData: LockedScores = lockedDataStr ? JSON.parse(lockedDataStr) : {}
+
+    if (isLocked.value) {
+      delete lockedData[key]
+      isLocked.value = false
+    } else {
+      const scoreToLock: UserScore = {
+        id: props.songId || props.initialScore?.id || 0,
+        level: props.difficulty || props.initialScore?.level || 0,
+        score: form.value.score,
+        scoreRank: props.initialScore?.scoreRank || 0,
+        great: form.value.great,
+        good: form.value.good,
+        bad: form.value.bad,
+        drumroll: form.value.drumroll,
+        combo: form.value.combo,
+        playCount: props.initialScore?.playCount || 0,
+        clearCount: props.initialScore?.clearCount || 0,
+        fullcomboCount: props.initialScore?.fullcomboCount || 0,
+        perfectCount: props.initialScore?.perfectCount || 0,
+        updatedAt: new Date().toISOString()
+      }
+      lockedData[key] = scoreToLock
+      isLocked.value = true
+    }
+    localStorage.setItem('taiko-locked-songs', JSON.stringify(lockedData))
+  } catch (e) {
+    console.error('Failed to toggle lock', e)
+  }
+}
 
 const previewStats = computed<SongStats | null>(() => {
   if (!props.songData) return null
@@ -52,6 +122,7 @@ const previewStats = computed<SongStats | null>(() => {
 
 watch(() => props.show, (newVal) => {
   if (newVal) {
+    checkLockStatus()
     if (props.initialScore) {
       form.value = {
         score: props.initialScore.score,
@@ -75,6 +146,37 @@ watch(() => props.show, (newVal) => {
 })
 
 const handleSave = () => {
+  if (isLocked.value) {
+    const key = getLockKey()
+    if (key) {
+      try {
+        const lockedDataStr = localStorage.getItem('taiko-locked-songs')
+        let lockedData: LockedScores = lockedDataStr ? JSON.parse(lockedDataStr) : {}
+        
+        const scoreToLock: UserScore = {
+          id: props.songId || props.initialScore?.id || 0,
+          level: props.difficulty || props.initialScore?.level || 0,
+          score: form.value.score,
+          scoreRank: props.initialScore?.scoreRank || 0,
+          great: form.value.great,
+          good: form.value.good,
+          bad: form.value.bad,
+          drumroll: form.value.drumroll,
+          combo: form.value.combo,
+          playCount: props.initialScore?.playCount || 0,
+          clearCount: props.initialScore?.clearCount || 0,
+          fullcomboCount: props.initialScore?.fullcomboCount || 0,
+          perfectCount: props.initialScore?.perfectCount || 0,
+          updatedAt: new Date().toISOString()
+        }
+        
+        lockedData[key] = scoreToLock
+        localStorage.setItem('taiko-locked-songs', JSON.stringify(lockedData))
+      } catch (e) {
+        console.error('Failed to update locked score', e)
+      }
+    }
+  }
   emit('save', { ...form.value })
 }
 
@@ -156,7 +258,22 @@ const handleClear = () => {
         </div>
 
         <div class="flex justify-between items-center px-5 py-4 border-gray-200 border-t">
-          <button class="bg-red-500 px-4 py-2 border-none rounded font-medium text-white cursor-pointer" @click="handleClear" v-if="initialScore">清除成绩</button>
+          <div class="flex gap-2">
+            <button 
+              class="bg-red-500 disabled:bg-red-300 px-4 py-2 border-none rounded font-medium text-white cursor-pointer disabled:cursor-not-allowed" 
+              @click="handleClear" 
+              :disabled="!initialScore"
+            >
+              清除成绩
+            </button>
+            <button 
+              class="px-4 py-2 border-none rounded font-medium text-white transition-colors cursor-pointer"
+              :class="isLocked ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-500 hover:bg-gray-600'"
+              @click="toggleLock"
+            >
+              {{ isLocked ? '已锁定' : '锁定成绩' }}
+            </button>
+          </div>
           <div class="flex gap-2.5 ml-auto">
             <button class="bg-gray-200 px-4 py-2 border-none rounded font-medium text-gray-700 cursor-pointer" @click="$emit('close')">取消</button>
             <button class="bg-blue-500 px-4 py-2 border-none rounded font-medium text-white cursor-pointer" @click="handleSave">保存</button>

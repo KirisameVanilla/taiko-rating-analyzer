@@ -2,6 +2,7 @@
 import { useModal } from '@composables/useModal'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import type { LockedScores } from '@/types'
 
 const router = useRouter()
 const scoreInput = ref('')
@@ -256,7 +257,63 @@ const handleAnalyze = () => {
   anyalyze(output)
 }
 
+const restoreLockedScores = (scoreData: any[]) => {
+  try {
+    const lockedDataStr = localStorage.getItem('taiko-locked-songs')
+    if (!lockedDataStr) return scoreData
+
+    const lockedData: LockedScores = JSON.parse(lockedDataStr)
+    const lockedKeys = Object.keys(lockedData)
+    if (lockedKeys.length === 0) return scoreData
+
+    for (const key in lockedData) {
+      const lockedScore = lockedData[key]
+      const [songId, level] = key.split('-').map(Number)
+      
+      const index = scoreData.findIndex((item: any[]) => Number(item[0]) === songId && Number(item[1]) === level)
+      
+      // Schema: [song_no, level, high_score, best_score_rank, good_cnt, ok_cnt, ng_cnt, pound_cnt, combo_cnt, stage_cnt, clear_cnt, full_combo_cnt, dondaful_combo_cnt, update_datetime]
+      const newEntry = [
+        lockedScore.id,
+        lockedScore.level,
+        lockedScore.score,
+        lockedScore.scoreRank,
+        lockedScore.great,
+        lockedScore.good,
+        lockedScore.bad,
+        lockedScore.drumroll,
+        lockedScore.combo,
+        lockedScore.playCount,
+        lockedScore.clearCount,
+        lockedScore.fullcomboCount,
+        lockedScore.perfectCount,
+        lockedScore.updatedAt
+      ]
+      
+      if (index !== -1) {
+        scoreData[index] = newEntry
+      } else {
+        scoreData.push(newEntry)
+      }
+    }
+  } catch (e) {
+    console.error('Failed to restore locked scores', e)
+  }
+  return scoreData
+}
+
 const anyalyze = (input: string) => {
+  let scoreData: any[] = []
+  try {
+    scoreData = JSON.parse(input)
+    if (Array.isArray(scoreData)) {
+      scoreData = restoreLockedScores(scoreData)
+      input = JSON.stringify(scoreData)
+    }
+  } catch (e) {
+    console.error('Failed to parse input for analysis', e)
+  }
+
   // 将数据存储到 localStorage
   localStorage.setItem('taikoScoreData', input)
   // 触发自定义事件以通知其他组件

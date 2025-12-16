@@ -61,3 +61,5 @@ export interface Announcement {
 }
 
 export type SongsDatabase = SongData[]
+
+export type LockedScores = Record<string, UserScore>
