@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import type { SongsDatabase, SongStats } from '@/types'
+import type { SongStats } from '@/types'
 import GuideModal from '@components/GuideModal.vue'
 import RatingProgressCell from '@components/RatingProgressCell.vue'
-import { loadSongsData } from '@data/songs'
-import { calculateSongStats, MAX_CONSTANT_VALUE, parsePastedScores } from '@utils/calculator'
+import { MAX_CONSTANT_VALUE } from '@utils/calculator'
 import { difficultyMap } from '@utils/difficulty'
-import { eventBus } from '@utils/eventBus'
-import { recommendSongs, setSongsDatabase } from '@utils/recommend'
-import { expandSongsDatabase } from '@utils/songHelpers'
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { recommendSongs } from '@utils/recommend'
+import { nextTick, ref, watch } from 'vue'
+import { useScoreStore } from '@/store/scoreStore'
 
 interface Props {
   title: string
@@ -21,9 +19,10 @@ const props = withDefaults(defineProps<Props>(), {
   showMode: 'top20'
 })
 
+const store = useScoreStore()
+const { songsDB, allSongStats, onlyCnSongs } = store
+
 const isLoading = ref(false)
-const onlyCnSongs = ref(false)
-const songsDB = ref<SongsDatabase | null>(null)
 const difficultyAdjustment = ref<number>(0)
 const best20ConstantBase = ref<number>(0)
 const showGuide = ref(false)
@@ -36,16 +35,6 @@ const formatValue = (item: SongStats, key: keyof SongStats): string => {
   return String(value)
 }
 
-// 仿照 SongsView 组件，合成全曲 SongStats
-const allStats = ref<SongStats[]>([])
-
-function handleCnFilterChange(value: boolean) {
-  onlyCnSongs.value = value
-  if (props.showMode === 'recommend') {
-    calculateRecommendations()
-  }
-}
-
 function increaseDifficulty() {
   difficultyAdjustment.value += 0.1
   calculateRecommendations()
@@ -56,50 +45,6 @@ function decreaseDifficulty() {
   calculateRecommendations()
 }
 
-onMounted(async () => {
-  // 从 localStorage 读取设置
-  const savedSetting = localStorage.getItem('onlyCnSongs')
-  if (savedSetting !== null) {
-    onlyCnSongs.value = savedSetting === 'true'
-  }
-
-  // 监听国服筛选变化
-  eventBus.on('cn-filter-changed', handleCnFilterChange)
-
-  try {
-    const db = await loadSongsData()
-    songsDB.value = db
-    // 设置推荐算法使用的歌曲数据库
-    setSongsDatabase(db)
-    
-    const scoreInput = localStorage.getItem('taikoScoreData') || ''
-    const userScores = scoreInput ? parsePastedScores(scoreInput) : []
-    const scoreMap = new Map<string, any>()
-    userScores.forEach(s => {
-      scoreMap.set(`${s.id}-${s.level}`, s)
-    })
-    const result: SongStats[] = []
-    
-    // 使用新的展开函数处理数据库
-    const expandedEntries = expandSongsDatabase(db)
-    for (const entry of expandedEntries) {
-      const key = `${entry.id}-${entry.level}`
-      const score = scoreMap.get(key)
-      if (score) {
-        const stats = calculateSongStats(entry.data, score, entry.title)
-        if (stats) result.push(stats)
-      }
-    }
-    allStats.value = result
-  } catch (e) {
-    allStats.value = []
-  }
-})
-
-onUnmounted(() => {
-  eventBus.off('cn-filter-changed', handleCnFilterChange)
-})
-
 // 推荐列表，取前10首，基于全曲数据
 const recommendedSongs = ref<SongStats[]>([]);
 
@@ -107,7 +52,7 @@ const recommendedSongs = ref<SongStats[]>([]);
 const calculatebest20ConstantBase = () => {
   if (!songsDB.value) return 0;
   
-  const best20 = [...allStats.value]
+  const best20 = [...allSongStats.value]
     .sort((a, b) => (b[props.valueKey] as number) - (a[props.valueKey] as number))
     .slice(0, 20);
   
@@ -163,7 +108,7 @@ const calculateRecommendations = async () => {
       // 动态调整难度修正值，直到找到足够的推荐歌曲或达到最大值
       while (songs.length < targetCount && currentDifficultyAdjustment <= maxAdjustment) {
         songs = recommendSongs(
-          allStats.value.length ? allStats.value : props.data, 
+          allSongStats.value.length ? allSongStats.value : props.data, 
           props.valueKey,
           targetCount,
           filterFn,
@@ -218,7 +163,7 @@ const calculateRecommendations = async () => {
 
 // 监听 showMode 和 valueKey 变化，重新计算推荐
 watch(
-  [() => props.showMode, () => props.valueKey, allStats],
+  [() => props.showMode, () => props.valueKey, allSongStats],
   (newVals, oldVals) => {
     if (props.showMode === 'recommend') {
       // 如果是从其他模式切换到推荐模式，或者 valueKey 变化，重置难度调整值
@@ -258,7 +203,7 @@ watch(
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ index + 1 }}</td>
             <td class="p-2.5 border-[#ddd] border-b text-left">
               {{ item.title}}
-              <span v-if="item._isNew" class="ml-1 px-1 bg-red-500 text-white text-xs rounded">NEW</span>
+              <span v-if="item._isNew" class="bg-red-500 ml-1 px-1 rounded text-white text-xs">NEW</span>
             </td>
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.great }}</td>
             <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.good }}</td>
@@ -268,7 +213,7 @@ watch(
             <td class="p-1.5 border-[#ddd] border-b text-left">
               <template v-if="item._maxRatings">
                 <RatingProgressCell :song="item" :valueKey="valueKey" :formatValue="formatValue" />
-                <div v-if="item._ratingDiff && item._ratingDiff !== 0" class="text-xs mt-1" :class="item._ratingDiff > 0 ? 'text-red-500' : 'text-blue-500'">
+                <div v-if="item._ratingDiff && item._ratingDiff !== 0" class="mt-1 text-xs" :class="item._ratingDiff > 0 ? 'text-red-500' : 'text-blue-500'">
                     {{ item._ratingDiff > 0 ? '+' : '' }}{{ item._ratingDiff.toFixed(2) }}
                 </div>
               </template>

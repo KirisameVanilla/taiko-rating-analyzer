@@ -3,6 +3,7 @@ import { useModal } from '@composables/useModal'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { LockedScores } from '@/types'
+import { useScoreStore } from '@/store/scoreStore'
 
 const router = useRouter()
 const scoreInput = ref('')
@@ -302,7 +303,8 @@ const restoreLockedScores = (scoreData: any[]) => {
   return scoreData
 }
 
-const anyalyze = (input: string) => {
+
+const anyalyze = async (input: string) => {
   let scoreData: any[] = []
   try {
     scoreData = JSON.parse(input)
@@ -322,6 +324,11 @@ const anyalyze = (input: string) => {
 
   // 将数据存储到 localStorage
   localStorage.setItem('taikoScoreData', input)
+  
+  // 触发 store 更新
+  const store = useScoreStore()
+  await store.init()
+  
   // 触发自定义事件以通知其他组件
   window.dispatchEvent(new Event('localStorageUpdate'))
   // 导航到报告页面

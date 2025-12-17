@@ -1,4 +1,4 @@
-﻿import type { SongStats, SongLevelData, SongsDatabase } from '@/types'
+﻿import type { SongStats, SongLevelData, SongsDatabase, RatingDimensions } from '@/types'
 import { findSongByTitle } from './songHelpers'
 import {
   calcRatingIndicator,
@@ -84,18 +84,8 @@ function filterAndScoreCandidates(
     const songIndicatorValue = getSongIndicatorValue(levelData, bestKey)
     const userScoreValue = song[bestKey] as number
     const maxRatings = calcMaxRatings(levelData)
-    
-    let songMaxScore = 0
-    switch (bestKey) {
-      case 'rating': songMaxScore = maxRatings.maxRating; break
-      case 'daigouryoku': songMaxScore = maxRatings.maxDaigouryoku; break
-      case 'stamina': songMaxScore = maxRatings.maxStamina; break
-      case 'speed': songMaxScore = maxRatings.maxSpeed; break
-      case 'accuracy_power': songMaxScore = maxRatings.maxAccuracyPower; break
-      case 'rhythm': songMaxScore = maxRatings.maxRhythm; break
-      case 'complex': songMaxScore = maxRatings.maxComplex; break
-      default: songMaxScore = 0
-    }
+
+    const songMaxScore = (bestKey in maxRatings) ? maxRatings[bestKey as keyof RatingDimensions] : 0
     
     if (songMaxScore < best20MinScore) return null
     

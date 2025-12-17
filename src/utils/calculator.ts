@@ -1,4 +1,4 @@
-import type { SongLevelData, SongStats, UserScore } from '@/types'
+import type { RatingDimensions, SongLevelData, SongStats, UserScore } from '@/types'
 
 // 常量定义：P1用于calcP函数的范数计算，AH1暂未使用
 const CONSTANTS = { P1: 150, AH1: 3 }
@@ -340,24 +340,24 @@ export function calcIndividualRating(rating: number, raw_value: number): number 
  * - maxComplex: 最大复杂度
  */
 
-export function calcMaxRatings(levelData: SongLevelData): { maxRating: number; maxDaigouryoku: number; maxStamina: number; maxSpeed: number; maxAccuracyPower: number; maxRhythm: number; maxComplex: number } {
+export function calcMaxRatings(levelData: SongLevelData): RatingDimensions {
   const x = getXFromConstant(levelData.constant)
   const y = calcY(1)  // 理论最高准确率对应的Y值
-  const maxRating = calcSingleRating(x, y)
-  const maxDaigouryoku = SQRT(maxRating * x)
-  const maxAccuracyPower = SQRT(maxRating * y)  // 精度力 = √(maxRating × y)
-  const maxStamina = calcIndividualRating(maxRating, calcStaminaIndicator(levelData.avgDensity, levelData.instDensity))
-  const maxSpeed = calcIndividualRating(maxRating, calcSpeedIndicator(levelData.instDensity, levelData.avgDensity))
-  const maxRhythm = calcIndividualRating(maxRating, calcRhythmIndicator(levelData.separation, levelData.bpmChange))
-  const maxComplex = calcIndividualRating(maxRating, calcComplexityIndicator(levelData.composite))
+  const rating = calcSingleRating(x, y)
+  const daigouryoku = SQRT(rating * x)
+  const accuracy_power = SQRT(rating * y)  // 精度力 = √(maxRating × y)
+  const stamina = calcIndividualRating(rating, calcStaminaIndicator(levelData.avgDensity, levelData.instDensity))
+  const speed = calcIndividualRating(rating, calcSpeedIndicator(levelData.instDensity, levelData.avgDensity))
+  const rhythm = calcIndividualRating(rating, calcRhythmIndicator(levelData.separation, levelData.bpmChange))
+  const complex = calcIndividualRating(rating, calcComplexityIndicator(levelData.composite))
   return {
-    maxRating,
-    maxDaigouryoku,
-    maxStamina,
-    maxSpeed,
-    maxAccuracyPower,
-    maxRhythm,
-    maxComplex
+    rating,
+    daigouryoku,
+    stamina,
+    speed,
+    accuracy_power,
+    rhythm,
+    complex
   }
 }
 

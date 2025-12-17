@@ -1,40 +1,30 @@
 <script setup lang="ts">
-import type { SongStats, SongsDatabase } from '@/types'
+import type { SongStats } from '@/types'
 import RadarChart from '@components/RadarChart.vue'
 import TopTable from '@components/TopTable.vue'
-import duplicateSongs from '@data/duplicateSongs'
-import { loadSongsData } from '@data/songs'
-import {
-    calcMaxRatings,
-    calculateSongStats,
-    filterDuplicateSongs,
-    getTop20Median,
-    getTop20WeightedAverage,
-    parsePastedScores,
-    topValueCompensate
-} from '@utils/calculator'
-import { difficultyMap } from '@utils/difficulty'
 import { eventBus } from '@utils/eventBus'
-import { expandSongsDatabase, findSongByIdLevel } from '@utils/songHelpers'
 import html2canvas from 'html2canvas'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useScoreStore } from '@/store/scoreStore'
 
-const notice = ref('正在加载数据…')
-const results = ref<SongStats[]>([])
-const allResults = ref<SongStats[]>([])
-const lastResults = ref<SongStats[]>([])
-const lastOverallRating = ref(0)
-const onlyCnSongs = ref(false)
-const songsDB = ref<SongsDatabase | null>(null)
-const overallRating = ref(0)
-const radarData = ref({
-    daigouryoku: 0,
-    stamina: 0,
-    speed: 0,
-    accuracy: 0,
-    rhythm: 0,
-    complex: 0
+const store = useScoreStore()
+const { 
+    filteredSongStats, 
+    overallRating, 
+    lastOverallRating, 
+    radarData, 
+    topLists, 
+    isLoading, 
+    error
+} = store
+
+const notice = computed(() => {
+    if (isLoading.value) return '正在加载数据…'
+    if (error.value) return error.value
+    if (filteredSongStats.value.length === 0) return '未获取到成绩数据或无法计算, 可能是没有魔王难度、里魔王难度成绩'
+    return ''
 })
+
 const contentRef = ref<HTMLElement | null>(null)
 const isSaving = ref(false)
 
@@ -57,233 +47,19 @@ const handleScreenshot = () => {
 }
 
 function handleCnFilterChange(value: boolean) {
-    onlyCnSongs.value = value
-    applyCnFilter()
-}
-
-function applyCnFilter() {
-    if (!songsDB.value) {
-        console.warn('songsDB is not loaded')
-        return
-    }
-
-    if (onlyCnSongs.value) {
-        // 只保留国服曲目
-        const cnSongIds = new Set(
-            songsDB.value.filter(song => song.is_cn === true).map(song => song.id)
-        )
-
-        // 创建 id 到 title_cn 的映射
-        const idToTitleCn = new Map<number, string>()
-        songsDB.value.forEach(song => {
-            if (song.title_cn) {
-                idToTitleCn.set(song.id, song.title_cn)
-            }
-        })
-
-        // 筛选国服曲目，并替换标题为中文，添加难度标识
-        results.value = allResults.value
-            .filter(stat => cnSongIds.has(stat.id))
-            .map(stat => {
-                const titleCn = idToTitleCn.get(stat.id)
-                const difficulty = difficultyMap[stat.level] || ''
-                if (titleCn) {
-                    return { ...stat, title: `${titleCn}${difficulty}` }
-                }
-                return { ...stat, title: `${stat.title}${difficulty}` }
-            })
-    } else {
-        results.value = allResults.value.map(stat => {
-            const difficulty = difficultyMap[stat.level] || ''
-            return { ...stat, title: `${stat.title}${difficulty}` }
-        })
-    }
-
-    // 重新计算统计数据
-    const filteredResults = filterDuplicateSongs(results.value, duplicateSongs)
-    calculateOverallStats(filteredResults)
+    store.setCnFilter(value)
 }
 
 onMounted(async () => {
     eventBus.on('trigger-screenshot', handleScreenshot)
     eventBus.on('cn-filter-changed', handleCnFilterChange)
 
-    // 从 localStorage 读取设置
-    const savedSetting = localStorage.getItem('onlyCnSongs')
-    if (savedSetting !== null) {
-        onlyCnSongs.value = savedSetting === 'true'
-    }
-
-    try {
-        // 从 localStorage 读取数据
-        const scoreInput = localStorage.getItem('taikoScoreData') || ''
-        if (!scoreInput) {
-            notice.value = '未找到数据, 请先在首页输入数据'
-            return
-        }
-
-        const db = await loadSongsData()
-        songsDB.value = db
-        if (db.length === 0) {
-            notice.value = '歌曲数据加载失败, 请检查网络连接后刷新页面'
-            return
-        }
-        const scores = parsePastedScores(scoreInput)
-        const tempResults: SongStats[] = []
-
-        // 展开数据库并创建映射
-        const expandedEntries = expandSongsDatabase(db)
-        const entryMap = new Map()
-        expandedEntries.forEach(entry => {
-            const key = `${entry.id}-${entry.level}`
-            entryMap.set(key, entry)
-        })
-
-        scores.forEach(s => {
-            const key = `${s.id}-${s.level}`
-            const entry = entryMap.get(key)
-            if (!entry) return
-
-            const stats = calculateSongStats(entry.data, s, entry.title)
-            if (stats) tempResults.push(stats)
-        })
-
-        allResults.value = tempResults
-
-        // 计算旧数据
-        const lastScoreInput = localStorage.getItem('lastTaikoScore')
-        if (lastScoreInput) {
-            try {
-                const lastScores = parsePastedScores(lastScoreInput)
-                const lastTempResults: SongStats[] = []
-                
-                lastScores.forEach(s => {
-                    const key = `${s.id}-${s.level}`
-                    const entry = entryMap.get(key)
-                    if (!entry) return
-
-                    const stats = calculateSongStats(entry.data, s, entry.title)
-                    if (stats) lastTempResults.push(stats)
-                })
-                
-                const lastFiltered = filterDuplicateSongs(lastTempResults, duplicateSongs)
-                lastResults.value = lastFiltered
-                
-                const ratingMid = getTop20Median(lastFiltered, 'rating')
-                const ratingAve = getTop20WeightedAverage(lastFiltered, 'rating')
-                lastOverallRating.value = topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
-            } catch (e) {
-                console.error('Failed to process last score data', e)
-            }
-        }
-
-        applyCnFilter()
-
-        if (tempResults.length === 0) {
-            notice.value = '未获取到成绩数据或无法计算, 可能是没有魔王难度、里魔王难度成绩'
-        } else {
-            notice.value = ''
-        }
-    } catch (e) {
-        console.error(e)
-        notice.value = '成绩数据计算失败, 请检查输入格式'
-    }
+    await store.init()
 })
 
 onUnmounted(() => {
     eventBus.off('trigger-screenshot', handleScreenshot)
     eventBus.off('cn-filter-changed', handleCnFilterChange)
-})
-
-function calculateOverallStats(data: SongStats[]) {
-    const ratingMid = getTop20Median(data, 'rating')
-    const daigouryokuMid = getTop20Median(data, 'daigouryoku')
-    const staminaMid = getTop20Median(data, 'stamina')
-    const speedMid = getTop20Median(data, 'speed')
-    const accuracyMid = getTop20Median(data, 'accuracy_power')
-    const rhythmMid = getTop20Median(data, 'rhythm')
-    const complexMid = getTop20Median(data, 'complex')
-
-    const ratingAve = getTop20WeightedAverage(data, 'rating')
-    const daigouryokuAve = getTop20WeightedAverage(data, 'daigouryoku')
-    const staminaAve = getTop20WeightedAverage(data, 'stamina')
-    const speedAve = getTop20WeightedAverage(data, 'speed')
-    const accuracyAve = getTop20WeightedAverage(data, 'accuracy_power')
-    const rhythmAve = getTop20WeightedAverage(data, 'rhythm')
-    const complexAve = getTop20WeightedAverage(data, 'complex')
-
-    overallRating.value = topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
-    radarData.value = {
-        daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 14.54),
-        stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.92, 13.36),
-        speed: topValueCompensate(speedMid, 14.25, speedAve, 14.59, 14.00),
-        accuracy: topValueCompensate(accuracyMid, 15.44, accuracyAve, 15.45, 15.08),
-        rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 14.02),
-        complex: topValueCompensate(complexMid, 13.77, complexAve, 14.26, 13.45)
-    }
-}
-
-// 增强歌曲数据，添加定数和最大评分等信息
-function enhanceSongStats(songs: SongStats[], allFilteredSongs: SongStats[]): SongStats[] {
-    if (!songsDB.value) return songs
-
-    // 计算所有维度的排名（使用过滤后的所有歌曲）
-    const dimensionKeys: (keyof SongStats)[] = ['rating', 'daigouryoku', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex']
-    const dimensionRankMaps: Record<string, Map<string, number>> = {}
-
-    for (const key of dimensionKeys) {
-        const sorted = [...allFilteredSongs].sort((a, b) => (b[key] as number) - (a[key] as number))
-        const map = new Map<string, number>()
-        sorted.forEach((s, idx) => {
-            map.set(s.title, idx + 1)
-        })
-        dimensionRankMaps[key] = map
-    }
-
-    return songs.map(song => {
-        const result = findSongByIdLevel(songsDB.value!, song.id, song.level as 4 | 5)
-        if (!result) return song
-
-        const levelData = result.levelData
-        const maxRatings = calcMaxRatings(levelData)
-
-        const dimensionRanks: Record<string, number> = {}
-        for (const key of dimensionKeys) {
-            dimensionRanks[key] = dimensionRankMaps[key].get(song.title) ?? 0
-        }
-
-        // 计算与旧数据的差异
-        const lastSong = lastResults.value.find(s => s.id === song.id && s.level === song.level)
-        const isNew = !lastSong
-        const ratingDiff = lastSong ? song.rating - lastSong.rating : 0
-
-        return {
-            ...song,
-            _constant: levelData.constant,
-            _maxRatings: maxRatings,
-            _dimensionRanks: dimensionRanks,
-            _isUnplayed: song.great === 0 && song.good === 0 && song.bad === 0,
-            _isNew: isNew,
-            _ratingDiff: ratingDiff
-        }
-    })
-}
-
-// 取前 20 名列表
-const topLists = computed(() => {
-    // 先过滤掉包含关系的低rating曲目
-    const filtered = filterDuplicateSongs(results.value, duplicateSongs)
-
-    // 为每个维度的 top20 增强数据（传入过滤后的完整数据用于计算排名）
-    return {
-        rating: enhanceSongStats([...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20), filtered),
-        daigouryoku: enhanceSongStats([...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20), filtered),
-        stamina: enhanceSongStats([...filtered].sort((a, b) => b.stamina - a.stamina).slice(0, 20), filtered),
-        speed: enhanceSongStats([...filtered].sort((a, b) => b.speed - a.speed).slice(0, 20), filtered),
-        accuracy_power: enhanceSongStats([...filtered].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20), filtered),
-        rhythm: enhanceSongStats([...filtered].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20), filtered),
-        complex: enhanceSongStats([...filtered].sort((a, b) => b.complex - a.complex).slice(0, 20), filtered)
-    }
 })
 
 const currentTableData = computed(() => {
@@ -297,6 +73,7 @@ const currentTableData = computed(() => {
         showMode: activeSubTab.value
     }
 })
+
 
 async function saveElementAsImage(element: HTMLElement | null, fileName: string) {
     if (!element || isSaving.value) return
@@ -354,7 +131,7 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                                 <div class="text-gray-600 text-m">Rating</div>
                                 <div class="font-bold text-[28px] text-primary">
                                     {{ overallRating.toFixed(2) }}
-                                    <span v-if="lastOverallRating > 0" class="text-sm ml-2" :class="overallRating >= lastOverallRating ? 'text-red-500' : 'text-blue-500'">
+                                    <span v-if="lastOverallRating > 0" class="ml-2 text-sm" :class="overallRating >= lastOverallRating ? 'text-red-500' : 'text-blue-500'">
                                         {{ overallRating >= lastOverallRating ? '+' : '' }}{{ (overallRating - lastOverallRating).toFixed(2) }}
                                     </span>
                                 </div>

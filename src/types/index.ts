@@ -1,3 +1,19 @@
+export interface RatingDimensions {
+  rating: number
+  daigouryoku: number
+  stamina: number
+  speed: number
+  accuracy_power: number
+  rhythm: number
+  complex: number
+}
+
+export interface ScoreCounts {
+  great: number
+  good: number
+  bad: number
+}
+
 export interface SongLevelData {
   constant: number
   totalNotes: number
@@ -20,14 +36,11 @@ export interface SongData {
   }
 }
 
-export interface UserScore {
+export interface UserScore extends ScoreCounts {
   id: number
   level: number
   score: number
   scoreRank: number
-  great: number
-  good: number
-  bad: number
   drumroll: number
   combo: number
   playCount: number
@@ -37,31 +50,13 @@ export interface UserScore {
   updatedAt: string
 }
 
-export interface SongStats {
+export interface SongStats extends RatingDimensions, ScoreCounts {
   id: number
   level: number
   title: string
-  rating: number
-  daigouryoku: number
-  stamina: number
-  speed: number
-  accuracy_power: number
-  rhythm: number
-  complex: number
-  great: number
-  good: number
-  bad: number
   _constant?: number
-  _maxRatings?: {
-    maxRating: number
-    maxDaigouryoku: number
-    maxStamina: number
-    maxSpeed: number
-    maxAccuracyPower: number
-    maxRhythm: number
-    maxComplex: number
-  }
-  _dimensionRanks?: Record<string, number>
+  _maxRatings?: RatingDimensions
+  _dimensionRanks?: Record<keyof RatingDimensions, number>
   _isUnplayed?: boolean
   _isNew?: boolean
   _ratingDiff?: number

@@ -7,6 +7,7 @@ import { difficultyBadgeMap, difficultyMap } from '@utils/difficulty'
 import { eventBus } from '@utils/eventBus'
 import { expandSongsDatabase, findSongByIdLevel } from '@utils/songHelpers'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useScoreStore } from '@/store/scoreStore'
 
 interface SongRow {
   id: string
@@ -21,6 +22,7 @@ interface SongRow {
 
 type SortKey = 'title' | 'constant' | 'score' | 'rating' | 'great' | 'good' | 'bad' | 'drumroll' | 'combo' | 'updatedAt'
 
+const store = useScoreStore()
 const songs = ref<SongRow[]>([])
 const allSongs = ref<SongRow[]>([])
 const songsDB = ref<SongsDatabase | null>(null)
@@ -70,7 +72,7 @@ const userScoreToArray = (s: UserScore): any[] => {
   ]
 }
 
-const updateLocalStorage = (newScore: UserScore) => {
+const updateLocalStorage = async (newScore: UserScore) => {
   const scoreData = localStorage.getItem('taikoScoreData') || '[]'
   let rawScores: any[] = []
   try {
@@ -86,9 +88,12 @@ const updateLocalStorage = (newScore: UserScore) => {
   rawScores.push(userScoreToArray(newScore))
   
   localStorage.setItem('taikoScoreData', JSON.stringify(rawScores))
+  
+  // Update store
+  await store.init()
 }
 
-const removeFromLocalStorage = (id: number, level: number) => {
+const removeFromLocalStorage = async (id: number, level: number) => {
   const scoreData = localStorage.getItem('taikoScoreData') || '[]'
   let rawScores: any[] = []
   try {
@@ -100,6 +105,9 @@ const removeFromLocalStorage = (id: number, level: number) => {
   rawScores = rawScores.filter((r: any[]) => !(Number(r[0]) === id && Number(r[1]) === level))
   
   localStorage.setItem('taikoScoreData', JSON.stringify(rawScores))
+  
+  // Update store
+  await store.init()
 }
 
 const handleSaveScore = (scoreData: Partial<UserScore>) => {
