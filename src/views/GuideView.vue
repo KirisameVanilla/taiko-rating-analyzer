@@ -149,7 +149,7 @@ const handleUpload = () => {
         if (!fileHandle) return
         const file = await fileHandle.getFile()
         const text = await file.text()
-        const output = tryParseTaikoScoreGetter(text) || tryParseDonderTool(text)
+        const output = tryParseTaikoScoreGetter(text) || tryParseDonderTool(text) || tryParseDonderHiroba(text)
         if (!output) {
           showModal('文件内容格式不正确', '错误')
           return
@@ -182,6 +182,77 @@ function tryParseTaikoScoreGetter(input: string): string | null {
     }
   } catch (e) {}
   return null;
+}
+
+/* 尝试解析国际服 Donder Hiroba 抓分器格式
+  schema: {
+    songName: string,
+    difficulty: string,
+    score: {
+      crown: string,
+      badge: string,
+      score: number,
+      ranking: number,
+      good: number,
+      maxCombo: number,
+      ok: number,
+      roll: number,
+      bad: number,
+      count: {
+        play: number,
+        clear: number,
+        fullcombo: number,
+        donderfullcombo: number
+      }
+    },
+    songNo: string
+  }
+*/
+function tryParseDonderHiroba (input: string): string | null {
+  let parsed: any;
+  try {
+    parsed = JSON.parse(input);
+  } catch (e) {
+    return null;
+  }
+
+  // 检查是否为 Donder Hiroba 格式
+  const isDonderHirobaFormat = (obj: any) => {
+    return obj && typeof obj === 'object' && (
+      (Array.isArray(obj) && obj.length > 0 && obj[0] && typeof obj[0] === 'object' && 'songNo' in obj[0] && 'difficulty' in obj[0] && 'score' in obj[0]) ||
+      (!Array.isArray(obj) && 'songNo' in obj && 'difficulty' in obj && 'score' in obj)
+    );
+  };
+
+  if (!isDonderHirobaFormat(parsed)) return null;
+
+  // 难度映射
+  const difficultyMap: { [key: string]: number } = {
+    'easy': 1,
+    'normal': 2,
+    'hard': 3,
+    'oni': 4,
+    'ura': 5
+  };
+
+  let arr = Array.isArray(parsed) ? parsed : [parsed];
+  
+  return JSON.stringify(arr.map((item: any) => [
+    item.songNo,
+    difficultyMap[item.difficulty] ?? 4,
+    item.score?.score ?? 0,
+    item.score?.badge ?? '',
+    item.score?.good ?? 0,
+    item.score?.ok ?? 0,
+    item.score?.bad ?? 0,
+    item.score?.roll ?? 0,
+    item.score?.maxCombo ?? 0,
+    item.score?.count?.play ?? 0,
+    item.score?.count?.clear ?? 0,
+    (item.score?.count?.fullcombo ?? 0) > 0,
+    (item.score?.count?.donderfullcombo ?? 0) > 0,
+    ''
+  ]));
 }
 
 /* 尝试解析新版 LLX Donder Tool 传分器格式
@@ -245,7 +316,7 @@ const handleAnalyze = () => {
   }
 
   const input = scoreInput.value.trim();
-  let output = tryParseTaikoScoreGetter(input);
+  let output = tryParseTaikoScoreGetter(input) || tryParseDonderHiroba(input);
   if (!output) {
     output = tryParseDonderTool(input);
   }
