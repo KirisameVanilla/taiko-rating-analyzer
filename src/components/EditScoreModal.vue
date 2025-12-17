@@ -263,15 +263,17 @@ const handleClear = () => {
               class="bg-red-500 disabled:bg-red-300 px-4 py-2 border-none rounded font-medium text-white cursor-pointer disabled:cursor-not-allowed" 
               @click="handleClear" 
               :disabled="!initialScore"
+              title="清除成绩"
             >
-              清除成绩
+              <i class="fa-solid fa-trash"></i>
             </button>
             <button 
               class="px-4 py-2 border-none rounded font-medium text-white transition-colors cursor-pointer"
               :class="isLocked ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-500 hover:bg-gray-600'"
               @click="toggleLock"
+              :title="isLocked ? '已锁定' : '锁定成绩'"
             >
-              {{ isLocked ? '已锁定' : '锁定成绩' }}
+              <i class="fa-solid" :class="isLocked ? 'fa-lock' : 'fa-lock-open'"></i>
             </button>
           </div>
           <div class="flex gap-2.5 ml-auto">
