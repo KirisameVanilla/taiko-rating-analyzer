@@ -41,9 +41,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div id="app" class="flex flex-col min-h-screen">
+  <div id="app" class="flex flex-col bg-[#F5F5F7] min-h-screen">
     <NavigationBar />
-    <main class="flex-1 p-5 pt-[60px] max-md:pt-[50px]">
+    <main class="flex-1 mx-auto px-4 py-10 w-full max-w-[1200px]">
       <router-view />
     </main>
     <FloatingMenu />

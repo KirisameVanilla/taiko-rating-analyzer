@@ -100,18 +100,18 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
 
 <template>
     <div
-        class="bg-white shadow-[0_4px_6px_rgba(0,0,0,0.1)] mx-auto p-5 max-md:p-2.5 rounded-[10px] max-w-[1000px] min-h-[600px]">
-        <div v-if="notice" class="my-5 text-[#888] text-center">{{ notice }}</div>
+        class="bg-white/80 shadow-sm backdrop-blur-xl mx-auto p-8 max-md:p-4 border border-black/5 rounded-[32px] max-w-[1100px] min-h-[600px]">
+        <div v-if="notice" class="my-10 font-medium text-[#8E8E93] text-center">{{ notice }}</div>
 
         <template v-else>
-            <div class="flex max-md:flex-col gap-5 min-h-[500px]">
+            <div class="flex max-md:flex-col gap-8 min-h-[500px]">
                 <!-- Sidebar -->
                 <div
-                    class="flex flex-col flex-shrink-0 max-md:mb-5 pr-5 max-md:pr-0 max-md:pb-2.5 border-[#eee] border-r max-md:border-r-0 max-md:border-b w-[200px] max-md:w-full no-capture">
-                    <div class="max-md:flex flex-1 max-md:gap-2.5 max-md:pb-1.5 max-md:overflow-x-auto">
+                    class="flex flex-col flex-shrink-0 max-md:mb-6 pr-6 max-md:pr-0 max-md:pb-4 border-black/5 border-r max-md:border-r-0 max-md:border-b w-[220px] max-md:w-full no-capture">
+                    <div class="max-md:flex flex-1 max-md:gap-2 max-md:pb-2 max-md:overflow-x-auto custom-scrollbar">
                         <div v-for="item in menuItems" :key="item.id"
-                            class="hover:bg-[#ffbfbe] mb-1.5 max-md:mb-0 px-[15px] py-3 rounded-md text-gray-600 hover:text-[#333] max-md:whitespace-nowrap transition-all duration-300 cursor-pointer"
-                            :class="{ 'bg-primary text-white': activeSection === item.id }"
+                            class="mb-1.5 max-md:mb-0 px-5 py-3 rounded-2xl font-semibold text-sm max-md:whitespace-nowrap active:scale-[0.98] transition-all duration-200 cursor-pointer"
+                            :class="activeSection === item.id ? 'bg-[#007AFF] text-white shadow-sm' : 'text-[#1D1D1F] hover:bg-black/5'"
                             @click="activeSection = item.id">
                             {{ item.label }}
                         </div>
@@ -119,44 +119,48 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                 </div>
 
                 <!-- Content Area -->
-                <div class="relative flex-1 pl-2.5 max-md:pl-0" ref="contentRef">
+                <div class="relative flex-1" ref="contentRef">
                     <!-- Overview Section -->
-                    <div v-if="activeSection === 'overview'" class="flex flex-col items-center px-2.5 pb-2.5">
-                        <div class="mb-5 w-full text-center">
-                            <h1 class="m-0 font-bold text-[#333] text-2xl">Rating 及六维雷达图</h1>
+                    <div v-if="activeSection === 'overview'" class="flex flex-col items-center">
+                        <div class="mb-8 w-full text-center">
+                            <h1 class="m-0 font-bold text-[#1D1D1F] text-3xl tracking-tight">Rating 及六维雷达图</h1>
                         </div>
 
-                        <div class="flex justify-center mb-[30px] w-full">
-                            <div class="bg-[#f8f9fa] p-[10px] rounded-lg min-w-[120px] text-center">
-                                <div class="text-gray-600 text-m">Rating</div>
-                                <div class="font-bold text-[28px] text-primary">
+                        <div class="flex justify-center mb-10 w-full">
+                            <div class="bg-black/5 p-6 rounded-[24px] min-w-[160px] text-center">
+                                <div class="font-semibold text-[#8E8E93] text-sm uppercase tracking-wider">Rating</div>
+                                <div class="mt-1 font-bold text-[#007AFF] text-[40px] leading-none">
                                     {{ overallRating.toFixed(2) }}
-                                    <span v-if="lastOverallRating > 0" class="ml-2 text-sm" :class="overallRating >= lastOverallRating ? 'text-red-500' : 'text-blue-500'">
-                                        {{ overallRating >= lastOverallRating ? '+' : '' }}{{ (overallRating - lastOverallRating).toFixed(2) }}
-                                    </span>
+                                </div>
+                                <div v-if="lastOverallRating > 0" class="mt-2 font-bold text-sm" :class="overallRating >= lastOverallRating ? 'text-[#34C759]' : 'text-[#FF3B30]'">
+                                    {{ overallRating >= lastOverallRating ? '↑' : '↓' }} {{ Math.abs(overallRating - lastOverallRating).toFixed(2) }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="w-full max-w-[700px] h-[400px]">
+                        <div class="w-full max-w-[700px] h-[450px]">
                             <RadarChart :data="radarData" />
                         </div>
                     </div>
 
                     <!-- Top Tables -->
                     <div v-else-if="currentTableData">
-                        <!-- Sub Tabs -->
-                        <div class="flex gap-2.5 mb-5 border-[#eee] border-b-2">
-                            <div class="mb-[-2px] px-5 py-2.5 border-transparent border-b-[3px] font-medium text-gray-600 hover:text-primary transition-all duration-300 cursor-pointer"
-                                :class="{ 'text-primary border-b-primary': activeSubTab === 'top20' }"
-                                @click="activeSubTab = 'top20'">
+                        <!-- Sub Tabs (Segmented Control Style) -->
+                        <div class="inline-flex bg-black/5 mb-8 p-1 rounded-full">
+                            <button 
+                                class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-200"
+                                :class="activeSubTab === 'top20' ? 'bg-white text-[#1D1D1F] shadow-sm' : 'text-[#8E8E93] hover:text-[#1D1D1F]'"
+                                @click="activeSubTab = 'top20'"
+                            >
                                 Top 20
-                            </div>
-                            <div class="mb-[-2px] px-5 py-2.5 border-transparent border-b-[3px] font-medium text-gray-600 hover:text-primary transition-all duration-300 cursor-pointer"
-                                :class="{ 'text-primary border-b-primary': activeSubTab === 'recommend' }"
-                                @click="activeSubTab = 'recommend'">
+                            </button>
+                            <button 
+                                class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-200"
+                                :class="activeSubTab === 'recommend' ? 'bg-white text-[#1D1D1F] shadow-sm' : 'text-[#8E8E93] hover:text-[#1D1D1F]'"
+                                @click="activeSubTab = 'recommend'"
+                            >
                                 推荐曲目
-                            </div>
+                            </button>
                         </div>
 
                         <TopTable :title="currentTableData.title" :data="currentTableData.data"

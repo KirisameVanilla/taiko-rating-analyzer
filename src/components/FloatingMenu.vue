@@ -41,7 +41,7 @@ function toggleCnSongs() {
   <div class="no-capture">
     <!-- Main Button -->
     <button 
-      class="right-[30px] bottom-[30px] z-[1000] fixed flex justify-center items-center bg-primary hover:bg-[#d81b60] shadow-[0_4px_12px_rgba(0,0,0,0.2)] border-none rounded-full w-14 h-14 text-white text-2xl hover:scale-110 transition-all duration-300 cursor-pointer" 
+      class="right-[30px] bottom-[30px] z-[1000] fixed flex justify-center items-center bg-[#007AFF] hover:bg-[#0071e3] shadow-lg border-none rounded-full w-14 h-14 text-white text-2xl active:scale-90 transition-all duration-300 cursor-pointer" 
       @click="toggleMenu"
       title="菜单"
     >
@@ -50,21 +50,23 @@ function toggleCnSongs() {
 
     <!-- Popup Modal -->
     <Transition name="menu">
-      <div v-if="isOpen" class="z-[2000] fixed inset-0 flex justify-center items-center bg-black/50" @click="closeMenu">
-        <div class="bg-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] p-5 rounded-xl w-[90%] max-w-[300px]" @click.stop>
-          <div class="flex justify-between items-center mb-5 pb-2.5 border-[#eee] border-b">
-            <h3 class="m-0 text-[#333] text-lg">菜单</h3>
-            <button class="bg-none px-1.5 py-0 border-none text-[#999] hover:text-[#333] text-xl cursor-pointer" @click="closeMenu">✕</button>
+      <div v-if="isOpen" class="z-[2000] fixed inset-0 flex justify-center items-center bg-black/20 backdrop-blur-sm" @click="closeMenu">
+        <div class="bg-white/80 shadow-2xl backdrop-blur-xl p-6 border border-white/20 rounded-[32px] w-[90%] max-w-[320px]" @click.stop>
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="m-0 font-bold text-[#1D1D1F] text-xl tracking-tight">菜单</h3>
+            <button class="flex justify-center items-center bg-black/5 hover:bg-black/10 rounded-full w-8 h-8 text-[#8E8E93] transition-colors cursor-pointer" @click="closeMenu">
+              <i class="text-sm fas fa-times"></i>
+            </button>
           </div>
           
-          <div class="flex flex-col gap-2.5">
+          <div class="flex flex-col gap-3">
             <!-- 只查看国服设置 -->
             <button
               @click="toggleCnSongs"
-              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
-              :class="{ 'bg-primary/10 border-primary': onlyCnSongs }"
+              class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base active:scale-[0.98] transition-all duration-200 cursor-pointer"
+              :class="{ 'bg-[#007AFF]/10 text-[#007AFF]': onlyCnSongs }"
             >
-                <i v-if="onlyCnSongs" class="fa-regular fa-circle-check"></i>
+                <i v-if="onlyCnSongs" class="text-[#007AFF] fa-regular fa-circle-check"></i>
                 <i v-else class="fa-regular fa-circle"></i>
               <span>只查看国服</span>
             </button>
@@ -72,8 +74,7 @@ function toggleCnSongs() {
             <a 
               href="https://qm.qq.com/q/EhuH4pBPmU" 
               target="_blank" 
-              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
-              title="点击链接加入群聊【太鼓之达人Rating交流群】"
+              class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base no-underline active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <i class="fa-user-group fa-solid"></i>
               <span>加入QQ群</span>
@@ -82,7 +83,7 @@ function toggleCnSongs() {
             <button 
               v-if="isReportPage" 
               @click="handleScreenshot" 
-              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
+              class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <i class="fa-solid fa-camera"></i>
               <span>保存截图</span>
@@ -91,8 +92,7 @@ function toggleCnSongs() {
             <a 
               href="https://github.com/kirisamevanilla/taiko-best" 
               target="_blank" 
-              class="box-border flex items-center gap-[15px] bg-[#f8f9fa] hover:bg-white hover:shadow-[0_2px_8px_rgba(233,30,99,0.1)] px-[15px] py-3 border border-transparent hover:border-primary rounded-lg w-full text-[#333] hover:text-primary text-base no-underline transition-all hover:-translate-y-0.5 duration-200 cursor-pointer"
-              title="GitHub 仓库"
+              class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base no-underline active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <i class="fa-brands fa-github"></i>
               <span>GitHub 仓库</span>

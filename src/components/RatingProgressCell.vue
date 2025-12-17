@@ -37,26 +37,26 @@ const getMaxValue = () => {
 <template>
   <div class="flex items-center gap-1.5">
     <!-- 进度条（包含分数文本） -->
-    <div class="relative bg-gray-200 rounded-full w-28 h-5 overflow-hidden">
+    <div class="relative bg-black/5 rounded-full w-28 h-5 overflow-hidden">
       <div 
         class="h-full transition-all duration-500 ease-out"
         :class="{
-          'bg-emerald-300/60': getPercentage() >= 80,
-          'bg-blue-300/60': getPercentage() >= 60 && getPercentage() < 80,
-          'bg-yellow-300/60': getPercentage() >= 40 && getPercentage() < 60,
-          'bg-orange-300/60': getPercentage() >= 20 && getPercentage() < 40,
-          'bg-primary/60': getPercentage() < 20
+          'bg-[#34C759]/60': getPercentage() >= 80,
+          'bg-[#007AFF]/60': getPercentage() >= 60 && getPercentage() < 80,
+          'bg-[#FFCC00]/60': getPercentage() >= 40 && getPercentage() < 60,
+          'bg-[#FF9500]/60': getPercentage() >= 20 && getPercentage() < 40,
+          'bg-[#FF3B30]/60': getPercentage() < 20
         }"
         :style="{
           width: `${Math.min(getPercentage(), 100)}%`
         }"
       ></div>
       <!-- 当前rating/最高rating（绝对定位在进度条上） -->
-      <div class="absolute inset-0 flex justify-center items-center font-bold text-[11px] whitespace-nowrap">
-        <span class="text-gray-800">
+      <div class="absolute inset-0 flex justify-center items-center font-bold text-[12px] whitespace-nowrap">
+        <span class="text-[#1D1D1F]">
           {{ song._isUnplayed ? '0.00' : formatValue(song, valueKey) }}
         </span>
-        <span class="ml-0.5 text-[9px] text-gray-600">
+        <span class="ml-0.5 text-[#8E8E93] text-[10px]">
           / {{ getMaxValue().toFixed(2) }}
         </span>
       </div>

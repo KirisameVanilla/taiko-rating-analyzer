@@ -178,46 +178,44 @@ watch(
 </script>
 
 <template>
-  <div class="bg-white mt-0 p-2.5 rounded-lg">
-    <div class="flex justify-center items-center mb-5 font-bold">
-      <h2 class="m-0 text-[#333]">{{ title }}</h2>
+  <div class="bg-transparent mt-0 p-0">
+    <div class="flex justify-center items-center mb-8">
+      <h2 class="m-0 font-bold text-[#1D1D1F] text-3xl tracking-tight">{{ title }}</h2>
     </div>
     
     <!-- Top 20 表格 -->
-    <div v-if="showMode === 'top20'" class="overflow-x-auto">
+    <div v-if="showMode === 'top20'" class="bg-white/50 shadow-sm backdrop-blur-sm border border-black/5 rounded-[24px] overflow-x-auto">
       <table class="w-full text-sm border-collapse">
         <thead>
           <tr>
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">排名</th>
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">曲名</th>
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">良</th>
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">可</th>
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">不可</th>
-            <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">{{ title.split(' ')[0] }}</th> -->
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">定数</th>
-            <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left w32">{{ title.split(' ')[0] }}<span class="font-normal text-[10px]">（当前/最大）</span></th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">排名</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">曲名</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">良</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">可</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">不可</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">定数</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">Rating</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in data" :key="index" :class="{'bg-[#f2f2f2]': index % 2 === 1}">
-            <td class="p-2.5 border-[#ddd] border-b text-left">{{ index + 1 }}</td>
-            <td class="p-2.5 border-[#ddd] border-b text-left">
-              {{ item.title}}
-              <span v-if="item._isNew" class="bg-red-500 ml-1 px-1 rounded text-white text-xs">NEW</span>
+          <tr v-for="(item, index) in data" :key="index" class="hover:bg-black/[0.02] transition-colors">
+            <td class="p-4 border-black/5 border-b text-left">{{ index + 1 }}</td>
+            <td class="p-4 border-black/5 border-b text-left">
+              <span class="font-semibold text-[#1D1D1F]">{{ item.title }}</span>
+              <span v-if="item._isNew" class="bg-[#FF3B30] ml-2 px-1.5 py-0.5 rounded-full font-bold text-[10px] text-white">NEW</span>
             </td>
-            <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.great }}</td>
-            <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.good }}</td>
-            <td class="p-2.5 border-[#ddd] border-b text-left">{{ item.bad }}</td>
-            <!-- <td class="p-2.5 border-[#ddd] border-b text-left">{{ formatValue(item, valueKey) }}</td> -->
-            <td class="p-2.5 border-[#ddd] border-b text-left">{{ item._constant ?? '-' }}</td>
-            <td class="p-1.5 border-[#ddd] border-b text-left">
+            <td class="p-4 border-black/5 border-b text-left">{{ item.great }}</td>
+            <td class="p-4 border-black/5 border-b text-left">{{ item.good }}</td>
+            <td class="p-4 border-black/5 border-b text-left">{{ item.bad }}</td>
+            <td class="p-4 border-black/5 border-b font-mono text-left">{{ item._constant ?? '-' }}</td>
+            <td class="p-4 border-black/5 border-b text-left">
               <template v-if="item._maxRatings">
                 <RatingProgressCell :song="item" :valueKey="valueKey" :formatValue="formatValue" />
-                <div v-if="item._ratingDiff && item._ratingDiff !== 0" class="mt-1 text-xs" :class="item._ratingDiff > 0 ? 'text-red-500' : 'text-blue-500'">
+                <div v-if="item._ratingDiff && item._ratingDiff !== 0" class="mt-1 font-semibold text-[11px]" :class="item._ratingDiff > 0 ? 'text-[#FF3B30]' : 'text-[#007AFF]'">
                     {{ item._ratingDiff > 0 ? '+' : '' }}{{ item._ratingDiff.toFixed(2) }}
                 </div>
               </template>
-              <div v-else class="text-gray-400 text-xs">-</div>
+              <div v-else class="text-[#8E8E93] text-xs">-</div>
             </td>
           </tr>
         </tbody>
@@ -227,94 +225,77 @@ watch(
     <!-- 推荐歌曲列表 -->
     <div v-else-if="showMode === 'recommend'" class="mt-8 text-left">
       <!-- 难度调整工具栏 -->
-      <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-3 py-3">
-        <div class="flex sm:flex-row flex-col sm:items-center gap-3">
-          <span class="font-semibold text-gray-700 text-sm">难度定数偏好调整</span>
-          <div class="inline-flex items-stretch self-start sm:self-auto bg-white shadow-sm border border-gray-300 rounded-md overflow-hidden">
+      <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-4 mb-6">
+        <div class="flex sm:flex-row flex-col sm:items-center gap-4">
+          <span class="font-bold text-[#1D1D1F] text-sm tracking-tight">难度定数偏好调整</span>
+          <div class="inline-flex items-center bg-black/5 p-1 rounded-full overflow-hidden">
             <button 
               @click="decreaseDifficulty" 
-              class="bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 px-3 py-1.5 border-gray-300 border-r font-medium text-gray-700 disabled:text-gray-400 text-xs transition-colors disabled:cursor-not-allowed"
+              class="flex justify-center items-center bg-white hover:bg-gray-50 disabled:opacity-50 shadow-sm rounded-full w-8 h-8 text-[#1D1D1F] active:scale-95 transition-all disabled:cursor-not-allowed"
               :disabled="isLoading"
-              title="降低难度"
             >
-              - 降低
+              <i class="text-xs fas fa-minus"></i>
             </button>
-            <span v-if="isLoading" class="flex justify-center items-center bg-gray-50 px-3 py-1.5 border-gray-300 border-r min-w-[4.5rem] font-medium text-gray-500 text-xs">
-              计算中...
-            </span>
-            <span v-else class="flex justify-center items-center bg-gradient-to-r from-pink-50 to-purple-50 px-3 py-1.5 border-gray-300 border-r min-w-[4.5rem] font-bold text-gray-800 text-xs">
-              <span class="font-normal text-[10px] text-gray-500">
-                {{ best20ConstantBase > 0 ? best20ConstantBase.toFixed(1) : '-' }}
-              </span>
-              <span class="ml-1" :class="difficultyAdjustment >= 0 ? 'text-pink-600' : 'text-blue-600'">
-                {{ difficultyAdjustment >= 0 ? '+' : '' }}{{ difficultyAdjustment.toFixed(1) }}
-              </span>
-            </span>
+            <div class="flex items-center px-4 min-w-[100px] text-center">
+              <span v-if="isLoading" class="w-full font-medium text-[#8E8E93] text-xs">计算中...</span>
+              <div v-else class="flex flex-col items-center w-full">
+                <span class="font-bold text-[#1D1D1F] text-sm">
+                  {{ difficultyAdjustment >= 0 ? '+' : '' }}{{ difficultyAdjustment.toFixed(1) }}
+                </span>
+                <span class="text-[#8E8E93] text-[10px]">基准: {{ best20ConstantBase > 0 ? best20ConstantBase.toFixed(1) : '-' }}</span>
+              </div>
+            </div>
             <button 
               @click="increaseDifficulty" 
-              class="bg-white hover:bg-pink-50 active:bg-pink-100 disabled:bg-gray-100 px-3 py-1.5 font-medium text-gray-700 disabled:text-gray-400 text-xs transition-colors disabled:cursor-not-allowed"
+              class="flex justify-center items-center bg-white hover:bg-gray-50 disabled:opacity-50 shadow-sm rounded-full w-8 h-8 text-[#1D1D1F] active:scale-95 transition-all disabled:cursor-not-allowed"
               :disabled="isLoading"
-              title="提高难度"
             >
-              + 提高
+              <i class="text-xs fas fa-plus"></i>
             </button>
           </div>
         </div>
         <button 
           @click="showGuide = !showGuide" 
-          class="flex items-center self-start sm:self-auto gap-2 bg-white hover:bg-pink-50 active:bg-pink-100 shadow-sm px-4 py-1.5 border border-gray-200 hover:border-pink-300 rounded-md font-medium text-gray-700 text-xs transition-all"
-          title="使用说明"
+          class="flex items-center self-start sm:self-auto gap-2 bg-black/5 hover:bg-black/10 px-5 py-2 rounded-full font-semibold text-[#1D1D1F] text-sm active:scale-95 transition-all"
         >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>{{ '使用说明' }}</span>
+          <i class="text-xs fas fa-question-circle"></i>
+          <span>使用说明</span>
         </button>
       </div>
       
       <!-- 加载提示 -->
-      <div v-if="isLoading" class="flex justify-center items-center py-16">
+      <div v-if="isLoading" class="flex justify-center items-center py-20">
         <div class="text-center">
-          <div class="inline-block border-[3px] border-primary border-t-transparent rounded-[50%] w-10 h-10 animate-spin"></div>
-          <p class="mt-3 text-gray-600">正在计算推荐曲目...</p>
+          <div class="inline-block border-[#007AFF] border-[3px] border-t-transparent rounded-full w-10 h-10 animate-spin"></div>
+          <p class="mt-4 font-medium text-[#8E8E93]">正在计算推荐曲目...</p>
         </div>
       </div>
-      <!-- 基准值信息：仅用于调试 -->
-      <!-- <div v-if="!isLoading && recommendedSongs.length > 0" class="flex gap-6 bg-[#f9f9f9] mb-3 px-3 py-2 border-primary border-l-[3px] rounded">
-        <span class="text-gray-600 text-sm">
-          <strong class="mr-1 text-gray-800">当前评分维度基准值：</strong>{{ (recommendedSongs[0] as any)._best20IndicatorMedian?.toFixed(2) || '-' }}
-        </span>
-        <span class="text-gray-600 text-sm">
-          <strong class="mr-1 text-gray-800">Rating 基准值：</strong>{{ (recommendedSongs[0] as any)._scoreBaseline?.toFixed(2) || '-' }}
-        </span>
-      </div> -->
-      <div v-if="!isLoading" class="overflow-x-auto">
+
+      <div v-if="!isLoading" class="bg-white/50 shadow-sm backdrop-blur-sm border border-black/5 rounded-[24px] overflow-x-auto">
         <table class="w-full text-sm border-collapse">
           <thead>
             <tr>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">排名</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">曲名</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">定数</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">精度</th>
-              <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">歌曲难度指标</th> -->
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">难度偏差</th>
-              <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left w32">用户评分<span class="font-normal text-[10px]">（当前/目标）</span></th>
-              <!-- <th class="bg-[#e91e63] p-2.5 border-[#ddd] border-b text-white text-left">Rating 偏差</th> -->
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">排名</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">曲名</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">定数</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">精度</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">难度偏差</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">用户评分</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(song, index) in recommendedSongs" :key="song.title" :class="{'bg-[#f2f2f2]': index % 2 === 1}">
-              <td class="p-2.5 border-[#ddd] border-b text-left">
+            <tr v-for="(song, _) in recommendedSongs" :key="song.title" class="hover:bg-black/[0.02] transition-colors">
+              <td class="p-4 border-black/5 border-b text-left">
                 <template v-if="!(song as any)._isUnplayed && (song as any)._dimensionRanks && (song as any)._dimensionRanks[valueKey]">
-                  {{ (song as any)._dimensionRanks[valueKey] }}
+                  <span class="font-bold text-[#1D1D1F]">{{ (song as any)._dimensionRanks[valueKey] }}</span>
                 </template>
                 <template v-else-if="(song as any)._isUnplayed">
-                  <span class="text-gray-400 text-xs">-</span>
+                  <span class="text-[#8E8E93] text-xs">-</span>
                 </template>
               </td>
-              <td class="p-2.5 border-[#ddd] border-b font-bold text-[#333] text-left">{{ song.title }}</td>
-              <td class="p-2.5 border-[#ddd] border-b text-left">{{ (song as any)._constant ?? '-' }}</td>
-              <td class="p-2.5 border-[#ddd] border-b text-left">
+              <td class="p-4 border-black/5 border-b font-bold text-[#1D1D1F] text-left">{{ song.title }}</td>
+              <td class="p-4 border-black/5 border-b font-mono text-left">{{ (song as any)._constant ?? '-' }}</td>
+              <td class="p-4 border-black/5 border-b text-left">
                 <template v-if="typeof (song as any).great === 'number' && typeof (song as any).good === 'number' && (song as any)._constant && (song as any)._constant > 0 && (song as any)._songIndicatorValue">
                   {{
                     (() => {
@@ -329,18 +310,17 @@ watch(
                 </template>
                 <template v-else>-</template>
               </td>
-              <!-- <td class="p-2.5 border-[#ddd] border-b text-left">{{ (song as any)._songIndicatorValue?.toFixed(2) || '-' }}</td> -->
-              <td class="p-5.5 border-[#ddd] border-b text-left" :class="{'text-[#4caf50] font-semibold': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'text-[#ff9800] font-semibold': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
+              <td class="p-4 border-black/5 border-b font-semibold text-left" :class="{'text-[#34C759]': (song as any)._songIndicatorValue < (song as any)._best20IndicatorMedian, 'text-[#FF9500]': (song as any)._songIndicatorValue >= (song as any)._best20IndicatorMedian}">
                 <template v-if="(song as any)._best20IndicatorMedian && (song as any)._best20IndicatorMedian !== 0">
                   {{ (((((song as any)._songIndicatorValue - (song as any)._best20IndicatorMedian) / (song as any)._best20IndicatorMedian) * 100) .toFixed(1)) }}%
                 </template>
                 <template v-else>-</template>
               </td>
-              <td class="p-1.5 border-[#ddd] border-b text-left">
+              <td class="p-4 border-black/5 border-b text-left">
                 <template v-if="(song as any)._maxRatings">
                   <RatingProgressCell :song="song" :valueKey="valueKey" :formatValue="formatValue" />
                 </template>
-                <div v-else class="text-gray-400 text-xs">-</div>
+                <div v-else class="text-[#8E8E93] text-xs">-</div>
               </td>
             </tr>
           </tbody>

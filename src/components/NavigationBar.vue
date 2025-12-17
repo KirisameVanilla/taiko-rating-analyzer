@@ -41,42 +41,46 @@ const navigateToSongs = () => {
 </script>
 
 <template>
-  <nav class="top-0 right-0 left-0 z-[1000] sticky bg-nav-primary shadow-md">
-    <div class="flex max-md:flex-col justify-between items-center max-md:gap-4 mx-auto px-8 max-md:px-4 py-4 max-w-[1200px]">
-      <div class="flex items-center gap-3 font-bold text-nav-text text-xl">
-        <span class="max-md:text-lg tracking-wide">太鼓之达人 Rating & 六维分析</span>
+  <nav class="top-0 right-0 left-0 z-[1000] sticky bg-white/70 backdrop-blur-md border-black/5 border-b">
+    <div class="flex max-md:flex-col justify-between items-center max-md:gap-4 mx-auto px-8 max-md:px-4 py-3 max-w-[1200px]">
+      <div class="flex items-center gap-3 font-bold text-[#1D1D1F] text-xl">
+        <span class="max-md:text-lg tracking-tight">太鼓之达人 Rating</span>
       </div>
-      <div class="flex max-md:justify-center gap-4 max-md:w-full">
+      <div class="flex max-md:justify-center items-center gap-2 max-md:w-full">
         <button 
           @click="navigateToHome"
           :class="{ 
-            'bg-nav-active border-nav-active shadow-[0_2px_8px_rgba(52,152,219,0.4)]': route.path === '/',
-            'bg-nav-secondary border-nav-secondary': route.path !== '/'
+            'bg-[#007AFF] text-white shadow-sm': route.path === '/',
+            'bg-black/5 text-[#1D1D1F] hover:bg-black/10': route.path !== '/'
           }"
-          class="relative flex items-center gap-2 hover:bg-nav-active disabled:bg-[#475a6d] disabled:opacity-50 hover:shadow-[0_4px_12px_rgba(52,152,219,0.3)] px-6 py-3 border-2 hover:border-nav-active disabled:border-[#475a6d] rounded-md overflow-hidden font-semibold text-nav-text disabled:text-[#7f8c8d] text-base transition-all hover:-translate-y-0.5 active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
+          class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
         >
-          <i class="z-[1] relative fas fa-home"></i>
+          <i class="fas fa-home"></i>
+          <span class="max-md:hidden">首页</span>
         </button>
         <button 
           @click="navigateToSongs"
           :class="{ 
-            'bg-nav-active border-nav-active shadow-[0_2px_8px_rgba(52,152,219,0.4)]': route.path === '/songs',
-            'bg-nav-secondary border-nav-secondary': route.path !== '/songs'
+            'bg-[#007AFF] text-white shadow-sm': route.path === '/songs',
+            'bg-black/5 text-[#1D1D1F] hover:bg-black/10': route.path !== '/songs'
           }"
-          class="relative flex items-center gap-2 hover:bg-nav-active disabled:bg-[#475a6d] disabled:opacity-50 hover:shadow-[0_4px_12px_rgba(52,152,219,0.3)] px-6 py-3 border-2 hover:border-nav-active disabled:border-[#475a6d] rounded-md overflow-hidden font-semibold text-nav-text disabled:text-[#7f8c8d] text-base transition-all hover:-translate-y-0.5 active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
+          class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
         >
-          <i class="z-[1] relative fas fa-music"></i>
+          <i class="fas fa-music"></i>
+          <span class="max-md:hidden">曲目</span>
         </button>
         <button 
           @click="navigateToReport"
           :disabled="!hasScoreData"
           :class="{ 
-            'bg-nav-active border-nav-active shadow-[0_2px_8px_rgba(52,152,219,0.4)]': route.path === '/report',
-            'bg-nav-secondary border-nav-secondary': route.path !== '/report'
+            'bg-[#007AFF] text-white shadow-sm': route.path === '/report',
+            'bg-black/5 text-[#1D1D1F] hover:bg-black/10': route.path !== '/report' && hasScoreData,
+            'opacity-30 cursor-not-allowed': !hasScoreData
           }"
-          class="relative flex items-center gap-2 hover:bg-nav-active disabled:bg-[#475a6d] disabled:opacity-50 hover:shadow-[0_4px_12px_rgba(52,152,219,0.3)] px-6 py-3 border-2 hover:border-nav-active disabled:border-[#475a6d] rounded-md overflow-hidden font-semibold text-nav-text disabled:text-[#7f8c8d] text-base transition-all hover:-translate-y-0.5 active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
+          class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
         >
-          <i class="z-[1] relative fas fa-chart-bar"></i>
+          <i class="fas fa-chart-bar"></i>
+          <span class="max-md:hidden">分析</span>
         </button>
       </div>
     </div>

@@ -189,78 +189,96 @@ const handleClear = () => {
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="z-[1000] fixed inset-0 flex justify-center items-center bg-black/50 transition-opacity duration-300" @mousedown.self="$emit('close')">
-      <div class="bg-white shadow-[0_4px_6px_rgba(0,0,0,0.1)] rounded-lg w-[90%] max-w-[500px] transition-transform duration-300" @mousedown.stop>
-        <div class="flex justify-between items-center px-5 py-4 border-gray-200 border-b">
-          <h3 class="m-0 font-semibold text-lg">编辑成绩 - {{ title }}</h3>
-          <button class="bg-none border-none text-gray-600 text-2xl cursor-pointer" @click="$emit('close')">&times;</button>
+    <div v-if="show" class="z-[1000] fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm transition-opacity duration-300" @mousedown.self="$emit('close')">
+      <div class="bg-white/90 shadow-2xl backdrop-blur-2xl border border-white/20 rounded-[32px] w-[95%] max-w-[500px] overflow-hidden transition-all duration-300" @mousedown.stop>
+        <!-- Header -->
+        <div class="flex justify-between items-center px-8 py-6">
+          <div class="space-y-1">
+            <h3 class="m-0 font-bold text-[#1D1D1F] text-xl">编辑成绩</h3>
+            <p class="m-0 max-w-[300px] text-[#86868B] text-sm truncate">{{ title }}</p>
+          </div>
+          <button class="flex justify-center items-center bg-black/5 hover:bg-black/10 border-none rounded-full w-8 h-8 text-[#1D1D1F] transition-all cursor-pointer" @click="$emit('close')">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
         
-        <div class="p-5">
-          <div class="mb-[15px]">
-            <label class="block mb-1.5 font-medium text-gray-700">分数</label>
-            <input type="number" v-model.number="form.score" class="box-border p-2 border border-gray-300 rounded w-full" />
+        <div class="space-y-6 px-8 pb-8">
+          <!-- Score Input -->
+          <div class="space-y-2">
+            <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">分数</label>
+            <input 
+              type="number" 
+              v-model.number="form.score" 
+              class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] text-lg transition-all" 
+            />
           </div>
-          <div class="flex gap-[15px]">
-            <div class="flex-1 mb-[15px]">
-              <label class="block mb-1.5 font-medium text-gray-700">良</label>
-              <input type="number" v-model.number="form.great" class="box-border p-2 border border-gray-300 rounded w-full" />
+
+          <!-- Counts Grid -->
+          <div class="gap-4 grid grid-cols-3">
+            <div class="space-y-2">
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">良</label>
+              <input type="number" v-model.number="form.great" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
-            <div class="flex-1 mb-[15px]">
-              <label class="block mb-1.5 font-medium text-gray-700">可</label>
-              <input type="number" v-model.number="form.good" class="box-border p-2 border border-gray-300 rounded w-full" />
+            <div class="space-y-2">
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">可</label>
+              <input type="number" v-model.number="form.good" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
-            <div class="flex-1 mb-[15px]">
-              <label class="block mb-1.5 font-medium text-gray-700">不可</label>
-              <input type="number" v-model.number="form.bad" class="box-border p-2 border border-gray-300 rounded w-full" />
-            </div>
-          </div>
-          <div class="flex gap-[15px]">
-            <div class="flex-1 mb-[15px]">
-              <label class="block mb-1.5 font-medium text-gray-700">连打</label>
-              <input type="number" v-model.number="form.drumroll" class="box-border p-2 border border-gray-300 rounded w-full" />
-            </div>
-            <div class="flex-1 mb-[15px]">
-              <label class="block mb-1.5 font-medium text-gray-700">连击</label>
-              <input type="number" v-model.number="form.combo" class="box-border p-2 border border-gray-300 rounded w-full" />
+            <div class="space-y-2">
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">不可</label>
+              <input type="number" v-model.number="form.bad" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
           </div>
 
-          <div v-if="previewStats" class="mt-5 pt-[15px] border-gray-200 border-t">
-            <h4 class="m-0 mb-2.5 text-gray-700">预览 Rating: {{ previewStats.rating.toFixed(2) }}</h4>
-            <div class="gap-2.5 grid grid-cols-3">
-              <div class="flex flex-col bg-gray-50 p-2 rounded">
-                <span class="text-gray-600 text-xs">大歌力</span>
-                <span class="font-semibold text-gray-900">{{ previewStats.daigouryoku.toFixed(2) }}</span>
+          <!-- Combo & Drumroll -->
+          <div class="gap-4 grid grid-cols-2">
+            <div class="space-y-2">
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">连打</label>
+              <input type="number" v-model.number="form.drumroll" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
+            </div>
+            <div class="space-y-2">
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">连击</label>
+              <input type="number" v-model.number="form.combo" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
+            </div>
+          </div>
+
+          <!-- Preview Section -->
+          <div v-if="previewStats" class="space-y-4 bg-black/5 p-6 rounded-[24px]">
+            <div class="flex justify-between items-center">
+              <span class="font-medium text-[#86868B]">预览 Rating</span>
+              <span class="font-bold text-[#007AFF] text-2xl">{{ previewStats.rating.toFixed(2) }}</span>
+            </div>
+            <div class="gap-3 grid grid-cols-3">
+              <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">大歌力</span>
+                <span class="font-bold text-[#1D1D1F]">{{ previewStats.daigouryoku.toFixed(1) }}</span>
               </div>
-              <div class="flex flex-col bg-gray-50 p-2 rounded">
-                <span class="text-gray-600 text-xs">体力</span>
-                <span class="font-semibold text-gray-900">{{ previewStats.stamina.toFixed(2) }}</span>
+              <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">体力</span>
+                <span class="font-bold text-[#1D1D1F]">{{ previewStats.stamina.toFixed(1) }}</span>
               </div>
-              <div class="flex flex-col bg-gray-50 p-2 rounded">
-                <span class="text-gray-600 text-xs">高速力</span>
-                <span class="font-semibold text-gray-900">{{ previewStats.speed.toFixed(2) }}</span>
+              <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">高速力</span>
+                <span class="font-bold text-[#1D1D1F]">{{ previewStats.speed.toFixed(1) }}</span>
               </div>
-              <div class="flex flex-col bg-gray-50 p-2 rounded">
-                <span class="text-gray-600 text-xs">精度力</span>
-                <span class="font-semibold text-gray-900">{{ previewStats.accuracy_power.toFixed(2) }}</span>
+              <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">精度力</span>
+                <span class="font-bold text-[#1D1D1F]">{{ previewStats.accuracy_power.toFixed(1) }}</span>
               </div>
-              <div class="flex flex-col bg-gray-50 p-2 rounded">
-                <span class="text-gray-600 text-xs">节奏处理</span>
-                <span class="font-semibold text-gray-900">{{ previewStats.rhythm.toFixed(2) }}</span>
+              <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">节奏</span>
+                <span class="font-bold text-[#1D1D1F]">{{ previewStats.rhythm.toFixed(1) }}</span>
               </div>
-              <div class="flex flex-col bg-gray-50 p-2 rounded">
-                <span class="text-gray-600 text-xs">复合处理</span>
-                <span class="font-semibold text-gray-900">{{ previewStats.complex.toFixed(2) }}</span>
+              <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">复合</span>
+                <span class="font-bold text-[#1D1D1F]">{{ previewStats.complex.toFixed(1) }}</span>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="flex justify-between items-center px-5 py-4 border-gray-200 border-t">
-          <div class="flex gap-2">
+          <!-- Actions -->
+          <div class="flex items-center gap-3 pt-2">
             <button 
-              class="bg-red-500 disabled:bg-red-300 px-4 py-2 border-none rounded font-medium text-white cursor-pointer disabled:cursor-not-allowed" 
+              class="flex justify-center items-center bg-red-50 hover:bg-red-100 disabled:opacity-30 border-none rounded-2xl w-12 h-12 text-[#FF3B30] transition-all cursor-pointer" 
               @click="handleClear" 
               :disabled="!initialScore"
               title="清除成绩"
@@ -268,17 +286,17 @@ const handleClear = () => {
               <i class="fa-solid fa-trash"></i>
             </button>
             <button 
-              class="px-4 py-2 border-none rounded font-medium text-white transition-colors cursor-pointer"
-              :class="isLocked ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-500 hover:bg-gray-600'"
+              class="flex justify-center items-center border-none rounded-2xl w-12 h-12 transition-all cursor-pointer"
+              :class="isLocked ? 'bg-[#FF9500]/10 text-[#FF9500]' : 'bg-black/5 text-[#86868B]'"
               @click="toggleLock"
               :title="isLocked ? '已锁定' : '锁定成绩'"
             >
               <i class="fa-solid" :class="isLocked ? 'fa-lock' : 'fa-lock-open'"></i>
             </button>
-          </div>
-          <div class="flex gap-2.5 ml-auto">
-            <button class="bg-gray-200 px-4 py-2 border-none rounded font-medium text-gray-700 cursor-pointer" @click="$emit('close')">取消</button>
-            <button class="bg-blue-500 px-4 py-2 border-none rounded font-medium text-white cursor-pointer" @click="handleSave">保存</button>
+            <div class="flex flex-1 gap-3">
+              <button class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-2xl font-semibold text-[#1D1D1F] transition-all cursor-pointer" @click="$emit('close')">取消</button>
+              <button class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-3 border-none rounded-2xl font-bold text-white transition-all cursor-pointer" @click="handleSave">保存</button>
+            </div>
           </div>
         </div>
       </div>

@@ -26,17 +26,18 @@ const handleOverlayClick = (e: MouseEvent) => {
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="z-[1000] fixed inset-0 flex justify-center items-center bg-black/50 transition-opacity duration-300" @click="handleOverlayClick">
-      <div class="bg-white shadow-[0_4px_6px_rgba(0,0,0,0.1)] rounded-lg min-w-[300px] max-w-[500px] transition-transform duration-300">
-        <div class="flex justify-between items-center px-5 py-4 border-gray-200 border-b">
-          <h3 class="m-0 font-semibold text-gray-900 text-lg">{{ title }}</h3>
-          <button class="flex justify-center items-center bg-none p-0 border-none w-[30px] h-[30px] text-[28px] text-gray-500 hover:text-gray-900 leading-none cursor-pointer" @click="handleClose">&times;</button>
+    <div v-if="show" class="z-[1000] fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm transition-opacity duration-300" @click="handleOverlayClick">
+      <div class="bg-white/90 shadow-2xl backdrop-blur-2xl border border-white/20 rounded-[32px] min-w-[320px] max-w-[90%] overflow-hidden transition-all duration-300">
+        <div class="px-8 pt-8 pb-4">
+          <h3 class="m-0 font-bold text-[#1D1D1F] text-xl text-center">{{ title }}</h3>
         </div>
-        <div class="p-5">
-          <p class="m-0 text-gray-700 leading-normal whitespace-pre-wrap">{{ message }}</p>
+        <div class="px-8 py-4">
+          <p class="m-0 text-[#1D1D1F] text-center leading-relaxed whitespace-pre-wrap">{{ message }}</p>
         </div>
-        <div class="flex justify-end px-5 py-3 border-gray-200 border-t">
-          <button class="bg-blue-500 hover:bg-blue-600 px-4 py-2 border-none rounded-md font-medium text-white text-sm cursor-pointer" @click="handleClose">确定</button>
+        <div class="flex justify-center p-6">
+          <button class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-3 border-none rounded-2xl w-full font-bold text-white active:scale-[0.98] transition-all cursor-pointer" @click="handleClose">
+            确定
+          </button>
         </div>
       </div>
     </div>

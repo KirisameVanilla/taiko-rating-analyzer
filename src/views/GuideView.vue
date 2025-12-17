@@ -408,71 +408,100 @@ const anyalyze = async (input: string) => {
 </script>
 
 <template>
-  <div class="bg-white shadow-[0_4px_6px_rgba(0,0,0,0.1)] mx-auto p-[30px] rounded-[10px] max-w-[800px]">
-    <section class="bg-[#f8f9fa] mb-6 p-5 border border-[#e0e0e0] border-l-[#2196f3] border-l-4 rounded-md text-[#333]">
-      <p class="my-1">曲目列表页面点击歌曲可以修改成绩，右下角菜单按钮可以加入我们的QQ群</p>
-      <p class="my-1">本 Rating 系统旨在分析自身弱点并针对练习，请勿用于攀比</p>
+  <div class="mx-auto max-w-[800px]">
+    <!-- 顶部提示卡片 -->
+    <section class="bg-white/70 shadow-sm backdrop-blur-xl mb-6 p-6 border border-white/20 rounded-[24px]">
+      <div class="flex items-start gap-4">
+        <div class="bg-[#007AFF]/10 p-2 rounded-full">
+          <i class="text-[#007AFF] fa-solid fa-circle-info"></i>
+        </div>
+        <div class="space-y-2">
+          <p class="m-0 font-medium text-[#1D1D1F]">曲目列表页面点击歌曲可以修改成绩，右下角菜单按钮可以加入我们的 QQ 群</p>
+          <p class="m-0 text-[#86868B] text-sm">本 Rating 系统旨在分析自身弱点并针对练习，请勿用于攀比</p>
+        </div>
+      </div>
     </section>
+
     <section>
       <!-- 新的向导 -->
       <transition name="fade">
-        <div v-show="showWizard" class="bg-gradient-to-br from-[#546e7a] to-[#37474f] shadow-[0_10px_25px_rgba(84,110,122,0.3)] my-8 p-10 rounded-xl text-center">
-          <div class="flex flex-col items-center gap-5">
+        <div v-show="showWizard" class="bg-white/70 shadow-sm backdrop-blur-xl my-8 p-10 border border-white/20 rounded-[32px] text-center">
+          <div class="flex flex-col items-center gap-6">
             <!-- 步骤1：绑定广场ID -->
-            <div v-if="wizardStep === 1" class="flex flex-col items-center gap-4 w-full">
-              <p class="m-0 font-medium text-white text-lg">欢迎使用太鼓达人 Rating 分析系统！</p>
-              <p class="m-0 text-white/90 text-sm">请先绑定您的鼓众广场 ID</p>
-              <div class="flex sm:flex-row flex-col items-stretch sm:items-center gap-2 sm:gap-0 sm:focus-within:shadow-[0_0_0_3px_rgba(255,255,255,0.3)] sm:rounded-lg w-full max-w-[500px] transition-all duration-300">
-                <input 
-                  v-model="inputDonderId" 
-                  type="text" 
-                  placeholder="请输入广场 ID"
-                  class="box-border flex-1 bg-white/95 focus:bg-white px-4 py-3 border-2 border-white/30 focus:border-white/30 sm:border-r-0 rounded-lg sm:rounded-r-none sm:rounded-l-lg focus:outline-none h-12 text-[#333] placeholder:text-[#999] text-base transition-all duration-300"
-                  @keyup.enter="bindDonderId"
-                />
-                <button @click="bindDonderId" class="box-border flex justify-center items-center bg-[#607d8b] hover:bg-[#546e7a] active:bg-[#455a64] disabled:opacity-70 shadow-[0_4px_15px_rgba(96,125,139,0.3)] hover:shadow-[0_6px_20px_rgba(96,125,139,0.4)] px-6 border-none rounded-lg sm:rounded-r-lg sm:rounded-l-none h-12 font-semibold text-white text-base whitespace-nowrap transition-all duration-300 cursor-pointer disabled:cursor-not-allowed">绑定广场 ID →</button>
+            <div v-if="wizardStep === 1" class="flex flex-col items-center gap-6 w-full">
+              <div class="space-y-2">
+                <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">欢迎使用太鼓达人 Rating 分析系统</h2>
+                <p class="m-0 text-[#86868B]">请先绑定您的鼓众广场 ID</p>
               </div>
-              <button 
-                @click="handleManualImport" 
-                class="bg-transparent px-6 py-2 border border-white/50 hover:border-white/80 rounded-lg font-medium text-white/90 hover:text-white text-sm transition-all duration-300 cursor-pointer"
-              >
-                我没有广场 ID，跳过并手动导入成绩
-              </button>
+              
+              <div class="flex flex-col items-center gap-4 w-full max-w-[460px]">
+                <div class="relative w-full">
+                  <input 
+                    v-model="inputDonderId" 
+                    type="text" 
+                    placeholder="请输入广场 ID"
+                    class="box-border bg-black/5 focus:bg-white px-6 py-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] text-lg text-center transition-all"
+                    @keyup.enter="bindDonderId"
+                  />
+                </div>
+                <button 
+                  @click="bindDonderId" 
+                  class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-semibold text-white text-lg active:scale-[0.98] transition-all cursor-pointer"
+                >
+                  绑定广场 ID
+                </button>
+                <button 
+                  @click="handleManualImport" 
+                  class="bg-transparent px-6 py-2 border-none font-medium text-[#007AFF] hover:text-[#0071E3] text-sm transition-all cursor-pointer"
+                >
+                  我没有广场 ID，跳过并手动导入成绩
+                </button>
+              </div>
             </div>
 
             <!-- 步骤2：同步并分析数据 -->
-            <div v-else-if="wizardStep === 2" class="flex flex-col items-center gap-4 w-full">
-              <div class="flex flex-wrap justify-center items-center gap-3 bg-white/15 px-5 py-3 rounded-lg">
-                <span class="text-white/90 text-sm">您的广场 ID：</span>
-                <span class="font-semibold text-white text-lg">{{ donderId }}</span>
-                <button @click="rebindDonderId" class="bg-white/20 hover:bg-white/30 px-4 py-1.5 border border-white/50 rounded-md font-medium text-white text-sm transition-all duration-300 cursor-pointer">重新绑定</button>
+            <div v-else-if="wizardStep === 2" class="flex flex-col items-center gap-8 w-full">
+              <div class="flex flex-col items-center gap-3">
+                <div class="bg-[#007AFF]/10 px-6 py-3 border border-[#007AFF]/20 rounded-full">
+                  <span class="text-[#86868B] text-sm">您的广场 ID：</span>
+                  <span class="ml-2 font-bold text-[#1D1D1F] text-xl">{{ donderId }}</span>
+                </div>
+                <button @click="rebindDonderId" class="bg-black/5 hover:bg-black/10 px-4 py-1.5 border-none rounded-full font-medium text-[#86868B] text-xs transition-all cursor-pointer">重新绑定</button>
               </div>
-              <div class="m-0 max-w-[500px] text-white/95 text-sm text-left leading-relaxed">
-                <p class="m-0 mb-2">1. 请先前往 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a>，绑定自己的鼓众广场 ID，并点击同步成绩。</p>
-                <p class="m-0 mb-2">2. 请确保你在 <a href="https://donder-tool.llx.life/score" class="font-semibold text-white underline hover:no-underline" target="_blank">Donder 查分器</a> 中的成绩数据是最新的。</p>
-                <p class="m-0 mb-1">3. 完成上述操作后，您可以选择用如下方式同步你的成绩：</p>
-                <ul class="m-0 pl-5 list-disc">
-                  <li>如果您想使用自动同步功能，请确保查分器的 <b>公开成绩</b> 选项已开启，然后点击下方 "同步成绩" 按钮自动同步分析数据。</li>
-                  <li>如果您不想在查分器中公开自己的成绩，请在查分器中导出成绩，然后点击下方 "上传成绩" 按钮手动导入成绩。</li>
-                </ul>
+
+              <div class="gap-4 grid grid-cols-1 md:grid-cols-2 w-full text-left">
+                <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
+                  <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">1</div>
+                  <p class="text-[#1D1D1F] text-sm leading-relaxed">前往 <a href="https://donder-tool.llx.life/score" class="font-medium text-[#007AFF] hover:underline" target="_blank">Donder 查分器</a>，绑定 ID 并同步成绩。</p>
+                </div>
+                <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
+                  <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">2</div>
+                  <p class="text-[#1D1D1F] text-sm leading-relaxed">确保查分器中的成绩数据是最新的，并开启 <b>公开成绩</b> 选项。若不想公开成绩请点击导出，并选择上传成绩。</p>
+                </div>
               </div>
-              <div class="flex sm:flex-row flex-col justify-center gap-3">
-              <button 
-                @click="handleUpload" 
-                :disabled="isLoading"
-                class="bg-white disabled:opacity-70 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] px-8 py-3 border-none rounded-lg min-w-[160px] font-semibold text-[#546e7a] text-base transition-all hover:translate-y-[-2px] active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
-              >
-                {{ isLoading ? '正在分析...' : '上传成绩' }}
-              </button>
-              <button 
-                @click="fetchAndAnalyze" 
-                :disabled="isLoading"
-                class="bg-white disabled:opacity-70 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)] px-8 py-3 border-none rounded-lg min-w-[160px] font-semibold text-[#546e7a] text-base transition-all hover:translate-y-[-2px] active:translate-y-0 duration-300 cursor-pointer disabled:cursor-not-allowed"
-              >
-                {{ isLoading ? '正在分析...' : '同步成绩' }}
-              </button>
+
+              <div class="flex sm:flex-row flex-col justify-center gap-4 w-full max-w-[500px]">
+                <button 
+                  @click="fetchAndAnalyze" 
+                  :disabled="isLoading"
+                  class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] disabled:opacity-50 shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl font-semibold text-white text-lg active:scale-[0.98] transition-all cursor-pointer"
+                >
+                  <i v-if="isLoading" class="mr-2 fa-solid fa-circle-notch fa-spin"></i>
+                  {{ isLoading ? '正在分析...' : '同步成绩' }}
+                </button>
+                <button 
+                  @click="handleUpload" 
+                  :disabled="isLoading"
+                  class="flex-1 bg-black/5 hover:bg-black/10 disabled:opacity-50 py-4 border-none rounded-2xl font-semibold text-[#1D1D1F] text-lg active:scale-[0.98] transition-all cursor-pointer"
+                >
+                  上传成绩
+                </button>
               </div>
-              <p class="m-0 max-w-[500px] text-white/95 text-sm text-center leading-relaxed">如果自动同步分析数据遇到问题，您可以尝试<button @click="handleManualImport" class="bg-transparent px-4 py-2 border-none text-white/90 hover:text-white text-sm underline transition-all duration-300 cursor-pointer">手动导入成绩</button></p>
+              
+              <p class="m-0 text-[#86868B] text-sm">
+                如果自动同步遇到问题，您可以尝试
+                <button @click="handleManualImport" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">手动导入成绩</button>
+              </p>
             </div>
           </div>
         </div>
@@ -480,50 +509,88 @@ const anyalyze = async (input: string) => {
       
       <!-- 原有的使用指南内容 -->
       <transition name="fade">
-        <div v-show="showGuideContent">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="m-0 font-bold text-[#333]">手动导入成绩</h2>
+        <div v-show="showGuideContent" class="bg-white/70 shadow-sm backdrop-blur-xl my-8 p-8 border border-white/20 rounded-[32px]">
+          <div class="flex justify-between items-center mb-8">
+            <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">手动导入成绩</h2>
             <button 
               @click="backToWizard" 
-              class="bg-[#607d8b] hover:bg-[#546e7a] px-4 py-2 border-none rounded-lg font-medium text-white text-sm transition-all duration-300 cursor-pointer"
+              class="bg-black/5 hover:bg-black/10 px-5 py-2 border-none rounded-full font-medium text-[#1D1D1F] text-sm transition-all cursor-pointer"
             >
-              ← 返回
+              <i class="fa-chevron-left mr-1 fa-solid"></i> 返回
             </button>
           </div>
-            <p class="my-2.5 leading-relaxed">1. 须使用 Windows 或 MacOS 系统</p>
-            <p class="my-2.5 leading-relaxed">2. 启动传分器, 按照指引打开电脑端广场爬分, 直到传分器走到在 DonNote 点击上传按钮之前的一步(不需要打开 DonNote, 更不需要点击上传按钮)</p>
-            <p class="my-2.5 leading-relaxed">3. 将浏览器代理设置到系统代理,打开 <a href="https://www.baidu.com/api/ahfsdafbaqwerhue" target="_blank" class="text-primary hover:underline no-underline">获取成绩</a>, 传分器会将分数传到页面中, ctrl + a 全选复制过来粘贴</p>
-            <p class="my-2.5 leading-relaxed">4. 如果不会设置浏览器代理, 按 win 键搜索 PowerShell, 将以下代码粘贴并回车执行 <a href="javascript:void(0);" @click="copyPowerShellCode" class="text-primary hover:underline no-underline">点我复制代码</a></p>
-            <div class="bg-[#f5f5f5] my-[15px] px-5 py-[15px] border-primary border-l-4 rounded-lg">
-            <p class="m-0 mb-2.5 font-bold text-[#333]">传分器链接:</p>
-            <ul class="m-0 p-0 list-none">
-              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://gitee.com/donnote/taiko-score-getter/releases/tag/latest" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">旧版@Gitee donnote/taiko-score-getter</a></li>
-              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/tag/v0.1.2" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">新版@GitHub Steve-xmh/taiko-score-getter-rs</a></li>
-              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">点我下载新版传分器</a></li>
-              <li class="before:left-0 before:absolute relative py-2 pl-5 before:font-bold before:text-primary before:content-['▸']"><a href="https://ghproxy.vanillaaaa.org/https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="text-[15px] text-primary hover:text-primary-dark no-underline hover:no-underline transition-colors">点我使用代理下载新版传分器，大部分时间不用翻墙</a></li>
-            </ul>
+
+          <div class="space-y-6">
+            <div class="space-y-4">
+              <div class="flex gap-4">
+                <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">1</div>
+                <p class="m-0 text-[#1D1D1F]">须使用 Windows 或 MacOS 系统</p>
+              </div>
+              <div class="flex gap-4">
+                <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">2</div>
+                <p class="m-0 text-[#1D1D1F]">启动传分器，按照指引打开电脑端广场爬分，直到传分器走到在 DonNote 点击上传按钮之前的一步。</p>
+              </div>
+              <div class="flex gap-4">
+                <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">3</div>
+                <p class="m-0 text-[#1D1D1F]">
+                  将浏览器代理设置到系统代理，打开 
+                  <a href="https://www.baidu.com/api/ahfsdafbaqwerhue" target="_blank" class="font-medium text-[#007AFF] hover:underline">获取成绩</a>，
+                  传分器会将分数传到页面中，全选复制过来粘贴。
+                </p>
+              </div>
+              <div class="flex gap-4">
+                <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">4</div>
+                <p class="m-0 text-[#1D1D1F]">
+                  如果不会设置浏览器代理，按 Win 键搜索 PowerShell，将以下代码粘贴并回车执行：
+                  <button @click="copyPowerShellCode" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">点我复制代码</button>
+                </p>
+              </div>
+            </div>
+
+            <div class="space-y-4 bg-black/5 p-6 rounded-[24px]">
+              <p class="m-0 font-bold text-[#1D1D1F]">传分器下载:</p>
+              <div class="gap-3 grid grid-cols-1">
+                <a href="https://gitee.com/donnote/taiko-score-getter/releases/tag/latest" target="_blank" class="group flex items-center gap-3 bg-white/50 hover:bg-white p-3 rounded-xl text-[#1D1D1F] no-underline transition-all">
+                  <i class="text-[#F05032] text-xl fa-brands fa-git-alt"></i>
+                  <span class="flex-1 font-medium text-sm">旧版 @Gitee donnote/taiko-score-getter</span>
+                  <i class="fa-chevron-right text-black/10 group-hover:text-black/30 transition-all fa-solid"></i>
+                </a>
+                <a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/tag/v0.1.2" target="_blank" class="group flex items-center gap-3 bg-white/50 hover:bg-white p-3 rounded-xl text-[#1D1D1F] no-underline transition-all">
+                  <i class="text-xl fa-brands fa-github"></i>
+                  <span class="flex-1 font-medium text-sm">新版 @GitHub Steve-xmh/taiko-score-getter-rs</span>
+                  <i class="fa-chevron-right text-black/10 group-hover:text-black/30 transition-all fa-solid"></i>
+                </a>
+                <a href="https://ghproxy.vanillaaaa.org/https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="group flex items-center gap-3 bg-[#007AFF]/10 hover:bg-[#007AFF]/20 p-3 rounded-xl text-[#007AFF] no-underline transition-all">
+                  <i class="text-xl fa-solid fa-download"></i>
+                  <span class="flex-1 font-bold text-sm">点我下载新版传分器</span>
+                  <i class="fa-chevron-right opacity-30 group-hover:opacity-100 transition-all fa-solid"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="space-y-4 pt-4">
+              <div class="flex gap-2">
+                <button @click="handleUpload" class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-xl font-medium text-[#1D1D1F] transition-all cursor-pointer">
+                  <i class="mr-2 fa-regular fa-file"></i> 上传文件
+                </button>
+                <button @click="handlePaste" class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-xl font-medium text-[#1D1D1F] transition-all cursor-pointer">
+                  <i class="mr-2 fa-regular fa-clipboard"></i> 粘贴数据
+                </button>
+              </div>
+              <textarea 
+                v-model="scoreInput" 
+                rows="4" 
+                placeholder="在此处粘贴数据..."
+                class="box-border bg-black/5 focus:bg-white p-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full font-mono text-[#1D1D1F] transition-all resize-none"
+              ></textarea>
+              <button @click="handleAnalyze" class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-bold text-white text-lg active:scale-[0.98] transition-all cursor-pointer">
+                分析数据
+              </button>
+            </div>
           </div>
         </div>
       </transition>
-      
     </section>
-    <transition name="fade">
-      <div v-show="showGuideContent" class="my-5">
-        <div class="flex flex-wrap gap-2 mb-2">
-          <button @click="handleUpload" class="bg-[#2196f3] hover:bg-[#1976d2] px-2 py-1 border-none rounded text-white text-sm whitespace-nowrap transition-colors cursor-pointer"><i class="z-[1] relative fa-regular fa-file"></i> 上传文件</button>
-          <button @click="handlePaste" class="bg-[#2196f3] hover:bg-[#1976d2] px-2 py-1 border-none rounded text-white text-sm whitespace-nowrap transition-colors cursor-pointer"><i class="z-[1] relative fa-regular fa-clipboard"></i> 粘贴数据</button>
-        </div>
-        <textarea 
-          v-model="scoreInput" 
-          rows="4" 
-          placeholder="请输入数据"
-          class="box-border p-2.5 border border-[#ddd] rounded w-full font-mono resize-none"
-        ></textarea>
-      </div>
-    </transition>
-    <transition name="fade">
-      <button v-show="showGuideContent" @click="handleAnalyze" class="bg-primary hover:bg-primary-dark p-3 border-none rounded w-full text-white text-base transition-colors cursor-pointer">分析数据</button>
-    </transition>
   </div>
 </template>
 
