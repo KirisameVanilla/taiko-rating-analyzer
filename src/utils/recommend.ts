@@ -135,7 +135,8 @@ export function recommendSongs(
   limit: number = 20,
   filterFn?: (id: number) => boolean,
   difficultyAdjustment: number = 0,
-  constantBase?: number
+  constantBase?: number,
+  blacklist: string[] = []
 ): SongStats[] {
   if (!cachedSongsDatabase || cachedSongsDatabase.length === 0) return []
 
@@ -173,12 +174,13 @@ export function recommendSongs(
   
   const best20UserScoreMedian = calculateMedian(best20UserScoreValues)
 
+  const blacklistSet = new Set(blacklist)
   const allSongEntries: Array<{ id: number; title: string; level: 4 | 5; levelData: SongLevelData }> = []
   for (const song of filteredDatabase) {
-    if (song.level['4']) {
+    if (song.level['4'] && !blacklistSet.has(`${song.id}-4`)) {
       allSongEntries.push({ id: song.id, title: song.title, level: 4, levelData: song.level['4'] })
     }
-    if (song.level['5']) {
+    if (song.level['5'] && !blacklistSet.has(`${song.id}-5`)) {
       allSongEntries.push({ id: song.id, title: song.title, level: 5, levelData: song.level['5'] })
     }
   }

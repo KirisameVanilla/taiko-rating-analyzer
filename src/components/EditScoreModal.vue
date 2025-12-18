@@ -2,6 +2,7 @@
 import type { SongLevelData, SongStats, UserScore, LockedScores } from '@/types'
 import { calculateSongStats } from '@utils/calculator'
 import { computed, ref, watch } from 'vue'
+ import { useScoreStore } from '@/store/scoreStore'
 
 interface Props {
   show: boolean
@@ -20,6 +21,9 @@ const emit = defineEmits<{
   (e: 'clear'): void
 }>()
 
+const store = useScoreStore()
+const { blacklistedSongs, toggleBlacklist } = store
+
 const form = ref({
   score: 0,
   great: 0,
@@ -30,6 +34,19 @@ const form = ref({
 })
 
 const isLocked = ref(false)
+
+const isBlacklisted = computed(() => {
+  const key = getLockKey()
+  return key ? blacklistedSongs.value.includes(key) : false
+})
+
+const handleToggleBlacklist = () => {
+  const id = props.songId || props.initialScore?.id
+  const level = props.difficulty || props.initialScore?.level
+  if (id !== undefined && level !== undefined) {
+    toggleBlacklist(id, level)
+  }
+}
 
 const getLockKey = () => {
   if (props.songId !== undefined && props.difficulty !== undefined) {
@@ -292,6 +309,14 @@ const handleClear = () => {
               :title="isLocked ? '已锁定' : '锁定成绩'"
             >
               <i class="fa-solid" :class="isLocked ? 'fa-lock' : 'fa-lock-open'"></i>
+            </button>
+            <button 
+              class="flex justify-center items-center border-none rounded-2xl w-12 h-12 transition-all cursor-pointer"
+              :class="isBlacklisted ? 'bg-red-500 text-white' : 'bg-black/5 text-[#86868B]'"
+              @click="handleToggleBlacklist"
+              :title="isBlacklisted ? '已拉黑' : '拉黑谱面'"
+            >
+              <i class="fa-solid fa-ban"></i>
             </button>
             <div class="flex flex-1 gap-3">
               <button class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-2xl font-semibold text-[#1D1D1F] transition-all cursor-pointer" @click="$emit('close')">取消</button>

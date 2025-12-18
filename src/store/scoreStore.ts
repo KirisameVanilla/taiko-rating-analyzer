@@ -21,6 +21,7 @@ const allSongStats = ref<SongStats[]>([])
 const lastSongStats = ref<SongStats[]>([])
 const filteredSongStats = ref<SongStats[]>([])
 const onlyCnSongs = ref(false)
+const blacklistedSongs = ref<string[]>([])
 const isLoading = ref(false)
 const error = ref<string | null>(null)
 
@@ -180,6 +181,16 @@ export function useScoreStore() {
         onlyCnSongs.value = savedSetting === 'true'
       }
 
+      const savedBlacklist = localStorage.getItem('taiko-blacklisted-songs')
+      if (savedBlacklist) {
+        try {
+          blacklistedSongs.value = JSON.parse(savedBlacklist)
+        } catch (e) {
+          console.error('Failed to parse blacklist', e)
+          blacklistedSongs.value = []
+        }
+      }
+
       // Load DB if needed
       if (!songsDB.value) {
         songsDB.value = await loadSongsData()
@@ -261,12 +272,24 @@ export function useScoreStore() {
     applyCnFilter()
   }
 
+  const toggleBlacklist = (id: number, level: number) => {
+    const key = `${id}-${level}`
+    const index = blacklistedSongs.value.indexOf(key)
+    if (index > -1) {
+      blacklistedSongs.value.splice(index, 1)
+    } else {
+      blacklistedSongs.value.push(key)
+    }
+    localStorage.setItem('taiko-blacklisted-songs', JSON.stringify(blacklistedSongs.value))
+  }
+
   return {
     songsDB,
     allSongStats,
     filteredSongStats,
     lastSongStats,
     onlyCnSongs,
+    blacklistedSongs,
     isLoading,
     error,
     overallRating,
@@ -274,6 +297,7 @@ export function useScoreStore() {
     radarData,
     topLists,
     init,
-    setCnFilter
+    setCnFilter,
+    toggleBlacklist
   }
 }
