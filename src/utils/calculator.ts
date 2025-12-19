@@ -111,26 +111,34 @@ export function getXFromConstant(constant: number): number {
  * @returns Y轴分数，代表准确度维度的能力值
  */
 export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'great-only'): number {
-  const g = accuracy
+  let g0: number, g1: number, g2: number
+  let calcY_1: (acc: number) => number
+  let calcY_2: (acc: number) => number
+  let calcY_3: (acc: number) => number
+
   if (algorithm === 'great-only') {
-    if (g <= 0.5) return 0
-    if (g <= 0.6832) {
-      return 4425 * POWER(g - 0.5, 4.876)
-    } else if (g <= 0.9625) {
-      return 30.748 * g - 19.88
-    } else {
-      return 0.228 * POWER(2.718, 3.386 * POWER(g, 24.658)) + 8.862
-    }
+    calcY_1 = (acc) => 4425 * POWER(acc - 0.5, 4.876)
+    calcY_2 = (acc) => 30.748 * acc - 19.88
+    calcY_3 = (acc) => 0.228 * POWER(2.718, 3.386 * POWER(acc, 24.658)) + 8.862
+    g0 = 0.5
+    g1 = 0.6832
+    g2 = 0.9625
+  } else { // comprehensive
+    calcY_1 = (acc) => 16730 * POWER(acc - 0.75, 3.805)
+    calcY_2 = (acc) => 56.4468 * acc - 45.7187
+    calcY_3 = (acc) => 0.2246 * POWER(2.718, 120 * (acc - 0.972)) + 9.02
+    g0 = 0.75
+    g1 = 0.8278
+    g2 = 0.9793
+  }
+
+  if (accuracy <= g0) return 0
+  if (accuracy <= g1) {
+    return calcY_1(accuracy)
+  } else if (accuracy <= g2) {
+    return calcY_2(accuracy)
   } else {
-    // 综合准度算法
-    if (g <= 0.75) return 0
-    if (g <= 0.8278) {
-      return 16730 * POWER(g - 0.75, 3.805)
-    } else if (g <= 0.9793) {
-      return 56.4468 * g - 45.7187
-    } else {
-      return 0.2246 * POWER(2.718, 120 * (g - 0.972)) + 9.02
-    }
+    return calcY_3(g2) + (calcY_3(accuracy) - calcY_3(g2)) / (calcY_3(1) - calcY_3(g2)) * (NORMALIZATION_FACTOR - calcY_3(g2))
   }
 }
 
@@ -642,5 +650,5 @@ export function topValueCompensate(
 ): number {
   if (ratingAve < threshold) return ratingMid
   const per = (ratingAve - threshold) / (fullAve - threshold)
-  return ratingMid + per * (15.5 - fullMid)
+  return ratingMid + per * (NORMALIZATION_FACTOR - fullMid)
 }
