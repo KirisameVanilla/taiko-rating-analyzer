@@ -195,7 +195,10 @@ export function calcW(x: number, y: number): number {
 export function calcSingleRating(x: number, y: number): number {
   const p = calcP(x, y)
   const w = calcW(x, y)
-  return POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
+
+  return p === 0
+  ? POWER(x, w) * POWER(y, (1 - w)) 
+  : POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
 }
 
 /**
@@ -731,14 +734,14 @@ export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<A
   const complexAve = getTop20WeightedAverage(filtered, 'complex')
 
   return {
-    overallRating: topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59),
+    overallRating: topValueCompensate(ratingMid, 15.27, ratingAve, 15.30, 14.58),
     radarData: {
       daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 14.54),
-      stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.92, 13.36),
-      speed: topValueCompensate(speedMid, 14.25, speedAve, 14.59, 14.00),
-      accuracy: topValueCompensate(accuracyMid, 15.44, accuracyAve, 15.45, 15.08),
+      stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.91, 13.36),
+      speed: topValueCompensate(speedMid, 14.245, speedAve, 14.58, 13.99),
+      accuracy: topValueCompensate(accuracyMid, 15.4, accuracyAve, 15.45, 15.03),
       rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 14.02),
-      complex: topValueCompensate(complexMid, 13.77, complexAve, 14.26, 13.45)
+      complex: topValueCompensate(complexMid, 13.745, complexAve, 14.26, 13.45)
     }
   }
 }
@@ -750,5 +753,5 @@ export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Arr
   const filtered = filterDuplicateSongs(data, duplicateSongs)
   const ratingMid = getTop20Median(filtered, 'rating')
   const ratingAve = getTop20WeightedAverage(filtered, 'rating')
-  return topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
+  return topValueCompensate(ratingMid, 15.27, ratingAve, 15.31, 14.58)
 }
