@@ -2,15 +2,14 @@ import { ref, computed } from 'vue'
 import type { SongStats, SongsDatabase, UserScore, LockedScores, RatingAlgorithm } from '@/types'
 import { loadSongsData } from '@data/songs'
 import {
-  calcMaxRatings,
   calculateSongStats,
   filterDuplicateSongs,
-  getTop20Median,
-  getTop20WeightedAverage,
   parsePastedScores,
-  topValueCompensate
+  enhanceSongStats,
+  calculateOverallStats,
+  calculateLastOverallStats
 } from '@utils/calculator'
-import { expandSongsDatabase, findSongByIdLevel } from '@utils/songHelpers'
+import { expandSongsDatabase } from '@utils/songHelpers'
 import { difficultyMap } from '@utils/difficulty'
 import { setSongsDatabase } from '@utils/recommend'
 import duplicateSongs from '@data/duplicateSongs'
@@ -43,96 +42,27 @@ const radarData = ref({
 const topLists = computed(() => {
   const filtered = filterDuplicateSongs(filteredSongStats.value, duplicateSongs)
   
+  const args = [filtered, songsDB.value, ratingAlgorithm.value, lastSongStats.value] as const
+
   return {
-    rating: enhanceSongStats([...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20), filtered),
-    daigouryoku: enhanceSongStats([...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20), filtered),
-    stamina: enhanceSongStats([...filtered].sort((a, b) => b.stamina - a.stamina).slice(0, 20), filtered),
-    speed: enhanceSongStats([...filtered].sort((a, b) => b.speed - a.speed).slice(0, 20), filtered),
-    accuracy_power: enhanceSongStats([...filtered].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20), filtered),
-    rhythm: enhanceSongStats([...filtered].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20), filtered),
-    complex: enhanceSongStats([...filtered].sort((a, b) => b.complex - a.complex).slice(0, 20), filtered)
+    rating: enhanceSongStats([...filtered].sort((a, b) => b.rating - a.rating).slice(0, 20), ...args),
+    daigouryoku: enhanceSongStats([...filtered].sort((a, b) => b.daigouryoku - a.daigouryoku).slice(0, 20), ...args),
+    stamina: enhanceSongStats([...filtered].sort((a, b) => b.stamina - a.stamina).slice(0, 20), ...args),
+    speed: enhanceSongStats([...filtered].sort((a, b) => b.speed - a.speed).slice(0, 20), ...args),
+    accuracy_power: enhanceSongStats([...filtered].sort((a, b) => b.accuracy_power - a.accuracy_power).slice(0, 20), ...args),
+    rhythm: enhanceSongStats([...filtered].sort((a, b) => b.rhythm - a.rhythm).slice(0, 20), ...args),
+    complex: enhanceSongStats([...filtered].sort((a, b) => b.complex - a.complex).slice(0, 20), ...args)
   }
 })
 
-function enhanceSongStats(songs: SongStats[], allFilteredSongs: SongStats[]): SongStats[] {
-  if (!songsDB.value) return songs
-
-  const dimensionKeys: (keyof SongStats)[] = ['rating', 'daigouryoku', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex']
-  const dimensionRankMaps: Record<string, Map<string, number>> = {}
-
-  for (const key of dimensionKeys) {
-    const sorted = [...allFilteredSongs].sort((a, b) => (b[key] as number) - (a[key] as number))
-    const map = new Map<string, number>()
-    sorted.forEach((s, idx) => {
-      map.set(s.title, idx + 1)
-    })
-    dimensionRankMaps[key] = map
-  }
-
-  return songs.map(song => {
-    const result = findSongByIdLevel(songsDB.value!, song.id, song.level as 4 | 5)
-    if (!result) return song
-
-    const levelData = result.levelData
-    const maxRatings = calcMaxRatings(levelData, ratingAlgorithm.value)
-
-    const dimensionRanks: Record<string, number> = {}
-    for (const key of dimensionKeys) {
-      dimensionRanks[key] = dimensionRankMaps[key].get(song.title) ?? 0
-    }
-
-    // Calculate diff with last stats
-    const lastSong = lastSongStats.value.find(s => s.id === song.id && s.level === song.level)
-    const isNew = !lastSong
-    const ratingDiff = lastSong ? song.rating - lastSong.rating : 0
-
-    return {
-      ...song,
-      _constant: levelData.constant,
-      _maxRatings: maxRatings,
-      _dimensionRanks: dimensionRanks,
-      _isUnplayed: song.great === 0 && song.good === 0 && song.bad === 0,
-      _isNew: isNew,
-      _ratingDiff: ratingDiff
-    }
-  })
+function updateOverallStats(data: SongStats[]) {
+  const result = calculateOverallStats(data, duplicateSongs)
+  overallRating.value = result.overallRating
+  radarData.value = result.radarData
 }
 
-function calculateOverallStats(data: SongStats[]) {
-  const filtered = filterDuplicateSongs(data, duplicateSongs)
-  
-  const ratingMid = getTop20Median(filtered, 'rating')
-  const daigouryokuMid = getTop20Median(filtered, 'daigouryoku')
-  const staminaMid = getTop20Median(filtered, 'stamina')
-  const speedMid = getTop20Median(filtered, 'speed')
-  const accuracyMid = getTop20Median(filtered, 'accuracy_power')
-  const rhythmMid = getTop20Median(filtered, 'rhythm')
-  const complexMid = getTop20Median(filtered, 'complex')
-
-  const ratingAve = getTop20WeightedAverage(filtered, 'rating')
-  const daigouryokuAve = getTop20WeightedAverage(filtered, 'daigouryoku')
-  const staminaAve = getTop20WeightedAverage(filtered, 'stamina')
-  const speedAve = getTop20WeightedAverage(filtered, 'speed')
-  const accuracyAve = getTop20WeightedAverage(filtered, 'accuracy_power')
-  const rhythmAve = getTop20WeightedAverage(filtered, 'rhythm')
-  const complexAve = getTop20WeightedAverage(filtered, 'complex')
-
-  overallRating.value = topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
-  radarData.value = {
-    daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 14.54),
-    stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.92, 13.36),
-    speed: topValueCompensate(speedMid, 14.25, speedAve, 14.59, 14.00),
-    accuracy: topValueCompensate(accuracyMid, 15.44, accuracyAve, 15.45, 15.08),
-    rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 14.02),
-    complex: topValueCompensate(complexMid, 13.77, complexAve, 14.26, 13.45)
-  }
-}
-
-function calculateLastOverallStats(data: SongStats[]) {
-  const filtered = filterDuplicateSongs(data, duplicateSongs)
-  const ratingMid = getTop20Median(filtered, 'rating')
-  const ratingAve = getTop20WeightedAverage(filtered, 'rating')
-  lastOverallRating.value = topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
+function updateLastOverallStats(data: SongStats[]) {
+  lastOverallRating.value = calculateLastOverallStats(data, duplicateSongs)
 }
 
 function applyCnFilter() {
@@ -167,7 +97,7 @@ function applyCnFilter() {
     })
   }
 
-  calculateOverallStats(filteredSongStats.value)
+  updateOverallStats(filteredSongStats.value)
 }
 
 export function useScoreStore() {
@@ -267,7 +197,7 @@ export function useScoreStore() {
           })
           
           lastSongStats.value = lastTempResults
-          calculateLastOverallStats(lastTempResults)
+          updateLastOverallStats(lastTempResults)
         } catch (e) {
           console.error('Failed to process last score data', e)
         }
@@ -363,6 +293,7 @@ export function useScoreStore() {
     setRatingAlgorithm,
     toggleBlacklist,
     toggleLock,
-    updateLockedScore
+    updateLockedScore,
+    debugSetAllPerfect
   }
 }

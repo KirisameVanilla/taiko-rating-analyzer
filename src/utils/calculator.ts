@@ -1,4 +1,5 @@
-import type { RatingDimensions, SongLevelData, SongStats, UserScore, RatingAlgorithm } from '@/types'
+import type { RatingDimensions, SongLevelData, SongStats, UserScore, RatingAlgorithm, SongsDatabase } from '@/types'
+import { findSongByIdLevel } from './songHelpers'
 
 // 常量定义：P1用于calcP函数的范数计算，AH1暂未使用
 const CONSTANTS = { P1: 150, AH1: 3 }
@@ -651,4 +652,103 @@ export function topValueCompensate(
   if (ratingAve < threshold) return ratingMid
   const per = (ratingAve - threshold) / (fullAve - threshold)
   return ratingMid + per * (NORMALIZATION_FACTOR - fullMid)
+}
+
+/**
+ * 增强歌曲统计数据
+ * 为歌曲添加定数、最大评分、维度排名等额外信息
+ */
+export function enhanceSongStats(
+  songs: SongStats[],
+  allFilteredSongs: SongStats[],
+  songsDB: SongsDatabase | null,
+  ratingAlgorithm: RatingAlgorithm,
+  lastSongStats: SongStats[]
+): SongStats[] {
+  if (!songsDB) return songs
+
+  const dimensionKeys: (keyof SongStats)[] = ['rating', 'daigouryoku', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex']
+  const dimensionRankMaps: Record<string, Map<string, number>> = {}
+
+  for (const key of dimensionKeys) {
+    const sorted = [...allFilteredSongs].sort((a, b) => (b[key] as number) - (a[key] as number))
+    const map = new Map<string, number>()
+    sorted.forEach((s, idx) => {
+      map.set(s.title, idx + 1)
+    })
+    dimensionRankMaps[key] = map
+  }
+
+  return songs.map(song => {
+    const result = findSongByIdLevel(songsDB, song.id, song.level as 4 | 5)
+    if (!result) return song
+
+    const levelData = result.levelData
+    const maxRatings = calcMaxRatings(levelData, ratingAlgorithm)
+
+    const dimensionRanks: Record<string, number> = {}
+    for (const key of dimensionKeys) {
+      dimensionRanks[key] = dimensionRankMaps[key].get(song.title) ?? 0
+    }
+
+    // Calculate diff with last stats
+    const lastSong = lastSongStats.find(s => s.id === song.id && s.level === song.level)
+    const isNew = !lastSong
+    const ratingDiff = lastSong ? song.rating - lastSong.rating : 0
+
+    return {
+      ...song,
+      _constant: levelData.constant,
+      _maxRatings: maxRatings,
+      _dimensionRanks: dimensionRanks,
+      _isUnplayed: song.great === 0 && song.good === 0 && song.bad === 0,
+      _isNew: isNew,
+      _ratingDiff: ratingDiff
+    }
+  })
+}
+
+/**
+ * 计算总体统计数据
+ */
+export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+  const filtered = filterDuplicateSongs(data, duplicateSongs)
+  
+  const ratingMid = getTop20Median(filtered, 'rating')
+  const daigouryokuMid = getTop20Median(filtered, 'daigouryoku')
+  const staminaMid = getTop20Median(filtered, 'stamina')
+  const speedMid = getTop20Median(filtered, 'speed')
+  const accuracyMid = getTop20Median(filtered, 'accuracy_power')
+  const rhythmMid = getTop20Median(filtered, 'rhythm')
+  const complexMid = getTop20Median(filtered, 'complex')
+
+  const ratingAve = getTop20WeightedAverage(filtered, 'rating')
+  const daigouryokuAve = getTop20WeightedAverage(filtered, 'daigouryoku')
+  const staminaAve = getTop20WeightedAverage(filtered, 'stamina')
+  const speedAve = getTop20WeightedAverage(filtered, 'speed')
+  const accuracyAve = getTop20WeightedAverage(filtered, 'accuracy_power')
+  const rhythmAve = getTop20WeightedAverage(filtered, 'rhythm')
+  const complexAve = getTop20WeightedAverage(filtered, 'complex')
+
+  return {
+    overallRating: topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59),
+    radarData: {
+      daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 14.54),
+      stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.92, 13.36),
+      speed: topValueCompensate(speedMid, 14.25, speedAve, 14.59, 14.00),
+      accuracy: topValueCompensate(accuracyMid, 15.44, accuracyAve, 15.45, 15.08),
+      rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 14.02),
+      complex: topValueCompensate(complexMid, 13.77, complexAve, 14.26, 13.45)
+    }
+  }
+}
+
+/**
+ * 计算上次的总体评分
+ */
+export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+  const filtered = filterDuplicateSongs(data, duplicateSongs)
+  const ratingMid = getTop20Median(filtered, 'rating')
+  const ratingAve = getTop20WeightedAverage(filtered, 'rating')
+  return topValueCompensate(ratingMid, 15.28, ratingAve, 15.31, 14.59)
 }
