@@ -71,7 +71,7 @@ function filterAndScoreCandidates(
   dimensionRankMaps: Record<string, Map<string, number>>,
   best20ConstantBase: number,
   difficultyAdjustment: number,
-  algorithm: RatingAlgorithm = 'great-only'
+  algorithm: RatingAlgorithm = 'comprehensive'
 ) {
   return candidates.map(song => {
     const songData = findSongByTitle(filteredDatabase, song.title)
@@ -138,7 +138,7 @@ export function recommendSongs(
   difficultyAdjustment: number = 0,
   constantBase?: number,
   blacklist: string[] = [],
-  algorithm: RatingAlgorithm = 'great-only'
+  algorithm: RatingAlgorithm = 'comprehensive'
 ): SongStats[] {
   if (!cachedSongsDatabase || cachedSongsDatabase.length === 0) return []
 

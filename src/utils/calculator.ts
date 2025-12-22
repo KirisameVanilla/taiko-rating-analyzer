@@ -111,7 +111,7 @@ export function getXFromConstant(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns Y轴分数，代表准确度维度的能力值
  */
-export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'great-only'): number {
+export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'comprehensive'): number {
   let g0: number, g1: number, g2: number
   let calcY_1: (acc: number) => number
   let calcY_2: (acc: number) => number
@@ -214,7 +214,7 @@ export function calcSingleRating(x: number, y: number): number {
  * - r_ymin: 保持当前x不变，准确度降到最低(0)时的rating
  * - r_ymax: 保持当前x不变，准确度达到最高(理论最大值)时的rating
  */
-export function calcBoundaries(x: number, y: number, algorithm: RatingAlgorithm = 'great-only') {
+export function calcBoundaries(x: number, y: number, algorithm: RatingAlgorithm = 'comprehensive') {
   const y_max_val = calcY(1, algorithm)
   const r_xmin = calcSingleRating(0.05, y)
   const r_xmax = calcSingleRating(15.5, y)
@@ -323,7 +323,7 @@ export function calcRatingIndicator(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns 准确率，范围 [0, 1]，低于阈值返回0
  */
-export function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'great-only'): (number) {
+export function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'comprehensive'): (number) {
   const weights = ACCURACY_WEIGHTS[algorithm]
   const accuracy = (userScore.great * weights.GREAT + userScore.good * weights.GOOD) / totalNotes
   const threshold = algorithm === 'great-only' ? 0.5 : 0.75
@@ -364,7 +364,7 @@ export function calcIndividualRating(rating: number, raw_value: number): number 
  * - maxComplex: 最大复杂度
  */
 
-export function calcMaxRatings(levelData: SongLevelData, algorithm: RatingAlgorithm = 'great-only'): RatingDimensions {
+export function calcMaxRatings(levelData: SongLevelData, algorithm: RatingAlgorithm = 'comprehensive'): RatingDimensions {
   const x = getXFromConstant(levelData.constant)
   const y = calcY(1, algorithm)  // 理论最高准确率对应的Y值
   const rating = calcSingleRating(x, y)
@@ -394,7 +394,7 @@ export function calcMaxRatings(levelData: SongLevelData, algorithm: RatingAlgori
  * @param algorithm - 使用的算法类型
  * @returns 包含rating和各维度能力值的统计对象，准确率过低时返回null
  */
-export function calculateSongStats(levelData: SongLevelData, userScore: UserScore, title: string = '', algorithm: RatingAlgorithm = 'great-only'): SongStats | null {
+export function calculateSongStats(levelData: SongLevelData, userScore: UserScore, title: string = '', algorithm: RatingAlgorithm = 'comprehensive'): SongStats | null {
   // 计算准确率
   const accuracy = calcAccuracy(levelData.totalNotes, userScore, algorithm)
   if (accuracy === 0) return null  // 准确率过低，不计算统计数据
