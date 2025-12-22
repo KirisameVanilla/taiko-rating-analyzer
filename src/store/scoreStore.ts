@@ -293,7 +293,6 @@ export function useScoreStore() {
     setRatingAlgorithm,
     toggleBlacklist,
     toggleLock,
-    updateLockedScore,
-    debugSetAllPerfect
+    updateLockedScore
   }
 }
