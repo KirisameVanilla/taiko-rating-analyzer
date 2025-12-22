@@ -554,7 +554,7 @@ export function getTop20Average(data: SongStats[], key: keyof SongStats): number
   const top20 = sorted.slice(0, 20)
   if (top20.length === 0) return 0
   const sum = top20.reduce((a, b) => a + b, 0)
-  return parseFloat((sum / top20.length).toFixed(2))
+  return sum / top20.length
 }
 
 /**
@@ -595,8 +595,7 @@ export function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats)
   
   if (weightSum === 0) return 0
   
-  const weightedAverage = weightedSum / weightSum
-  return parseFloat(weightedAverage.toFixed(2))
+  return weightedSum / weightSum
 }
 
 /**
@@ -626,7 +625,7 @@ export function getTop20Median(data: SongStats[], key: keyof SongStats): number 
     median = top20[mid]
   }
   
-  return parseFloat(median.toFixed(2))
+  return median
 }
 
 /**
@@ -652,7 +651,7 @@ export function topValueCompensate(
   fullAve: number,
   threshold: number
 ): number {
-  if (ratingAve < threshold) return ratingMid
+  if (parseFloat(ratingAve.toFixed(2)) < threshold) return ratingMid
   const per = (ratingAve - threshold) / (fullAve - threshold)
   return ratingMid + per * (NORMALIZATION_FACTOR - fullMid)
 }
@@ -734,14 +733,14 @@ export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<A
   const complexAve = getTop20WeightedAverage(filtered, 'complex')
 
   return {
-    overallRating: topValueCompensate(ratingMid, 15.27, ratingAve, 15.30, 14.58),
+    overallRating: topValueCompensate(ratingMid, 15.27045948521676, ratingAve, 15.29963809348486, 14.58),
     radarData: {
-      daigouryoku: topValueCompensate(daigouryokuMid, 15.26, daigouryokuAve, 15.29, 14.54),
-      stamina: topValueCompensate(staminaMid, 14.68, staminaAve, 14.91, 13.36),
-      speed: topValueCompensate(speedMid, 14.245, speedAve, 14.58, 13.99),
-      accuracy: topValueCompensate(accuracyMid, 15.4, accuracyAve, 15.45, 15.03),
-      rhythm: topValueCompensate(rhythmMid, 14.52, rhythmAve, 14.83, 14.02),
-      complex: topValueCompensate(complexMid, 13.745, complexAve, 14.26, 13.45)
+      daigouryoku: topValueCompensate(daigouryokuMid, 15.260226313838062, daigouryokuAve, 15.290645757225318, 14.54),
+      stamina: topValueCompensate(staminaMid, 14.680215140150393, staminaAve, 14.915699776343342, 13.36),
+      speed: topValueCompensate(speedMid, 14.245030515698776, speedAve, 14.585896650692296, 13.99),
+      accuracy: topValueCompensate(accuracyMid, 15.384801656857972, accuracyAve, 15.399022586450302, 15.03),
+      rhythm: topValueCompensate(rhythmMid, 14.521553509242171, rhythmAve, 14.831288974113518, 14.02),
+      complex: topValueCompensate(complexMid, 13.744459013898052, complexAve, 14.255545767147531, 13.45)
     }
   }
 }
