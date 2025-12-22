@@ -1,4 +1,5 @@
-import type { RatingDimensions, SongLevelData, SongStats, UserScore, RatingAlgorithm } from '@/types'
+import type { RatingDimensions, SongLevelData, SongStats, UserScore, RatingAlgorithm, SongsDatabase } from '@/types'
+import { findSongByIdLevel } from './songHelpers'
 
 // 常量定义：P1用于calcP函数的范数计算，AH1暂未使用
 const CONSTANTS = { P1: 150, AH1: 3 }
@@ -110,27 +111,35 @@ export function getXFromConstant(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns Y轴分数，代表准确度维度的能力值
  */
-export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'great-only'): number {
-  const g = accuracy
+export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'comprehensive'): number {
+  let g0: number, g1: number, g2: number
+  let calcY_1: (acc: number) => number
+  let calcY_2: (acc: number) => number
+  let calcY_3: (acc: number) => number
+
   if (algorithm === 'great-only') {
-    if (g <= 0.5) return 0
-    if (g <= 0.6832) {
-      return 4425 * POWER(g - 0.5, 4.876)
-    } else if (g <= 0.9625) {
-      return 30.748 * g - 19.88
-    } else {
-      return 0.228 * POWER(2.718, 3.386 * POWER(g, 24.658)) + 8.862
-    }
+    calcY_1 = (acc) => 4425 * POWER(acc - 0.5, 4.876)
+    calcY_2 = (acc) => 30.748 * acc - 19.88
+    calcY_3 = (acc) => 0.228 * POWER(2.718, 3.386 * POWER(acc, 24.658)) + 8.862
+    g0 = 0.5
+    g1 = 0.6832
+    g2 = 0.9625
+  } else { // comprehensive
+    calcY_1 = (acc) => 16730 * POWER(acc - 0.75, 3.805)
+    calcY_2 = (acc) => 56.4468 * acc - 45.7187
+    calcY_3 = (acc) => 0.2246 * POWER(2.718, 120 * (acc - 0.972)) + 9.02
+    g0 = 0.75
+    g1 = 0.8278
+    g2 = 0.9793
+  }
+
+  if (accuracy <= g0) return 0
+  if (accuracy <= g1) {
+    return calcY_1(accuracy)
+  } else if (accuracy <= g2) {
+    return calcY_2(accuracy)
   } else {
-    // 综合准度算法
-    if (g <= 0.75) return 0
-    if (g <= 0.8278) {
-      return 16730 * POWER(g - 0.75, 3.805)
-    } else if (g <= 0.9793) {
-      return 56.4468 * g - 45.7187
-    } else {
-      return 0.2246 * POWER(2.718, 120 * (g - 0.972)) + 9.02
-    }
+    return calcY_3(g2) + (calcY_3(accuracy) - calcY_3(g2)) / (calcY_3(1) - calcY_3(g2)) * (NORMALIZATION_FACTOR - calcY_3(g2))
   }
 }
 
@@ -186,7 +195,10 @@ export function calcW(x: number, y: number): number {
 export function calcSingleRating(x: number, y: number): number {
   const p = calcP(x, y)
   const w = calcW(x, y)
-  return POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
+
+  return p === 0
+  ? POWER(x, w) * POWER(y, (1 - w)) 
+  : POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
 }
 
 /**
@@ -202,7 +214,7 @@ export function calcSingleRating(x: number, y: number): number {
  * - r_ymin: 保持当前x不变，准确度降到最低(0)时的rating
  * - r_ymax: 保持当前x不变，准确度达到最高(理论最大值)时的rating
  */
-export function calcBoundaries(x: number, y: number, algorithm: RatingAlgorithm = 'great-only') {
+export function calcBoundaries(x: number, y: number, algorithm: RatingAlgorithm = 'comprehensive') {
   const y_max_val = calcY(1, algorithm)
   const r_xmin = calcSingleRating(0.05, y)
   const r_xmax = calcSingleRating(15.5, y)
@@ -311,7 +323,7 @@ export function calcRatingIndicator(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns 准确率，范围 [0, 1]，低于阈值返回0
  */
-export function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'great-only'): (number) {
+export function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'comprehensive'): (number) {
   const weights = ACCURACY_WEIGHTS[algorithm]
   const accuracy = (userScore.great * weights.GREAT + userScore.good * weights.GOOD) / totalNotes
   const threshold = algorithm === 'great-only' ? 0.5 : 0.75
@@ -352,7 +364,7 @@ export function calcIndividualRating(rating: number, raw_value: number): number 
  * - maxComplex: 最大复杂度
  */
 
-export function calcMaxRatings(levelData: SongLevelData, algorithm: RatingAlgorithm = 'great-only'): RatingDimensions {
+export function calcMaxRatings(levelData: SongLevelData, algorithm: RatingAlgorithm = 'comprehensive'): RatingDimensions {
   const x = getXFromConstant(levelData.constant)
   const y = calcY(1, algorithm)  // 理论最高准确率对应的Y值
   const rating = calcSingleRating(x, y)
@@ -382,7 +394,7 @@ export function calcMaxRatings(levelData: SongLevelData, algorithm: RatingAlgori
  * @param algorithm - 使用的算法类型
  * @returns 包含rating和各维度能力值的统计对象，准确率过低时返回null
  */
-export function calculateSongStats(levelData: SongLevelData, userScore: UserScore, title: string = '', algorithm: RatingAlgorithm = 'great-only'): SongStats | null {
+export function calculateSongStats(levelData: SongLevelData, userScore: UserScore, title: string = '', algorithm: RatingAlgorithm = 'comprehensive'): SongStats | null {
   // 计算准确率
   const accuracy = calcAccuracy(levelData.totalNotes, userScore, algorithm)
   if (accuracy === 0) return null  // 准确率过低，不计算统计数据
@@ -542,7 +554,7 @@ export function getTop20Average(data: SongStats[], key: keyof SongStats): number
   const top20 = sorted.slice(0, 20)
   if (top20.length === 0) return 0
   const sum = top20.reduce((a, b) => a + b, 0)
-  return parseFloat((sum / top20.length).toFixed(2))
+  return sum / top20.length
 }
 
 /**
@@ -583,8 +595,7 @@ export function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats)
   
   if (weightSum === 0) return 0
   
-  const weightedAverage = weightedSum / weightSum
-  return parseFloat(weightedAverage.toFixed(2))
+  return weightedSum / weightSum
 }
 
 /**
@@ -614,7 +625,7 @@ export function getTop20Median(data: SongStats[], key: keyof SongStats): number 
     median = top20[mid]
   }
   
-  return parseFloat(median.toFixed(2))
+  return median
 }
 
 /**
@@ -640,7 +651,106 @@ export function topValueCompensate(
   fullAve: number,
   threshold: number
 ): number {
-  if (ratingAve < threshold) return ratingMid
+  if (parseFloat(ratingAve.toFixed(2)) < threshold) return ratingMid
   const per = (ratingAve - threshold) / (fullAve - threshold)
-  return ratingMid + per * (15.5 - fullMid)
+  return ratingMid + per * (NORMALIZATION_FACTOR - fullMid)
+}
+
+/**
+ * 增强歌曲统计数据
+ * 为歌曲添加定数、最大评分、维度排名等额外信息
+ */
+export function enhanceSongStats(
+  songs: SongStats[],
+  allFilteredSongs: SongStats[],
+  songsDB: SongsDatabase | null,
+  ratingAlgorithm: RatingAlgorithm,
+  lastSongStats: SongStats[]
+): SongStats[] {
+  if (!songsDB) return songs
+
+  const dimensionKeys: (keyof SongStats)[] = ['rating', 'daigouryoku', 'stamina', 'speed', 'accuracy_power', 'rhythm', 'complex']
+  const dimensionRankMaps: Record<string, Map<string, number>> = {}
+
+  for (const key of dimensionKeys) {
+    const sorted = [...allFilteredSongs].sort((a, b) => (b[key] as number) - (a[key] as number))
+    const map = new Map<string, number>()
+    sorted.forEach((s, idx) => {
+      map.set(s.title, idx + 1)
+    })
+    dimensionRankMaps[key] = map
+  }
+
+  return songs.map(song => {
+    const result = findSongByIdLevel(songsDB, song.id, song.level as 4 | 5)
+    if (!result) return song
+
+    const levelData = result.levelData
+    const maxRatings = calcMaxRatings(levelData, ratingAlgorithm)
+
+    const dimensionRanks: Record<string, number> = {}
+    for (const key of dimensionKeys) {
+      dimensionRanks[key] = dimensionRankMaps[key].get(song.title) ?? 0
+    }
+
+    // Calculate diff with last stats
+    const lastSong = lastSongStats.find(s => s.id === song.id && s.level === song.level)
+    const isNew = !lastSong
+    const ratingDiff = lastSong ? song.rating - lastSong.rating : 0
+
+    return {
+      ...song,
+      _constant: levelData.constant,
+      _maxRatings: maxRatings,
+      _dimensionRanks: dimensionRanks,
+      _isUnplayed: song.great === 0 && song.good === 0 && song.bad === 0,
+      _isNew: isNew,
+      _ratingDiff: ratingDiff
+    }
+  })
+}
+
+/**
+ * 计算总体统计数据
+ */
+export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+  const filtered = filterDuplicateSongs(data, duplicateSongs)
+  
+  const ratingMid = getTop20Median(filtered, 'rating')
+  const daigouryokuMid = getTop20Median(filtered, 'daigouryoku')
+  const staminaMid = getTop20Median(filtered, 'stamina')
+  const speedMid = getTop20Median(filtered, 'speed')
+  const accuracyMid = getTop20Median(filtered, 'accuracy_power')
+  const rhythmMid = getTop20Median(filtered, 'rhythm')
+  const complexMid = getTop20Median(filtered, 'complex')
+
+  const ratingAve = getTop20WeightedAverage(filtered, 'rating')
+  const daigouryokuAve = getTop20WeightedAverage(filtered, 'daigouryoku')
+  const staminaAve = getTop20WeightedAverage(filtered, 'stamina')
+  const speedAve = getTop20WeightedAverage(filtered, 'speed')
+  const accuracyAve = getTop20WeightedAverage(filtered, 'accuracy_power')
+  const rhythmAve = getTop20WeightedAverage(filtered, 'rhythm')
+  const complexAve = getTop20WeightedAverage(filtered, 'complex')
+
+  return {
+    overallRating: topValueCompensate(ratingMid, 15.27045948521676, ratingAve, 15.29963809348486, 14.58),
+    radarData: {
+      daigouryoku: topValueCompensate(daigouryokuMid, 15.260226313838062, daigouryokuAve, 15.290645757225318, 14.54),
+      stamina: topValueCompensate(staminaMid, 14.680215140150393, staminaAve, 14.915699776343342, 13.36),
+      speed: topValueCompensate(speedMid, 14.245030515698776, speedAve, 14.585896650692296, 13.99),
+      accuracy: topValueCompensate(accuracyMid, 15.384801656857972, accuracyAve, 15.399022586450302, 15.03),
+      rhythm: topValueCompensate(rhythmMid, 14.521553509242171, rhythmAve, 14.831288974113518, 14.02),
+      complex: topValueCompensate(complexMid, 13.744459013898052, complexAve, 14.255545767147531, 13.45)
+    }
+  }
+}
+
+/**
+ * 计算上次的总体评分
+ */
+export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+  const filtered = filterDuplicateSongs(data, duplicateSongs)
+  const ratingMid = getTop20Median(filtered, 'rating')
+  const ratingAve = getTop20WeightedAverage(filtered, 'rating')
+  return topValueCompensate(ratingMid, 15.27, ratingAve, 15.31, 14.58)
 }

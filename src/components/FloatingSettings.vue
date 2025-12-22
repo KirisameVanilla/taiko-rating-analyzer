@@ -49,6 +49,15 @@ function toggleCnSongs() {
               <span class="px-2 font-medium text-[#8E8E93] text-xs uppercase tracking-wider">准度算法</span>
               <div class="flex flex-col gap-2">
                 <button
+                  @click="setRatingAlgorithm('comprehensive')"
+                  class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base active:scale-[0.98] transition-all duration-200 cursor-pointer"
+                  :class="{ 'bg-[#007AFF]/10 text-[#007AFF]': ratingAlgorithm === 'comprehensive' }"
+                >
+                  <i v-if="ratingAlgorithm === 'comprehensive'" class="text-[#007AFF] fa-regular fa-circle-check"></i>
+                  <i v-else class="fa-regular fa-circle"></i>
+                  <span>综合准度（推荐）</span>
+                </button>
+                <button
                   @click="setRatingAlgorithm('great-only')"
                   class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base active:scale-[0.98] transition-all duration-200 cursor-pointer"
                   :class="{ 'bg-[#007AFF]/10 text-[#007AFF]': ratingAlgorithm === 'great-only' }"
@@ -56,15 +65,6 @@ function toggleCnSongs() {
                   <i v-if="ratingAlgorithm === 'great-only'" class="text-[#007AFF] fa-regular fa-circle-check"></i>
                   <i v-else class="fa-regular fa-circle"></i>
                   <span>良率准度</span>
-                </button>
-                <button
-                  @click="setRatingAlgorithm('comprehensive')"
-                  class="flex items-center gap-4 bg-black/5 hover:bg-black/10 px-5 py-4 rounded-2xl w-full font-semibold text-[#1D1D1F] text-base active:scale-[0.98] transition-all duration-200 cursor-pointer"
-                  :class="{ 'bg-[#007AFF]/10 text-[#007AFF]': ratingAlgorithm === 'comprehensive' }"
-                >
-                  <i v-if="ratingAlgorithm === 'comprehensive'" class="text-[#007AFF] fa-regular fa-circle-check"></i>
-                  <i v-else class="fa-regular fa-circle"></i>
-                  <span>综合准度</span>
                 </button>
               </div>
             </div>
