@@ -58,7 +58,7 @@
     "title": "イオシス秋の肉食祭2014",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 848,
         "composite": 44.1,
         "avgDensity": 40.17,
@@ -240,7 +240,7 @@
     "title": "闇の魔法少女",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 1158,
         "composite": 31.53,
         "avgDensity": 65.16,
@@ -582,7 +582,7 @@
     "title": "My Soul,Your Beats!",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 444,
         "composite": 11.64,
         "avgDensity": 26.58,
@@ -682,7 +682,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 976,
         "composite": 40.8,
         "avgDensity": 60.91,
@@ -864,7 +864,7 @@
     "title": "僕らの世界にダンスを",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 266,
         "composite": 7.92,
         "avgDensity": 14.16,
@@ -910,7 +910,7 @@
     "title": "オフ♨ロック",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 594,
         "composite": 14.2,
         "avgDensity": 28.57,
@@ -1126,7 +1126,7 @@
     "title": "Black Rose Apostle",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 876,
         "composite": 38.1,
         "avgDensity": 70.46,
@@ -1246,7 +1246,7 @@
     "title": "交響曲第7番から",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 541,
         "composite": 3.9,
         "avgDensity": 21.91,
@@ -1346,7 +1346,7 @@
     "title": "クープランの墓",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 651,
         "composite": 48.68,
         "avgDensity": 21.47,
@@ -1582,7 +1582,7 @@
     "title": "おおブレネリ",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 351,
         "composite": 12.66,
         "avgDensity": 14.13,
@@ -1936,7 +1936,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 743,
         "composite": 73.62,
         "avgDensity": 62.19,
@@ -2026,7 +2026,7 @@
     "title": "ドラゴンスピリットメドレー",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 671,
         "composite": 1.82,
         "avgDensity": 19.61,
@@ -2326,7 +2326,7 @@
     "title": "ファッションモンスター",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 374,
         "composite": 0,
         "avgDensity": 15.67,
@@ -2398,7 +2398,7 @@
     "title": "サタデー太鼓フィーバー",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 437,
         "composite": 23.52,
         "avgDensity": 16.79,
@@ -2892,7 +2892,7 @@
     "title": "隼",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 786,
         "composite": 7.24,
         "avgDensity": 33.35,
@@ -3002,7 +3002,7 @@
     "title": "Hurtling Boys",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 903,
         "composite": 78.66,
         "avgDensity": 72.2,
@@ -3348,7 +3348,7 @@
     "title": "犬吠える",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 580,
         "composite": 0,
         "avgDensity": 27.2,
@@ -3566,7 +3566,7 @@
     "title": "メタナイトの逆襲メドレー",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 655,
         "composite": 1.1,
         "avgDensity": 19.26,
@@ -3648,7 +3648,7 @@
     "title": "The Windmill Song",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 572,
         "composite": 38.32,
         "avgDensity": 31.46,
@@ -3666,7 +3666,7 @@
     "title": "限界突破×サバイバー",
     "level": {
       "4": {
-        "constant": 2,
+        "constant": 2.0,
         "totalNotes": 198,
         "composite": 0,
         "avgDensity": 6.39,
@@ -3712,7 +3712,7 @@
     "title": "もりのくまさん",
     "level": {
       "4": {
-        "constant": 1,
+        "constant": 1.0,
         "totalNotes": 197,
         "composite": 0,
         "avgDensity": 3.16,
@@ -3930,7 +3930,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 942,
         "composite": 63.4,
         "avgDensity": 70.07,
@@ -4378,7 +4378,7 @@
     "title": "季曲",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 536,
         "composite": 2,
         "avgDensity": 15.41,
@@ -4600,7 +4600,7 @@
     "title": "初音ミクの消失-劇場版-",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 765,
         "composite": 8.7,
         "avgDensity": 45.55,
@@ -4610,7 +4610,7 @@
         "hsChange": 35.69
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 999,
         "composite": 80.81,
         "avgDensity": 77.66,
@@ -4702,7 +4702,7 @@
     "title": "Growing Up",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 603,
         "composite": 1.24,
         "avgDensity": 24.95,
@@ -4828,7 +4828,7 @@
     "title": "夢幻の蒼空",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 447,
         "composite": 2.4,
         "avgDensity": 27.79,
@@ -4882,7 +4882,7 @@
     "title": "My Mine",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 635,
         "composite": 0.3,
         "avgDensity": 24.59,
@@ -5100,7 +5100,7 @@
     "title": "よく遊びよく学べ",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 291,
         "composite": 0,
         "avgDensity": 13.24,
@@ -5136,7 +5136,7 @@
     "title": "おどるポンポコリン",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 288,
         "composite": 0,
         "avgDensity": 14.48,
@@ -5282,7 +5282,7 @@
     "title": "ミーナのおやしき",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 607,
         "composite": 20.8,
         "avgDensity": 25.64,
@@ -5382,7 +5382,7 @@
     "title": "崖の上のポニョ",
     "level": {
       "4": {
-        "constant": 3,
+        "constant": 3.0,
         "totalNotes": 225,
         "composite": 0,
         "avgDensity": 6.73,
@@ -5472,7 +5472,7 @@
     "title": "Jump Up, Super Star！ Short Version",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 410,
         "composite": 2.55,
         "avgDensity": 14.72,
@@ -5644,7 +5644,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 765,
         "composite": 41.32,
         "avgDensity": 40.58,
@@ -5734,7 +5734,7 @@
     "title": "ロックン・ハート！",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 384,
         "composite": 0,
         "avgDensity": 18.84,
@@ -5898,7 +5898,7 @@
         "hsChange": 0.39
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 765,
         "composite": 20.38,
         "avgDensity": 43.07,
@@ -6034,7 +6034,7 @@
     "title": "さんぽ",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 371,
         "composite": 8.85,
         "avgDensity": 10.8,
@@ -6126,7 +6126,7 @@
     "title": "Shiny Kung-fu Revival",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 765,
         "composite": 19.9,
         "avgDensity": 41.6,
@@ -6234,7 +6234,7 @@
     "title": "RPG",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 345,
         "composite": 1.6,
         "avgDensity": 14.09,
@@ -6514,7 +6514,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 1000,
         "composite": 79.4,
         "avgDensity": 61.22,
@@ -6542,7 +6542,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 1000,
         "composite": 79.4,
         "avgDensity": 61.22,
@@ -6560,7 +6560,7 @@
     "title": "スーハー2000",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 668,
         "composite": 37.62,
         "avgDensity": 32.22,
@@ -6834,7 +6834,7 @@
     "title": "太鼓ラブ！",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 521,
         "composite": 0,
         "avgDensity": 14.07,
@@ -6934,7 +6934,7 @@
     "title": "月に叢雲華に風",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 382,
         "composite": 3.38,
         "avgDensity": 16.98,
@@ -7116,7 +7116,7 @@
     "title": "光る闇",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 387,
         "composite": 10.84,
         "avgDensity": 17.76,
@@ -7134,7 +7134,7 @@
     "title": "となりのトトロ",
     "level": {
       "4": {
-        "constant": 4,
+        "constant": 4.0,
         "totalNotes": 296,
         "composite": 0,
         "avgDensity": 10.52,
@@ -7360,7 +7360,7 @@
     "title": "ユウガオノキミ",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 480,
         "composite": 15.95,
         "avgDensity": 16.56,
@@ -7534,7 +7534,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 904,
         "composite": 42,
         "avgDensity": 67.77,
@@ -7696,7 +7696,7 @@
     "title": "ようかい体操第一",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 272,
         "composite": 5.46,
         "avgDensity": 12.86,
@@ -7822,7 +7822,7 @@
     "title": "祭り囃子でゲラゲラポー",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 292,
         "composite": 4.54,
         "avgDensity": 15.53,
@@ -8078,7 +8078,7 @@
     "title": "GOIN'!!!",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 346,
         "composite": 0,
         "avgDensity": 9.89,
@@ -8152,7 +8152,7 @@
         "hsChange": 76.39
       },
       "5": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 806,
         "composite": 35.72,
         "avgDensity": 44.71,
@@ -8608,7 +8608,7 @@
     "title": "朱の旋律",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 902,
         "composite": 43.08,
         "avgDensity": 67.25,
@@ -9334,7 +9334,7 @@
     "title": "オール・イン・マイハート",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 704,
         "composite": 21.12,
         "avgDensity": 40.92,
@@ -9568,7 +9568,7 @@
     "title": "SstTAarR*",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 848,
         "composite": 33.98,
         "avgDensity": 57.14,
@@ -9714,7 +9714,7 @@
     "title": "キミとボクのミライ",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 292,
         "composite": 0.3,
         "avgDensity": 7.92,
@@ -9958,7 +9958,7 @@
     "title": "いつも何度でも",
     "level": {
       "4": {
-        "constant": 2,
+        "constant": 2.0,
         "totalNotes": 229,
         "composite": 0,
         "avgDensity": 6.82,
@@ -10138,7 +10138,7 @@
     "title": "天狗囃子",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 734,
         "composite": 24.74,
         "avgDensity": 24.53,
@@ -10382,7 +10382,7 @@
     "title": "シャイニング65",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 495,
         "composite": 0,
         "avgDensity": 21.19,
@@ -10400,7 +10400,7 @@
     "title": "太鼓のマーチ",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 553,
         "composite": 8.5,
         "avgDensity": 13.97,
@@ -10746,7 +10746,7 @@
     "title": "エイリアンエイリアン",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 746,
         "composite": 53.22,
         "avgDensity": 35.99,
@@ -10782,7 +10782,7 @@
     "title": "ヒカリノカナタヘ",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 797,
         "composite": 80.8,
         "avgDensity": 41.2,
@@ -10900,7 +10900,7 @@
     "title": "Tulip",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 410,
         "composite": 0,
         "avgDensity": 13.06,
@@ -10910,7 +10910,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 677,
         "composite": 42.22,
         "avgDensity": 34.25,
@@ -11128,7 +11128,7 @@
     "title": "R.I.",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 925,
         "composite": 52.13,
         "avgDensity": 53.42,
@@ -11164,7 +11164,7 @@
     "title": "星屑とリニアと僕",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 707,
         "composite": 23.7,
         "avgDensity": 32.97,
@@ -11192,7 +11192,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 940,
         "composite": 44.98,
         "avgDensity": 63.88,
@@ -11328,7 +11328,7 @@
         "hsChange": 31.41
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 1044,
         "composite": 46.6,
         "avgDensity": 70.2,
@@ -11554,7 +11554,7 @@
     "title": "Blessed Bouquet Buskers",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 868,
         "composite": 36.48,
         "avgDensity": 47.48,
@@ -11728,7 +11728,7 @@
     "title": "よーいドン！",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 777,
         "composite": 41.04,
         "avgDensity": 45.01,
@@ -11828,7 +11828,7 @@
         "hsChange": 23.97
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 1037,
         "composite": 48.48,
         "avgDensity": 61.21,
@@ -11882,7 +11882,7 @@
     "title": "スーパーD＆D ～完全にリードしてアイマイミー～",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 1000,
         "composite": 65.9,
         "avgDensity": 62.38,
@@ -12398,7 +12398,7 @@
     "title": "Coquette",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 1022,
         "composite": 88.11,
         "avgDensity": 81.02,
@@ -12600,7 +12600,7 @@
     "title": "λ7708",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 788,
         "composite": 17.64,
         "avgDensity": 61.34,
@@ -13062,7 +13062,7 @@
     "title": "あなたとトゥラッタッタ♪",
     "level": {
       "4": {
-        "constant": 1,
+        "constant": 1.0,
         "totalNotes": 145,
         "composite": 0.15,
         "avgDensity": 1.29,
@@ -13290,7 +13290,7 @@
     "title": "ドラマツルギー",
     "level": {
       "4": {
-        "constant": 3,
+        "constant": 3.0,
         "totalNotes": 199,
         "composite": 0,
         "avgDensity": 7.35,
@@ -13354,7 +13354,7 @@
     "title": "ゲゲゲの鬼太郎",
     "level": {
       "4": {
-        "constant": 2,
+        "constant": 2.0,
         "totalNotes": 155,
         "composite": 1.11,
         "avgDensity": 4.25,
@@ -13446,7 +13446,7 @@
     "title": "紅蓮華",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 291,
         "composite": 0.9,
         "avgDensity": 12.89,
@@ -13538,7 +13538,7 @@
     "title": "キューティー☆デモニック☆魔人エモ!!",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 1075,
         "composite": 60.82,
         "avgDensity": 60.4,
@@ -13610,7 +13610,7 @@
     "title": "音虫をつかまえろ！",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 646,
         "composite": 64.78,
         "avgDensity": 41.86,
@@ -13692,7 +13692,7 @@
     "title": "UFO Swingin'",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 756,
         "composite": 32.91,
         "avgDensity": 68.4,
@@ -14028,7 +14028,7 @@
     "title": "乙女解剖",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 352,
         "composite": 0,
         "avgDensity": 11.95,
@@ -14056,7 +14056,7 @@
     "title": "ハロー！どんちゃん",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 349,
         "composite": 0,
         "avgDensity": 10.55,
@@ -14110,7 +14110,7 @@
     "title": "via lactea",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 593,
         "composite": 3.44,
         "avgDensity": 26.68,
@@ -14128,7 +14128,7 @@
     "title": "わら得る2000",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 818,
         "composite": 60.8,
         "avgDensity": 48.39,
@@ -14200,7 +14200,7 @@
     "title": "HIMAWARI HAPPY",
     "level": {
       "4": {
-        "constant": 2,
+        "constant": 2.0,
         "totalNotes": 173,
         "composite": 0,
         "avgDensity": 7.87,
@@ -14218,7 +14218,7 @@
     "title": "続・〆ドレー2000",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 940,
         "composite": 49.89,
         "avgDensity": 59.13,
@@ -14354,7 +14354,7 @@
     "title": "キレキャリオン",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 439,
         "composite": 2.92,
         "avgDensity": 28.55,
@@ -14554,7 +14554,7 @@
     "title": "8月の坂",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 291,
         "composite": 3.1,
         "avgDensity": 11.09,
@@ -14690,7 +14690,7 @@
     "title": "waitin' for u",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 762,
         "composite": 39.84,
         "avgDensity": 43.76,
@@ -14844,7 +14844,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 893,
         "composite": 51.29,
         "avgDensity": 54.93,
@@ -14898,7 +14898,7 @@
     "title": "Fly again！",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 551,
         "composite": 1.84,
         "avgDensity": 28.58,
@@ -15006,7 +15006,7 @@
     "title": "だれかの心臓になれたなら",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 650,
         "composite": 16.64,
         "avgDensity": 28.3,
@@ -15024,7 +15024,7 @@
     "title": "患部で止まってすぐ溶ける ～ 狂気の優曇華院",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 915,
         "composite": 42.16,
         "avgDensity": 55.44,
@@ -15490,7 +15490,7 @@
     "title": "炎",
     "level": {
       "4": {
-        "constant": 4,
+        "constant": 4.0,
         "totalNotes": 216,
         "composite": 0,
         "avgDensity": 3.87,
@@ -15508,7 +15508,7 @@
     "title": "幾望の月",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 839,
         "composite": 72.8,
         "avgDensity": 41.94,
@@ -15544,7 +15544,7 @@
     "title": "Diving Drive",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 892,
         "composite": 81.16,
         "avgDensity": 61.37,
@@ -15806,7 +15806,7 @@
     "title": "彁",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 692,
         "composite": 27.24,
         "avgDensity": 28.21,
@@ -16242,7 +16242,7 @@
     "title": "ウィーアー！",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 339,
         "composite": 0,
         "avgDensity": 10.91,
@@ -16270,7 +16270,7 @@
     "title": "DDU-DU DDU-DU",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 348,
         "composite": 4.02,
         "avgDensity": 16.13,
@@ -16288,7 +16288,7 @@
     "title": "bad guy",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 389,
         "composite": 11.76,
         "avgDensity": 15.4,
@@ -16324,7 +16324,7 @@
     "title": "夏祭り / ジッタリン・ジン",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 578,
         "composite": 13.44,
         "avgDensity": 22.79,
@@ -16352,7 +16352,7 @@
     "title": "カラフル・パーティ",
     "level": {
       "4": {
-        "constant": 4,
+        "constant": 4.0,
         "totalNotes": 225,
         "composite": 0.7,
         "avgDensity": 8.1,
@@ -16388,7 +16388,7 @@
     "title": "Hello, Worldooon!!",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 494,
         "composite": 3.3,
         "avgDensity": 16.61,
@@ -16590,7 +16590,7 @@
     "title": "†バチ!ムチ!?マッスルキングダム†",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 961,
         "composite": 54.51,
         "avgDensity": 61.63,
@@ -16810,7 +16810,7 @@
         "hsChange": 31.12
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 1176,
         "composite": 55.74,
         "avgDensity": 67.3,
@@ -16874,7 +16874,7 @@
     "title": "Baby Shark（ベイビー・シャーク）",
     "level": {
       "4": {
-        "constant": 4,
+        "constant": 4.0,
         "totalNotes": 318,
         "composite": 0,
         "avgDensity": 10.5,
@@ -17010,7 +17010,7 @@
     "title": "たいこの2000",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 1008,
         "composite": 56.78,
         "avgDensity": 66.91,
@@ -17238,7 +17238,7 @@
     "title": "GO ON ～未来へ～",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 720,
         "composite": 14.56,
         "avgDensity": 24.03,
@@ -17458,7 +17458,7 @@
     "title": "Racing the Storm",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 787,
         "composite": 73.52,
         "avgDensity": 35.23,
@@ -17568,7 +17568,7 @@
     "title": "Challengers",
     "level": {
       "4": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 753,
         "composite": 36.84,
         "avgDensity": 43.73,
@@ -17876,7 +17876,7 @@
     "title": "はねまり体操",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 302,
         "composite": 0,
         "avgDensity": 14.88,
@@ -18288,7 +18288,7 @@
         "hsChange": 0.06
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 879,
         "composite": 82.57,
         "avgDensity": 59.68,
@@ -18306,7 +18306,7 @@
     "title": "六本の薔薇と采の歌",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 508,
         "composite": 0,
         "avgDensity": 12.32,
@@ -18500,7 +18500,7 @@
     "title": "ほめのび",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 294,
         "composite": 0,
         "avgDensity": 7.18,
@@ -18536,7 +18536,7 @@
     "title": "アメリカンパトロール",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 415,
         "composite": 6.31,
         "avgDensity": 19.15,
@@ -18790,7 +18790,7 @@
         "hsChange": 0.32
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 733,
         "composite": 22.12,
         "avgDensity": 45.11,
@@ -18998,7 +18998,7 @@
     "title": "ハルジオン",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 479,
         "composite": 13.94,
         "avgDensity": 35.46,
@@ -19016,7 +19016,7 @@
     "title": "閃光",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 644,
         "composite": 5.15,
         "avgDensity": 35.82,
@@ -19296,7 +19296,7 @@
     "title": "Re：End of a Dream",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 602,
         "composite": 0,
         "avgDensity": 18.78,
@@ -19342,7 +19342,7 @@
     "title": "Subtitle",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 279,
         "composite": 18.19,
         "avgDensity": 7.81,
@@ -19378,7 +19378,7 @@
     "title": "ドドドドドンだフル！",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 329,
         "composite": 0.3,
         "avgDensity": 9.79,
@@ -19670,7 +19670,7 @@
         "hsChange": 0.31
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 1353,
         "composite": 45.04,
         "avgDensity": 90.01,
@@ -19828,7 +19828,7 @@
         "hsChange": 1.73
       },
       "5": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 641,
         "composite": 19.71,
         "avgDensity": 29.86,
@@ -19846,7 +19846,7 @@
     "title": "拝啓、学校にて・・・",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 443,
         "composite": 7.68,
         "avgDensity": 14.82,
@@ -20348,7 +20348,7 @@
     "title": "Neon Sign",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 392,
         "composite": 18.9,
         "avgDensity": 19.95,
@@ -20712,7 +20712,7 @@
     "title": "交響曲第五番「運命」",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 414,
         "composite": 0,
         "avgDensity": 10.47,
@@ -20740,7 +20740,7 @@
         "hsChange": 2.44
       },
       "5": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 705,
         "composite": 58.38,
         "avgDensity": 42.9,
@@ -20794,7 +20794,7 @@
     "title": "風魔モジュール6768",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 644,
         "composite": 4.52,
         "avgDensity": 19.36,
@@ -20868,7 +20868,7 @@
     "title": "空想打破",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 491,
         "composite": 1.6,
         "avgDensity": 30.48,
@@ -20904,7 +20904,7 @@
     "title": "キャラメル・ジャンキヰ",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 880,
         "composite": 23.49,
         "avgDensity": 39.28,
@@ -20976,7 +20976,7 @@
     "title": "Say Something",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 292,
         "composite": 0.8,
         "avgDensity": 7.3,
@@ -21012,7 +21012,7 @@
     "title": "麻雀 Sparrow",
     "level": {
       "4": {
-        "constant": 5,
+        "constant": 5.0,
         "totalNotes": 262,
         "composite": 3.62,
         "avgDensity": 8.89,
@@ -21048,7 +21048,7 @@
     "title": "WOW",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 304,
         "composite": 6.92,
         "avgDensity": 13.77,
@@ -21102,7 +21102,7 @@
     "title": "わんだふるぷりきゅあ！evolution!!",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 307,
         "composite": 0,
         "avgDensity": 13.67,
@@ -21120,7 +21120,7 @@
     "title": "うんぴフレンズ",
     "level": {
       "4": {
-        "constant": 2,
+        "constant": 2.0,
         "totalNotes": 189,
         "composite": 0,
         "avgDensity": 10.51,
@@ -21220,7 +21220,7 @@
     "title": "Show Time",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 277,
         "composite": 1.2,
         "avgDensity": 12.3,
@@ -21238,7 +21238,7 @@
     "title": "AMPTAKxCOLORS",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 270,
         "composite": 0,
         "avgDensity": 11.43,
@@ -21256,7 +21256,7 @@
     "title": "爆上戦隊ブンブンジャー",
     "level": {
       "4": {
-        "constant": 4,
+        "constant": 4.0,
         "totalNotes": 224,
         "composite": 0,
         "avgDensity": 10.54,
@@ -21402,7 +21402,7 @@
     "title": "ココドコ？多分ドッカ島！",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 615,
         "composite": 23.68,
         "avgDensity": 19.77,
@@ -21440,7 +21440,7 @@
         "hsChange": 18.81
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 985,
         "composite": 30.32,
         "avgDensity": 65.17,
@@ -21486,7 +21486,7 @@
     "title": "誰我為",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 360,
         "composite": 4.2,
         "avgDensity": 18.82,
@@ -21496,7 +21496,7 @@
         "hsChange": 3.03
       },
       "5": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 526,
         "composite": 16.14,
         "avgDensity": 38.49,
@@ -21604,7 +21604,7 @@
     "title": "Irregular Clock",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 905,
         "composite": 16.9,
         "avgDensity": 45.24,
@@ -21888,7 +21888,7 @@
     "title": "Miss You 3000",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 211,
         "composite": 14.76,
         "avgDensity": 6.79,
@@ -21924,7 +21924,7 @@
     "title": "淘汰",
     "level": {
       "4": {
-        "constant": 3,
+        "constant": 3.0,
         "totalNotes": 172,
         "composite": 3.3,
         "avgDensity": 1,
@@ -21978,7 +21978,7 @@
     "title": "シカ色デイズ",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 422,
         "composite": 2.32,
         "avgDensity": 24.79,
@@ -22032,7 +22032,7 @@
     "title": "ライラック",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 433,
         "composite": 9.95,
         "avgDensity": 24.95,
@@ -22096,7 +22096,7 @@
         "hsChange": 0
       },
       "5": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 566,
         "composite": 25.52,
         "avgDensity": 43,
@@ -22278,7 +22278,7 @@
     "title": "INTERNET YAMERO",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 976,
         "composite": 33.64,
         "avgDensity": 43.1,
@@ -22514,7 +22514,7 @@
     "title": "蒼鷺之火",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 683,
         "composite": 20.26,
         "avgDensity": 30.48,
@@ -22542,7 +22542,7 @@
     "title": "Argent Memories",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 636,
         "composite": 39.78,
         "avgDensity": 28.71,
@@ -22653,7 +22653,7 @@
       }
     },
     "title_cn": "Extreme End",
-    "is_cn": false
+    "is_cn": true
   },
   {
     "id": 1371,
@@ -22680,8 +22680,8 @@
         "hsChange": 81.51
       }
     },
-    "title_cn": "沓の子を打つ",
-    "is_cn": false
+    "title_cn": "栉比鳞次",
+    "is_cn": true
   },
   {
     "id": 1377,
@@ -22834,7 +22834,7 @@
     "title": "ケセラセラ",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 350,
         "composite": 2.4,
         "avgDensity": 12.7,
@@ -22926,7 +22926,7 @@
     "title": "キミとアイドルプリキュア♪ Light Up！",
     "level": {
       "4": {
-        "constant": 6,
+        "constant": 6.0,
         "totalNotes": 344,
         "composite": 0.6,
         "avgDensity": 16.35,
@@ -22944,7 +22944,7 @@
     "title": "イガク",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 631,
         "composite": 58.65,
         "avgDensity": 36.33,
@@ -23296,7 +23296,7 @@
     "title": "WINNER！ゴジュウジャー！",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 433,
         "composite": 0,
         "avgDensity": 26.73,
@@ -23324,7 +23324,7 @@
         "hsChange": 22.61
       },
       "5": {
-        "constant": 11,
+        "constant": 11.0,
         "totalNotes": 1030,
         "composite": 80.57,
         "avgDensity": 83.74,
@@ -23342,7 +23342,7 @@
     "title": "案山子姫 -Princess Scarecrow-",
     "level": {
       "4": {
-        "constant": 9,
+        "constant": 9.0,
         "totalNotes": 629,
         "composite": 1.8,
         "avgDensity": 30.4,
@@ -23398,7 +23398,7 @@
     "title": "怪獣",
     "level": {
       "4": {
-        "constant": 7,
+        "constant": 7.0,
         "totalNotes": 370,
         "composite": 0.8,
         "avgDensity": 18.51,
@@ -23516,7 +23516,7 @@
     "title": "SUDDEN GUST OC",
     "level": {
       "4": {
-        "constant": 10,
+        "constant": 10.0,
         "totalNotes": 884,
         "composite": 25.25,
         "avgDensity": 54.88,
@@ -23570,7 +23570,7 @@
     "title": "モニタリング",
     "level": {
       "4": {
-        "constant": 8,
+        "constant": 8.0,
         "totalNotes": 422,
         "composite": 15.34,
         "avgDensity": 28.5,
