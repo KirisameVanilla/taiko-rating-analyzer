@@ -224,7 +224,7 @@ def scrape_song_detail(url):
         # 构建结果
         result = {
             "title": script_data.get("song_name", "")
-            .replace(" （おに裏）", "(裏)")
+            .replace(" （おに裏）", "")
             .replace(" （おに）", "")
             .strip(),
             "constant": constant,
@@ -302,6 +302,9 @@ def convert_to_new_format(old_data):
 
     # 转换为数组并按 id 排序
     new_data = sorted(songs_map.values(), key=lambda x: x["id"])
+
+    for song in new_data:
+        song["level"] = dict(sorted(song["level"].items()))
 
     return new_data
 
