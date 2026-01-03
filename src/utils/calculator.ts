@@ -93,14 +93,14 @@ const CONSTANT_TO_X_MAP: Record<number, number> = {
 // 最大定数值
 export const MAX_CONSTANT_VALUE = 11.6
 // 归一化系数
-export const NORMALIZATION_FACTOR = CONSTANT_TO_X_MAP[MAX_CONSTANT_VALUE]
+const NORMALIZATION_FACTOR = CONSTANT_TO_X_MAP[MAX_CONSTANT_VALUE]
 
 /**
  * 根据定数获取对应的x值（定数得点）
  * @param constant - 谱面定数
  * @returns x值，如果定数不在映射表中则返回0.05（最小值）
  */
-export function getXFromConstant(constant: number): number {
+function getXFromConstant(constant: number): number {
   return CONSTANT_TO_X_MAP[constant] ?? 0.05
 }
 
@@ -111,7 +111,7 @@ export function getXFromConstant(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns Y轴分数，代表准确度维度的能力值
  */
-export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'comprehensive'): number {
+function calcY(accuracy: number, algorithm: RatingAlgorithm = 'comprehensive'): number {
   let g0: number, g1: number, g2: number
   let calcY_1: (acc: number) => number
   let calcY_2: (acc: number) => number
@@ -155,7 +155,7 @@ export function calcY(accuracy: number, algorithm: RatingAlgorithm = 'comprehens
  * - 当x和y接近时，返回较小的P值（使用较小范数，平衡两个维度）
  * - 这样可以在难度和准确度不平衡时侧重较强的维度
  */
-export function calcP(x: number, y: number): number {
+function calcP(x: number, y: number): number {
   const term = POWER(CONSTANTS.P1, 2) - POWER(x - y, 2) / 2
   if (term < 0) return CONSTANTS.P1
   return CONSTANTS.P1 - SQRT(term)
@@ -174,7 +174,7 @@ export function calcP(x: number, y: number): number {
  * - 当(x,y)偏离最优区域时，返回最小值0.5
  * - W用于后续rating计算中平衡难度和准确度的权重
  */
-export function calcW(x: number, y: number): number {
+function calcW(x: number, y: number): number {
   const term = 25 - POWER(x - 15.5, 2) / 25 - POWER(y - 23, 2) / 69
   if (term < 0) return 0.5
   return MAX(SQRT(term) - 4, 0.5)
@@ -192,35 +192,13 @@ export function calcW(x: number, y: number): number {
  * - p是由calcP计算的范数参数，决定取平均的方式
  * - 这种设计使得rating能够自适应不同的难度-准确度组合
  */
-export function calcSingleRating(x: number, y: number): number {
+function calcSingleRating(x: number, y: number): number {
   const p = calcP(x, y)
   const w = calcW(x, y)
 
   return p === 0
   ? POWER(x, w) * POWER(y, (1 - w)) 
   : POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
-}
-
-/**
- * 计算Rating边界值
- * 用于图表展示或分析，计算当前x,y点在各个方向上的极限rating值
- * @param x - 谱面难度值
- * @param y - 准确度分数
- * @returns 四个方向的边界rating值
- * 
- * 返回值说明：
- * - r_xmin: 保持当前y不变，难度降到最低(0.05)时的rating
- * - r_xmax: 保持当前y不变，难度达到最高(15.5)时的rating
- * - r_ymin: 保持当前x不变，准确度降到最低(0)时的rating
- * - r_ymax: 保持当前x不变，准确度达到最高(理论最大值)时的rating
- */
-export function calcBoundaries(x: number, y: number, algorithm: RatingAlgorithm = 'comprehensive') {
-  const y_max_val = calcY(1, algorithm)
-  const r_xmin = calcSingleRating(0.05, y)
-  const r_xmax = calcSingleRating(15.5, y)
-  const r_ymin = calcSingleRating(x, 0)
-  const r_ymax = calcSingleRating(x, y_max_val)
-  return { r_xmin, r_xmax, r_ymin, r_ymax }
 }
 
 /**
@@ -323,7 +301,7 @@ export function calcRatingIndicator(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns 准确率，范围 [0, 1]，低于阈值返回0
  */
-export function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'comprehensive'): (number) {
+function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'comprehensive'): (number) {
   const weights = ACCURACY_WEIGHTS[algorithm]
   const accuracy = (userScore.great * weights.GREAT + userScore.good * weights.GOOD) / totalNotes
   const threshold = algorithm === 'great-only' ? 0.5 : 0.75
@@ -340,7 +318,7 @@ export function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm
  * - 采用几何平均 √(rating × raw_value)，平衡综合能力和维度要求
  * - 乘以MAX_CONSTANT_VALUE / 100进行归一化，确保维度值在合理范围内
  */
-export function calcIndividualRating(rating: number, raw_value: number): number {
+function calcIndividualRating(rating: number, raw_value: number): number {
   return SQRT(rating * raw_value * NORMALIZATION_FACTOR / 100)
 }
 
@@ -543,21 +521,6 @@ export function filterDuplicateSongs(data: SongStats[], shouldFilterList: Array<
 }
 
 /**
- * 计算Top20简单平均值
- * 从所有成绩中提取指定维度的Top20，计算算术平均值
- * @param data - 所有歌曲的统计数据数组
- * @param key - 要计算的维度键名（如'rating', 'stamina'等）
- * @returns Top20的算术平均值，保留2位小数
- */
-export function getTop20Average(data: SongStats[], key: keyof SongStats): number {
-  const sorted = data.map(d => d[key] as number).sort((a, b) => b - a)
-  const top20 = sorted.slice(0, 20)
-  if (top20.length === 0) return 0
-  const sum = top20.reduce((a, b) => a + b, 0)
-  return sum / top20.length
-}
-
-/**
  * 计算Top20加权平均值
  * 使用递减权重计算Top20的加权平均，更重视靠前的高分成绩
  * @param data - 所有歌曲的统计数据数组
@@ -573,7 +536,7 @@ export function getTop20Average(data: SongStats[], key: keyof SongStats): number
  * 这种权重分布鼓励玩家在多首高难度曲目上取得好成绩，
  * 同时避免单曲刷分过度影响总体评价
  */
-export function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats): number {
+function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats): number {
   const sorted = data.map(d => d[key] as number).sort((a, b) => b - a)
   const top20 = sorted.slice(0, 20)
   
@@ -610,7 +573,7 @@ export function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats)
  * - 不受极端值影响，能看出玩家的稳定发挥能力
  * - 偶数个数据时取中间两个的平均值
  */
-export function getTop20Median(data: SongStats[], key: keyof SongStats): number {
+function getTop20Median(data: SongStats[], key: keyof SongStats): number {
   const sorted = data.map(d => d[key] as number).sort((a, b) => b - a)
   const top20 = sorted.slice(0, 20)
   
@@ -633,8 +596,8 @@ export function getTop20Median(data: SongStats[], key: keyof SongStats): number 
  * 当玩家的平均水平达到一定阈值时，对中位数进行向上补偿，奖励全面发展
  * @param ratingMid - 当前rating的中位数
  * @param fullMid - 理论满分的中位数
- * @param ratingAve - 当前rating的平均值
- * @param fullAve - 理论满分的平均值
+ * @param ratingAve - 当前rating的加权平均值
+ * @param fullAve - 理论满分的加权平均值
  * @param threshold - 触发补偿的阈值
  * @returns 补偿后的中位数值
  * 
@@ -644,7 +607,7 @@ export function getTop20Median(data: SongStats[], key: keyof SongStats): number 
  * - 补偿值 = 中位数 + per × (最大难度15.5 - 满分中位数)
  * - 这样奖励那些在多个维度都表现优秀的玩家
  */
-export function topValueCompensate(
+function topValueCompensate(
   ratingMid: number,
   fullMid: number,
   ratingAve: number,
