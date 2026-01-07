@@ -472,7 +472,7 @@ const anyalyze = async (input: string) => {
               <div class="gap-4 grid grid-cols-1 md:grid-cols-2 w-full text-left">
                 <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
                   <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">1</div>
-                  <p class="text-[#1D1D1F] text-sm leading-relaxed">前往 <a href="https://donder-tool.llx.life/score" class="font-medium text-[#007AFF] hover:underline" target="_blank">Donder 查分器</a>，绑定 ID 并同步成绩。</p>
+                  <p class="text-[#1D1D1F] text-sm leading-relaxed">前往 <a href="https://prober.ourtaiko.org/score" class="font-medium text-[#007AFF] hover:underline" target="_blank">Donder 查分器</a>，绑定 ID 并同步成绩。</p>
                 </div>
                 <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
                   <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">2</div>

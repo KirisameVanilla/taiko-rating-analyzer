@@ -1,17 +1,23 @@
 import { Announcement } from "@/types"
 import { ref } from "vue"
 
-const ANNOUNCEMENT_VERSION = 'announcement-v1-2025-12-17'
+const ANNOUNCEMENT_VERSION = 'announcement-v1-2026-1-7'
 
 const announcements = ref<Announcement[]>([
+  {
+    id: 1,
+    text: '查分器网址更改了一次，需要重新认证一次',
+    type: 'info',
+    date: '2026-1-7'
+  },
   { 
-    id: 1, 
+    id: 2, 
     text: '建议使用新网址: <a href="https://rating.ourtaiko.org/" class="font-bold text-cyan-400 hover:text-cyan-300 decoration-2 underline underline-offset-4 transition-colors" target="_blank">rating.ourtaiko.org</a>', 
     type: 'info',
     date: '2025-12-16'
   },
   {
-    id: 2,
+    id: 3,
     text: '有网页功能上的建议或问题可以通过群聊<b>@</b>我反馈，或者在GitHub开issue免得我忘记',
     type: 'info',
     date: '2025-12-17'
