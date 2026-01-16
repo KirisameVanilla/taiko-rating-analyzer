@@ -119,7 +119,7 @@
   },
   {
     "id": 10,
-    "title": "3piece-JazzParty！",
+    "title": "3piece-JazzParty!",
     "level": {
       "4": {
         "constant": 9.4,
@@ -4109,7 +4109,7 @@
   },
   {
     "id": 260,
-    "title": "魔方陣 ‐サモン・デルタ‐",
+    "title": "魔方陣 -サモン・デルタ-",
     "level": {
       "4": {
         "constant": 10.1,
@@ -22702,6 +22702,24 @@
     "is_cn": true
   },
   {
+    "id": 1378,
+    "title": "Break Through the Dome",
+    "level": {
+      "4": {
+        "constant": 9.8,
+        "totalNotes": 913,
+        "composite": 43.72,
+        "avgDensity": 55.01,
+        "instDensity": 35.95,
+        "separation": 0.94,
+        "bpmChange": 0,
+        "hsChange": 0
+      }
+    },
+    "title_cn": "冲破穹顶",
+    "is_cn": true
+  },
+  {
     "id": 1379,
     "title": "Valsqotch",
     "level": {
@@ -23253,6 +23271,24 @@
       }
     },
     "title_cn": "siren's eye",
+    "is_cn": false
+  },
+  {
+    "id": 1407,
+    "title": "On-Party!",
+    "level": {
+      "4": {
+        "constant": 6.4,
+        "totalNotes": 346,
+        "composite": 0,
+        "avgDensity": 16.29,
+        "instDensity": 14.95,
+        "separation": 0,
+        "bpmChange": 0,
+        "hsChange": 0
+      }
+    },
+    "title_cn": "On-Party!",
     "is_cn": false
   },
   {
