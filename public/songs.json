@@ -3608,6 +3608,24 @@
     "is_cn": true
   },
   {
+    "id": 224,
+    "title": "ゼルダの伝説 ブレス オブ ザ ワイルド メドレー",
+    "level": {
+      "4": {
+        "constant": 9.2,
+        "totalNotes": 469,
+        "composite": 12.64,
+        "avgDensity": 13.35,
+        "instDensity": 48.07,
+        "separation": 7.26,
+        "bpmChange": 13.96,
+        "hsChange": 4.95
+      }
+    },
+    "title_cn": "ゼルダの伝説 ブレス オブ ザ ワイルド メドレー",
+    "is_cn": false
+  },
+  {
     "id": 226,
     "title": "キラメキラリ",
     "level": {
@@ -9951,6 +9969,24 @@
       }
     },
     "title_cn": "永远同在",
+    "is_cn": true
+  },
+  {
+    "id": 605,
+    "title": "東京テディベア",
+    "level": {
+      "4": {
+        "constant": 9.2,
+        "totalNotes": 797,
+        "composite": 11.34,
+        "avgDensity": 38.73,
+        "instDensity": 24.75,
+        "separation": 6.37,
+        "bpmChange": 7.05,
+        "hsChange": 19.72
+      }
+    },
+    "title_cn": "東京テディベア",
     "is_cn": true
   },
   {
