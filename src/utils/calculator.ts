@@ -301,11 +301,14 @@ export function calcRatingIndicator(constant: number): number {
  * @param algorithm - 使用的算法类型
  * @returns 准确率，范围 [0, 1]，低于阈值返回0
  */
-function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'comprehensive'): (number) {
+function calcAccuracy(totalNotes: number, userScore: UserScore, algorithm: RatingAlgorithm = 'comprehensive'): number {
   const weights = ACCURACY_WEIGHTS[algorithm]
+  if (userScore.great + userScore.good + userScore.bad > totalNotes) {
+    return 0
+  }
   const accuracy = (userScore.great * weights.GREAT + userScore.good * weights.GOOD) / totalNotes
   const threshold = algorithm === 'great-only' ? 0.5 : 0.75
-  if (accuracy < threshold) return 0
+  if (accuracy < threshold || accuracy > 1) return 0
   return accuracy
 }
 
