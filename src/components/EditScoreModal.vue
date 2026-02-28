@@ -2,8 +2,10 @@
 import type { SongLevelData, SongStats, UserScore } from '@/types'
 import { calculateSongStats } from '@utils/calculator'
 import { computed, ref, watch } from 'vue'
- import { useScoreStore } from '@/store/scoreStore'
+import { useScoreStore } from '@/store/scoreStore'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 interface Props {
   show: boolean
   title: string
@@ -136,7 +138,7 @@ const handleSave = () => {
 }
 
 const handleClear = () => {
-  if (confirm('确定要清除这条成绩吗？')) {
+  if (confirm(t('editModal.confirmClear'))) {
     emit('clear')
   }
 }
@@ -149,7 +151,7 @@ const handleClear = () => {
         <!-- Header -->
         <div class="flex justify-between items-center px-8 py-6">
           <div class="space-y-1">
-            <h3 class="m-0 font-bold text-[#1D1D1F] text-xl">编辑成绩</h3>
+            <h3 class="m-0 font-bold text-[#1D1D1F] text-xl">{{ t('editModal.title') }}</h3>
             <p class="m-0 max-w-[300px] text-[#86868B] text-sm truncate">{{ title }}</p>
           </div>
           <button class="flex justify-center items-center bg-black/5 hover:bg-black/10 border-none rounded-full w-8 h-8 text-[#1D1D1F] transition-all cursor-pointer" @click="$emit('close')">
@@ -160,7 +162,7 @@ const handleClear = () => {
         <div class="space-y-6 px-8 pb-8">
           <!-- Score Input -->
           <div class="space-y-2">
-            <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">分数</label>
+            <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">{{ t('rating.score') }}</label>
             <input 
               type="number" 
               v-model.number="form.score" 
@@ -171,15 +173,15 @@ const handleClear = () => {
           <!-- Counts Grid -->
           <div class="gap-4 grid grid-cols-3">
             <div class="space-y-2">
-              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">良</label>
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">{{ t('rating.good') }}</label>
               <input type="number" v-model.number="form.great" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
             <div class="space-y-2">
-              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">可</label>
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">{{ t('rating.ok') }}</label>
               <input type="number" v-model.number="form.good" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
             <div class="space-y-2">
-              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">不可</label>
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">{{ t('rating.bad') }}</label>
               <input type="number" v-model.number="form.bad" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
           </div>
@@ -187,11 +189,11 @@ const handleClear = () => {
           <!-- Combo & Drumroll -->
           <div class="gap-4 grid grid-cols-2">
             <div class="space-y-2">
-              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">连打</label>
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">{{ t('rating.roll') }}</label>
               <input type="number" v-model.number="form.drumroll" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
             <div class="space-y-2">
-              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">连击</label>
+              <label class="block px-1 font-semibold text-[#1D1D1F] text-sm">{{ t('rating.combo') }}</label>
               <input type="number" v-model.number="form.combo" class="box-border bg-black/5 focus:bg-white px-4 py-3 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] transition-all" />
             </div>
           </div>
@@ -199,32 +201,32 @@ const handleClear = () => {
           <!-- Preview Section -->
           <div v-if="previewStats" class="space-y-4 bg-black/5 p-6 rounded-[24px]">
             <div class="flex justify-between items-center">
-              <span class="font-medium text-[#86868B]">预览 Rating</span>
+              <span class="font-medium text-[#86868B]">{{ t('editModal.preview') }}</span>
               <span class="font-bold text-[#007AFF] text-2xl">{{ previewStats.rating.toFixed(2) }}</span>
             </div>
             <div class="gap-3 grid grid-cols-3">
               <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
-                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">大歌力</span>
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">{{ t('radar.general') }}</span>
                 <span class="font-bold text-[#1D1D1F]">{{ previewStats.daigouryoku.toFixed(1) }}</span>
               </div>
               <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
-                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">体力</span>
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">{{ t('radar.stamina') }}</span>
                 <span class="font-bold text-[#1D1D1F]">{{ previewStats.stamina.toFixed(1) }}</span>
               </div>
               <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
-                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">高速力</span>
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">{{ t('radar.speed') }}</span>
                 <span class="font-bold text-[#1D1D1F]">{{ previewStats.speed.toFixed(1) }}</span>
               </div>
               <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
-                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">精度力</span>
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">{{ t('radar.accuracy') }}</span>
                 <span class="font-bold text-[#1D1D1F]">{{ previewStats.accuracy_power.toFixed(1) }}</span>
               </div>
               <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
-                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">节奏</span>
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">{{ t('radar.rhythm') }}</span>
                 <span class="font-bold text-[#1D1D1F]">{{ previewStats.rhythm.toFixed(1) }}</span>
               </div>
               <div class="flex flex-col items-center bg-white/50 p-3 rounded-xl">
-                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">复合</span>
+                <span class="font-bold text-[#86868B] text-[10px] uppercase tracking-wider">{{ t('radar.tech') }}</span>
                 <span class="font-bold text-[#1D1D1F]">{{ previewStats.complex.toFixed(1) }}</span>
               </div>
             </div>
@@ -236,7 +238,7 @@ const handleClear = () => {
               class="flex justify-center items-center bg-red-50 hover:bg-red-100 disabled:opacity-30 border-none rounded-2xl w-12 h-12 text-[#FF3B30] transition-all cursor-pointer" 
               @click="handleClear" 
               :disabled="!initialScore"
-              title="清除成绩"
+              :title="t('editModal.clearScore')"
             >
               <i class="fa-solid fa-trash"></i>
             </button>
@@ -244,7 +246,7 @@ const handleClear = () => {
               class="flex justify-center items-center border-none rounded-2xl w-12 h-12 transition-all cursor-pointer"
               :class="isLocked ? 'bg-[#FF9500]/10 text-[#FF9500]' : 'bg-black/5 text-[#86868B]'"
               @click="toggleLock"
-              :title="isLocked ? '已锁定' : '锁定成绩'"
+              :title="isLocked ? t('editModal.locked') : t('editModal.lock')"
             >
               <i class="fa-solid" :class="isLocked ? 'fa-lock' : 'fa-lock-open'"></i>
             </button>
@@ -252,13 +254,13 @@ const handleClear = () => {
               class="flex justify-center items-center border-none rounded-2xl w-12 h-12 transition-all cursor-pointer"
               :class="isBlacklisted ? 'bg-red-500 text-white' : 'bg-black/5 text-[#86868B]'"
               @click="handleToggleBlacklist"
-              :title="isBlacklisted ? '已拉黑' : '拉黑谱面'"
+              :title="isBlacklisted ? t('editModal.blacklisted') : t('editModal.blacklist')"
             >
               <i class="fa-solid fa-ban"></i>
             </button>
             <div class="flex flex-1 gap-3">
-              <button class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-2xl font-semibold text-[#1D1D1F] transition-all cursor-pointer" @click="$emit('close')">取消</button>
-              <button class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-3 border-none rounded-2xl font-bold text-white transition-all cursor-pointer" @click="handleSave">保存</button>
+              <button class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-2xl font-semibold text-[#1D1D1F] transition-all cursor-pointer" @click="$emit('close')">{{ t('common.cancel') }}</button>
+              <button class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-3 border-none rounded-2xl font-bold text-white transition-all cursor-pointer" @click="handleSave">{{ t('common.save') }}</button>
             </div>
           </div>
         </div>

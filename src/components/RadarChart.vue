@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch, ref } from 'vue'
+import { onMounted, onUnmounted, watch, ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Chart, RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 
@@ -15,11 +16,21 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t, locale } = useI18n()
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 let chartInstance: Chart | null = null
 
 // 注册Chart.js插件
 Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend, ChartDataLabels)
+
+const chartLabels = computed(() => [
+  t('radar.daigouryoku'),
+  t('radar.stamina'),
+  t('radar.speed'),
+  t('radar.accuracy'),
+  t('radar.rhythm'),
+  t('radar.complex')
+])
 
 const createChart = () => {
   if (!canvasRef.value) return
@@ -42,9 +53,9 @@ const createChart = () => {
   chartInstance = new Chart(canvasRef.value, {
     type: 'radar',
     data: {
-      labels: ['大歌力', '体力', '高速力', '精度力', '节奏处理', '复合处理'],
+      labels: chartLabels.value,
       datasets: [{
-        label: '能力值',
+        label: t('radar.value'),
         data: stats,
         backgroundColor: 'rgba(233, 30, 99, 0.2)',
         borderColor: 'rgba(233, 30, 99, 1)',
@@ -103,7 +114,7 @@ onMounted(() => {
   createChart()
 })
 
-watch(() => props.data, () => {
+watch([() => props.data, locale], () => {
   createChart()
 }, { deep: true })
 

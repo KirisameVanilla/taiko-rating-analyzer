@@ -564,6 +564,15 @@ function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats): numbe
   return weightedSum / weightSum
 }
 
+function getWeightedAvgRating(numbers: number[]): number {
+    let result = 0
+    for (let i = 0; i < numbers.length; i++) {
+        let weight = Math.sin((i + 1) * Math.PI / 21)
+        result += numbers[i] * weight
+    }
+    return result
+}
+
 /**
  * 计算Top20中位数
  * 提取Top20成绩的中位数，用于评估稳定性

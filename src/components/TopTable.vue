@@ -7,6 +7,7 @@ import { difficultyMap } from '@utils/difficulty'
 import { recommendSongs } from '@utils/recommend'
 import { nextTick, ref, watch, computed } from 'vue'
 import { useScoreStore } from '@/store/scoreStore'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   title: string
@@ -19,6 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   showMode: 'top'
 })
 
+const { t } = useI18n()
 const store = useScoreStore()
 const { songsDB, allSongStats, onlyCnSongs, blacklistedSongs, ratingAlgorithm } = store
 
@@ -242,13 +244,13 @@ watch(
         <table class="w-full text-sm border-collapse">
           <thead>
             <tr>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">排名</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">曲名</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">良</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">可</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">不可</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">定数</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">Rating</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.rank') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.songTitle') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.great') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.good') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.bad') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.constant') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.rating') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -311,7 +313,7 @@ watch(
         </button>
 
         <div class="ml-4 text-[#8E8E93] text-sm">
-          第 {{ currentPage }} / {{ totalPages }} 页 (共 {{ data.length }} 条)
+          {{ t('topTable.pageInfo', { current: currentPage, total: totalPages, count: data.length }) }}
         </div>
       </div>
     </div>
@@ -321,7 +323,7 @@ watch(
       <!-- 难度调整工具栏 -->
       <div class="flex sm:flex-row flex-col sm:justify-between sm:items-center gap-4 mb-6">
         <div class="flex sm:flex-row flex-col sm:items-center gap-4">
-          <span class="font-bold text-[#1D1D1F] text-sm tracking-tight">难度定数偏好调整</span>
+          <span class="font-bold text-[#1D1D1F] text-sm tracking-tight">{{ t('topTable.recommend.prefAdjust') }}</span>
           <div class="inline-flex items-center bg-black/5 p-1 rounded-full overflow-hidden">
             <button 
               @click="decreaseDifficulty" 
@@ -331,12 +333,12 @@ watch(
               <i class="text-xs fas fa-minus"></i>
             </button>
             <div class="flex items-center px-4 min-w-[100px] text-center">
-              <span v-if="isLoading" class="w-full font-medium text-[#8E8E93] text-xs">计算中...</span>
+              <span v-if="isLoading" class="w-full font-medium text-[#8E8E93] text-xs">{{ t('topTable.recommend.calculating') }}</span>
               <div v-else class="flex flex-col items-center w-full">
                 <span class="font-bold text-[#1D1D1F] text-sm">
                   {{ difficultyAdjustment >= 0 ? '+' : '' }}{{ difficultyAdjustment.toFixed(1) }}
                 </span>
-                <span class="text-[#8E8E93] text-[10px]">基准: {{ best20ConstantBase > 0 ? best20ConstantBase.toFixed(1) : '-' }}</span>
+                <span class="text-[#8E8E93] text-[10px]">{{ t('topTable.recommend.base') }}: {{ best20ConstantBase > 0 ? best20ConstantBase.toFixed(1) : '-' }}</span>
               </div>
             </div>
             <button 
@@ -353,7 +355,7 @@ watch(
           class="flex items-center self-start sm:self-auto gap-2 bg-black/5 hover:bg-black/10 px-5 py-2 rounded-full font-semibold text-[#1D1D1F] text-sm active:scale-95 transition-all"
         >
           <i class="text-xs fas fa-question-circle"></i>
-          <span>使用说明</span>
+          <span>{{ t('topTable.recommend.guide') }}</span>
         </button>
       </div>
       
@@ -361,7 +363,7 @@ watch(
       <div v-if="isLoading" class="flex justify-center items-center py-20">
         <div class="text-center">
           <div class="inline-block border-[#007AFF] border-[3px] border-t-transparent rounded-full w-10 h-10 animate-spin"></div>
-          <p class="mt-4 font-medium text-[#8E8E93]">正在计算推荐曲目...</p>
+          <p class="mt-4 font-medium text-[#8E8E93]">{{ t('topTable.recommend.calculatingFull') }}</p>
         </div>
       </div>
 
@@ -369,12 +371,12 @@ watch(
         <table class="w-full text-sm border-collapse">
           <thead>
             <tr>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">排名</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">曲名</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">定数</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">精度</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">难度偏差</th>
-              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">用户评分</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.rank') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.songTitle') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.constant') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.recommend.accuracy') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.recommend.difficultyDiff') }}</th>
+              <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left">{{ t('topTable.recommend.userRating') }}</th>
             </tr>
           </thead>
           <tbody>

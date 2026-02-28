@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const hasScoreData = ref(false)
+
+const toggleLanguage = () => {
+  locale.value = locale.value === 'zh' ? 'en' : 'zh'
+  localStorage.setItem('lang', locale.value)
+}
 
 const checkScoreData = () => {
   hasScoreData.value = localStorage.getItem('taikoScoreData') !== null
@@ -56,7 +63,7 @@ const navigateToSongs = () => {
           class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
         >
           <i class="fas fa-home"></i>
-          <span class="max-md:hidden">首页</span>
+          <span class="max-md:hidden">{{ t('nav.guide') }}</span>
         </button>
         <button 
           @click="navigateToSongs"
@@ -67,7 +74,7 @@ const navigateToSongs = () => {
           class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
         >
           <i class="fas fa-music"></i>
-          <span class="max-md:hidden">曲目</span>
+          <span class="max-md:hidden">{{ t('nav.songs') }}</span>
         </button>
         <button 
           @click="navigateToReport"
@@ -80,7 +87,14 @@ const navigateToSongs = () => {
           class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
         >
           <i class="fas fa-chart-bar"></i>
-          <span class="max-md:hidden">分析</span>
+          <span class="max-md:hidden">{{ t('nav.report') }}</span>
+        </button>
+        <button 
+          @click="toggleLanguage"
+          class="flex items-center gap-2 bg-black/5 hover:bg-black/10 px-4 py-2 rounded-full font-semibold text-[#1D1D1F] text-sm active:scale-95 transition-all duration-200 cursor-pointer"
+        >
+          <i class="fas fa-globe"></i>
+          <span>{{ locale === 'zh' ? 'EN' : '中文' }}</span>
         </button>
       </div>
     </div>

@@ -6,7 +6,9 @@ import { eventBus } from '@utils/eventBus'
 import html2canvas from 'html2canvas'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useScoreStore } from '@/store/scoreStore'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useScoreStore()
 const { 
     filteredSongStats, 
@@ -19,9 +21,9 @@ const {
 } = store
 
 const notice = computed(() => {
-    if (isLoading.value) return '正在加载数据…'
+    if (isLoading.value) return t('report.loading')
     if (error.value) return error.value
-    if (filteredSongStats.value.length === 0) return '未获取到成绩数据或无法计算, 可能是没有魔王难度、里魔王难度成绩'
+    if (filteredSongStats.value.length === 0) return t('report.noData')
     return ''
 })
 
@@ -31,16 +33,16 @@ const isSaving = ref(false)
 const activeSection = ref('overview')
 const activeSubTab = ref<'top' | 'recommend'>('top')
 
-const menuItems = [
-    { id: 'overview', label: '概览' },
+const menuItems = computed(() => [
+    { id: 'overview', label: t('report.overview') },
     { id: 'rating', label: 'Rating' },
-    { id: 'daigouryoku', label: '大歌力' },
-    { id: 'stamina', label: '体力' },
-    { id: 'speed', label: '高速力' },
-    { id: 'accuracy_power', label: '精度力' },
-    { id: 'rhythm', label: '节奏处理' },
-    { id: 'complex', label: '复合处理' }
-]
+    { id: 'daigouryoku', label: t('radar.daigouryoku') },
+    { id: 'stamina', label: t('radar.stamina') },
+    { id: 'speed', label: t('radar.speed') },
+    { id: 'accuracy_power', label: t('radar.accuracy') },
+    { id: 'rhythm', label: t('radar.rhythm') },
+    { id: 'complex', label: t('radar.complex') }
+])
 
 const handleScreenshot = () => {
     saveElementAsImage(contentRef.value, `taiko-${activeSection.value}`)
@@ -64,7 +66,7 @@ onUnmounted(() => {
 
 const currentTableData = computed(() => {
     if (activeSection.value === 'overview') return null
-    const item = menuItems.find(i => i.id === activeSection.value)
+    const item = menuItems.value.find(i => i.id === activeSection.value)
     if (!item) return null
     return {
         title: item.label,
@@ -123,7 +125,7 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                     <!-- Overview Section -->
                     <div v-if="activeSection === 'overview'" class="flex flex-col items-center">
                         <div class="mb-8 w-full text-center">
-                            <h1 class="m-0 font-bold text-[#1D1D1F] text-3xl tracking-tight">Rating 及六维雷达图</h1>
+                            <h1 class="m-0 font-bold text-[#1D1D1F] text-3xl tracking-tight">{{ t('report.ratingRadar') }}</h1>
                         </div>
 
                         <div class="flex justify-center mb-10 w-full">
@@ -152,14 +154,14 @@ async function saveElementAsImage(element: HTMLElement | null, fileName: string)
                                 :class="activeSubTab === 'top' ? 'bg-white text-[#1D1D1F] shadow-sm' : 'text-[#8E8E93] hover:text-[#1D1D1F]'"
                                 @click="activeSubTab = 'top'"
                             >
-                                Top
+                                {{ t('report.top') }}
                             </button>
                             <button 
                                 class="px-6 py-2 rounded-full font-semibold text-sm transition-all duration-200"
                                 :class="activeSubTab === 'recommend' ? 'bg-white text-[#1D1D1F] shadow-sm' : 'text-[#8E8E93] hover:text-[#1D1D1F]'"
                                 @click="activeSubTab = 'recommend'"
                             >
-                                推荐曲目
+                                {{ t('report.recommend') }}
                             </button>
                         </div>
 

@@ -8,7 +8,9 @@ import { eventBus } from '@utils/eventBus'
 import { expandSongsDatabase, findSongByIdLevel } from '@utils/songHelpers'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useScoreStore } from '@/store/scoreStore'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 interface SongRow {
   id: string
   title: string
@@ -502,18 +504,18 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
       <div class="flex max-md:flex-col items-center max-md:items-stretch gap-4">
         <div class="relative flex-1 max-w-[400px]">
           <i class="top-1/2 left-4 absolute text-[#8E8E93] -translate-y-1/2 fas fa-search"></i>
-          <input v-model="searchTerm" placeholder="搜索曲名..." class="bg-black/5 focus:bg-white px-10 py-2.5 border-none rounded-full outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-base transition-all" />
+          <input v-model="searchTerm" :placeholder="t('common.search')" class="bg-black/5 focus:bg-white px-10 py-2.5 border-none rounded-full outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-base transition-all" />
         </div>
         
         <div class="relative">
           <button @click="showFilter = !showFilter" class="flex items-center gap-2 bg-black/5 hover:bg-black/10 px-6 py-2.5 rounded-full font-semibold text-[#1D1D1F] text-sm active:scale-95 transition-all cursor-pointer">
             <i class="text-xs fas fa-filter"></i>
-            筛选
+            {{ t('common.filter') }}
           </button>
           
           <div v-if="showFilter" class="top-full right-0 z-[100] absolute bg-white/90 shadow-2xl backdrop-blur-xl mt-3 p-6 border border-black/5 rounded-[24px] w-[320px]">
             <div class="mb-6">
-              <h3 class="m-0 mb-4 font-bold text-[#1D1D1F] text-sm">定数范围: {{ minConstant.toFixed(1) }} - {{ maxConstant.toFixed(1) }}</h3>
+              <h3 class="m-0 mb-4 font-bold text-[#1D1D1F] text-sm">{{ t('filter.range') }}: {{ minConstant.toFixed(1) }} - {{ maxConstant.toFixed(1) }}</h3>
               <div class="relative mb-2 w-full h-6">
                 <div class="top-1/2 absolute bg-black/5 rounded-full w-full h-1.5 -translate-y-1/2"></div>
                 <div class="top-1/2 z-[1] absolute bg-[#007AFF] h-1.5 -translate-y-1/2" :style="{ left: minPos + '%', width: (maxPos - minPos) + '%' }"></div>
@@ -537,21 +539,21 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
             </div>
             
             <div class="mb-2">
-              <h3 class="m-0 mb-4 font-bold text-[#1D1D1F] text-sm">状态筛选</h3>
+              <h3 class="m-0 mb-4 font-bold text-[#1D1D1F] text-sm">{{ t('filter.status') }}</h3>
               <div class="flex flex-col gap-3">
                 <div v-for="filter in [
-                  { label: '已游玩', model: 'filterPlayed', modelNot: 'filterNotPlayed' },
-                  { label: '已过关', model: 'filterCleared', modelNot: 'filterNotCleared' },
-                  { label: '已全连', model: 'filterFC', modelNot: 'filterNotFC' },
-                  { label: '已全良', model: 'filterAP', modelNot: 'filterNotAP' }
+                  { label: t('filter.played'), model: 'filterPlayed', modelNot: 'filterNotPlayed' },
+                  { label: t('filter.cleared'), model: 'filterCleared', modelNot: 'filterNotCleared' },
+                  { label: t('filter.fullCombo'), model: 'filterFC', modelNot: 'filterNotFC' },
+                  { label: t('filter.allPerfect'), model: 'filterAP', modelNot: 'filterNotAP' }
                 ]" :key="filter.label" class="flex justify-between items-center text-sm">
                   <span class="font-semibold text-[#1D1D1F]">{{ filter.label }}</span>
                   <div class="flex gap-4">
                     <label class="flex items-center gap-1.5 cursor-pointer">
-                      <input type="checkbox" v-model="statusFilters[filter.model as keyof typeof statusFilters]" class="accent-[#007AFF]"> 是
+                      <input type="checkbox" v-model="statusFilters[filter.model as keyof typeof statusFilters]" class="accent-[#007AFF]"> {{ t('common.yes') }}
                     </label>
                     <label class="flex items-center gap-1.5 cursor-pointer">
-                      <input type="checkbox" v-model="statusFilters[filter.modelNot as keyof typeof statusFilters]" class="accent-[#007AFF]"> 否
+                      <input type="checkbox" v-model="statusFilters[filter.modelNot as keyof typeof statusFilters]" class="accent-[#007AFF]"> {{ t('common.no') }}
                     </label>
                   </div>
                 </div>
@@ -561,7 +563,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
         </div>
 
         <button @click="copyDataToClipboard" class="bg-[#007AFF] hover:bg-[#0071e3] px-6 py-2.5 rounded-full font-semibold text-white text-sm active:scale-95 transition-all cursor-pointer" :class="{ 'bg-[#34C759]': copySuccess }">
-          {{ copySuccess ? '✓ 已复制' : '复制数据' }}
+          {{ copySuccess ? '✓ ' + t('common.copied') : t('common.copy') }}
         </button>
         <span class="font-semibold text-[#8E8E93] text-sm">共 {{ filteredSongs.length }} 首</span>
       </div>
@@ -569,7 +571,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
     
     <div v-if="loading" class="py-20 text-center">
       <div class="inline-block border-[#007AFF] border-[3px] border-t-transparent rounded-full w-10 h-10 animate-spin"></div>
-      <p class="mt-4 font-medium text-[#8E8E93]">加载中...</p>
+      <p class="mt-4 font-medium text-[#8E8E93]">{{ t('common.loading') }}</p>
     </div>
     
     <div v-else class="bg-white/50 shadow-sm backdrop-blur-sm border border-black/5 rounded-[24px] overflow-x-auto">
@@ -577,29 +579,29 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
         <thead>
           <tr>
             <th @click="toggleSort('title')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              曲名 <span v-if="sortKey === 'title'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.rank') }} <span v-if="sortKey === 'title'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
-            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap select-none">难度</th>
+            <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap select-none">{{ t('rating.difficulty') }}</th>
             <th @click="toggleSort('constant')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              定数 <span v-if="sortKey === 'constant'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.level') }} <span v-if="sortKey === 'constant'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('score')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              分数 <span v-if="sortKey === 'score'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.score') }} <span v-if="sortKey === 'score'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('rating')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
               Rating <span v-if="sortKey === 'rating'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('great')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              良 <span v-if="sortKey === 'great'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.good') }} <span v-if="sortKey === 'great'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('good')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              可 <span v-if="sortKey === 'good'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.ok') }} <span v-if="sortKey === 'good'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('bad')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              不可 <span v-if="sortKey === 'bad'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.bad') }} <span v-if="sortKey === 'bad'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('updatedAt')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              上次游玩 <span v-if="sortKey === 'updatedAt'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+              {{ t('rating.lastPlay') }} <span v-if="sortKey === 'updatedAt'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
           </tr>
         </thead>
@@ -674,7 +676,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
       </button>
 
       <div class="ml-4 text-[#8E8E93] text-sm">
-        第 {{ currentPage }} / {{ totalPages }} 页
+        {{ t('common.page', { page: currentPage, total: totalPages }) }}
       </div>
     </div>
 
@@ -697,12 +699,12 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
           class="before:top-1/2 before:right-full z-[9999] fixed before:absolute bg-black/90 px-3 py-2 before:border-[5px] before:border-transparent before:border-r-black/90 rounded text-white text-xs before:content-[''] whitespace-nowrap -translate-y-1/2 before:-translate-y-1/2 pointer-events-none"
           :style="tooltipStyle"
         >
-          <div>大歌力: {{ tooltipStats.daigouryoku.toFixed(2) }}</div>
-          <div>体力: {{ tooltipStats.stamina.toFixed(2) }}</div>
-          <div>高速力: {{ tooltipStats.speed.toFixed(2) }}</div>
-          <div>精度力: {{ tooltipStats.accuracy_power.toFixed(2) }}</div>
-          <div>节奏处理: {{ tooltipStats.rhythm.toFixed(2) }}</div>
-          <div>复合处理: {{ tooltipStats.complex.toFixed(2) }}</div>
+          <div>{{ t('radar.daigouryoku') }}: {{ tooltipStats.daigouryoku.toFixed(2) }}</div>
+          <div>{{ t('radar.stamina') }}: {{ tooltipStats.stamina.toFixed(2) }}</div>
+          <div>{{ t('radar.speed') }}: {{ tooltipStats.speed.toFixed(2) }}</div>
+          <div>{{ t('radar.accuracy') }}: {{ tooltipStats.accuracy_power.toFixed(2) }}</div>
+          <div>{{ t('radar.rhythm') }}: {{ tooltipStats.rhythm.toFixed(2) }}</div>
+          <div>{{ t('radar.complex') }}: {{ tooltipStats.complex.toFixed(2) }}</div>
         </div>
       </Transition>
     </Teleport>

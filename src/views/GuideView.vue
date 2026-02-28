@@ -4,7 +4,9 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { LockedScores } from '@/types'
 import { useScoreStore } from '@/store/scoreStore'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const scoreInput = ref('')
 const { showModal } = useModal()
@@ -32,11 +34,11 @@ const initDonderId = () => {
 const bindDonderId = () => {
   const id = inputDonderId.value.trim()
   if (!id) {
-    showModal('请输入广场 ID', '错误')
+    showModal(t('guide.errors.inputEmpty'), '错误')
     return
   }
   if (!/^\d+$/.test(id)) {
-    showModal('广场 ID 必须是数字', '错误')
+    showModal(t('guide.errors.nan'), '错误')
     return
   }
   localStorage.setItem('donderId', id)
@@ -64,7 +66,7 @@ const fetchAndAnalyze = async () => {
     const response = await fetch(`https://hasura.llx.life/api/rest/donder/get-score?id=${donderId.value}`)
     
     if (!response.ok) {
-      throw new Error('同步数据失败')
+      throw new Error(t('guide.errors.syncFailed'))
     }
     
     const data = await response.json()
@@ -83,14 +85,14 @@ const fetchAndAnalyze = async () => {
     const output = tryParseDonderTool(scoreData)
     
     if (!output) {
-      showModal('数据格式不正确', '分析失败')
+      showModal(t('guide.errors.formatError'), '分析失败')
       isLoading.value = false
       return
     }
     
     anyalyze(output)
   } catch (error: any) {
-    showModal(error.message || '同步数据失败', '分析失败')
+    showModal(error.message || t('guide.errors.syncFailed'), '分析失败')
     isLoading.value = false
   }
 }
@@ -151,7 +153,7 @@ const handleUpload = () => {
         const text = await file.text()
         const output = tryParseTaikoScoreGetter(text) || tryParseDonderTool(text) || tryParseDonderHiroba(text)
         if (!output) {
-          showModal('文件内容格式不正确', '错误')
+          showModal(t('guide.errors.formatError'), '错误')
           return
         }
         anyalyze(output)
@@ -159,7 +161,7 @@ const handleUpload = () => {
         // showModal('文件内容已粘贴到文本框！')
       } catch (err: any) {
         if (err?.name !== 'AbortError') {
-          showModal('读取文件失败', '错误')
+          showModal(t('guide.errors.readFailed'), '错误')
         }
       }
     })()
@@ -417,7 +419,7 @@ const anyalyze = async (input: string) => {
         </div>
         <div class="space-y-2">
           <p class="m-0 font-medium text-[#1D1D1F]">曲目列表页面点击歌曲可以修改成绩，右下角菜单按钮可以加入我们的 QQ 群</p>
-          <p class="m-0 text-[#86868B] text-sm">本 Rating 系统旨在分析自身弱点并针对练习，请勿用于攀比</p>
+          <p class="m-0 text-[#86868B] text-sm">{{ t('guide.disclaimer') }}</p>
         </div>
       </div>
     </section>
@@ -430,8 +432,8 @@ const anyalyze = async (input: string) => {
             <!-- 步骤1：绑定广场ID -->
             <div v-if="wizardStep === 1" class="flex flex-col items-center gap-6 w-full">
               <div class="space-y-2">
-                <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">欢迎使用太鼓达人 Rating 分析系统</h2>
-                <p class="m-0 text-[#86868B]">请先绑定您的鼓众广场 ID</p>
+                <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">{{ t('guide.welcome') }}</h2>
+                <p class="m-0 text-[#86868B]">{{ t('guide.bindId') }}</p>
               </div>
               
               <div class="flex flex-col items-center gap-4 w-full max-w-[460px]">
@@ -439,7 +441,7 @@ const anyalyze = async (input: string) => {
                   <input 
                     v-model="inputDonderId" 
                     type="text" 
-                    placeholder="请输入广场 ID"
+                    :placeholder="t('guide.idPlaceholder')"
                     class="box-border bg-black/5 focus:bg-white px-6 py-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] text-lg text-center transition-all"
                     @keyup.enter="bindDonderId"
                   />
@@ -448,13 +450,13 @@ const anyalyze = async (input: string) => {
                   @click="bindDonderId" 
                   class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-semibold text-white text-lg active:scale-[0.98] transition-all cursor-pointer"
                 >
-                  绑定广场 ID
+                  {{ t('guide.btnBind') }}
                 </button>
                 <button 
                   @click="handleManualImport" 
                   class="bg-transparent px-6 py-2 border-none font-medium text-[#007AFF] hover:text-[#0071E3] text-sm transition-all cursor-pointer"
                 >
-                  我没有广场 ID，跳过并手动导入成绩
+                  {{ t('guide.btnSkip') }}
                 </button>
               </div>
             </div>
@@ -463,20 +465,20 @@ const anyalyze = async (input: string) => {
             <div v-else-if="wizardStep === 2" class="flex flex-col items-center gap-8 w-full">
               <div class="flex flex-col items-center gap-3">
                 <div class="bg-[#007AFF]/10 px-6 py-3 border border-[#007AFF]/20 rounded-full">
-                  <span class="text-[#86868B] text-sm">您的广场 ID：</span>
+                  <span class="text-[#86868B] text-sm">{{ t('guide.yourId') }}</span>
                   <span class="ml-2 font-bold text-[#1D1D1F] text-xl">{{ donderId }}</span>
                 </div>
-                <button @click="rebindDonderId" class="bg-black/5 hover:bg-black/10 px-4 py-1.5 border-none rounded-full font-medium text-[#86868B] text-xs transition-all cursor-pointer">重新绑定</button>
+                <button @click="rebindDonderId" class="bg-black/5 hover:bg-black/10 px-4 py-1.5 border-none rounded-full font-medium text-[#86868B] text-xs transition-all cursor-pointer">{{ t('guide.rebind') }}</button>
               </div>
 
               <div class="gap-4 grid grid-cols-1 md:grid-cols-2 w-full text-left">
                 <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
                   <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">1</div>
-                  <p class="text-[#1D1D1F] text-sm leading-relaxed">前往 <a href="https://prober.ourtaiko.org/score" class="font-medium text-[#007AFF] hover:underline" target="_blank">Donder 查分器</a>，绑定 ID 并同步成绩。</p>
+                  <p class="text-[#1D1D1F] text-sm leading-relaxed" v-html="t('guide.syncStep1')"></p>
                 </div>
                 <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
                   <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">2</div>
-                  <p class="text-[#1D1D1F] text-sm leading-relaxed">确保查分器中的成绩数据是最新的，并开启 <b>公开成绩</b> 选项。若不想公开成绩请点击导出，并选择上传成绩。</p>
+                  <p class="text-[#1D1D1F] text-sm leading-relaxed" v-html="t('guide.syncStep2')"></p>
                 </div>
               </div>
 
@@ -487,20 +489,20 @@ const anyalyze = async (input: string) => {
                   class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] disabled:opacity-50 shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl font-semibold text-white text-lg active:scale-[0.98] transition-all cursor-pointer"
                 >
                   <i v-if="isLoading" class="mr-2 fa-solid fa-circle-notch fa-spin"></i>
-                  {{ isLoading ? '正在分析...' : '同步成绩' }}
+                  {{ isLoading ? t('report.calculating') : t('guide.btnSync') }}
                 </button>
                 <button 
                   @click="handleUpload" 
                   :disabled="isLoading"
                   class="flex-1 bg-black/5 hover:bg-black/10 disabled:opacity-50 py-4 border-none rounded-2xl font-semibold text-[#1D1D1F] text-lg active:scale-[0.98] transition-all cursor-pointer"
                 >
-                  上传成绩
+                  {{ t('guide.btnUpload') }}
                 </button>
               </div>
               
               <p class="m-0 text-[#86868B] text-sm">
                 如果自动同步遇到问题，您可以尝试
-                <button @click="handleManualImport" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">手动导入成绩</button>
+                <button @click="handleManualImport" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">{{ t('guide.btnManual') }}</button>
               </p>
             </div>
           </div>
@@ -511,12 +513,12 @@ const anyalyze = async (input: string) => {
       <transition name="fade">
         <div v-show="showGuideContent" class="bg-white/70 shadow-sm backdrop-blur-xl my-8 p-8 border border-white/20 rounded-[32px]">
           <div class="flex justify-between items-center mb-8">
-            <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">手动导入成绩</h2>
+            <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">{{ t('guide.manualTitle') }}</h2>
             <button 
               @click="backToWizard" 
               class="bg-black/5 hover:bg-black/10 px-5 py-2 border-none rounded-full font-medium text-[#1D1D1F] text-sm transition-all cursor-pointer"
             >
-              <i class="fa-chevron-left mr-1 fa-solid"></i> 返回
+              <i class="fa-chevron-left mr-1 fa-solid"></i> {{ t('guide.back') }}
             </button>
           </div>
 
@@ -524,45 +526,41 @@ const anyalyze = async (input: string) => {
             <div class="space-y-4">
               <div class="flex gap-4">
                 <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">1</div>
-                <p class="m-0 text-[#1D1D1F]">须使用 Windows 或 MacOS 系统</p>
+                <p class="m-0 text-[#1D1D1F]">{{ t('guide.osReq') }}</p>
               </div>
               <div class="flex gap-4">
                 <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">2</div>
-                <p class="m-0 text-[#1D1D1F]">启动传分器，按照指引打开电脑端广场爬分，直到传分器走到在 DonNote 点击上传按钮之前的一步。</p>
+                <p class="m-0 text-[#1D1D1F]">{{ t('guide.startTool') }}</p>
               </div>
               <div class="flex gap-4">
                 <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">3</div>
-                <p class="m-0 text-[#1D1D1F]">
-                  将浏览器代理设置到系统代理，打开 
-                  <a href="https://www.baidu.com/api/ahfsdafbaqwerhue" target="_blank" class="font-medium text-[#007AFF] hover:underline">获取成绩</a>，
-                  传分器会将分数传到页面中，全选复制过来粘贴。
-                </p>
+                <p class="m-0 text-[#1D1D1F]" v-html="t('guide.setProxy')"></p>
               </div>
               <div class="flex gap-4">
                 <div class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">4</div>
                 <p class="m-0 text-[#1D1D1F]">
-                  如果不会设置浏览器代理，按 Win 键搜索 PowerShell，将以下代码粘贴并回车执行：
-                  <button @click="copyPowerShellCode" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">点我复制代码</button>
+                  {{ t('guide.helpProxy') }}
+                  <button @click="copyPowerShellCode" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">{{ t('guide.copyCode') }}</button>
                 </p>
               </div>
             </div>
 
             <div class="space-y-4 bg-black/5 p-6 rounded-[24px]">
-              <p class="m-0 font-bold text-[#1D1D1F]">传分器下载:</p>
+              <p class="m-0 font-bold text-[#1D1D1F]">{{ t('guide.download') }}</p>
               <div class="gap-3 grid grid-cols-1">
                 <a href="https://gitee.com/donnote/taiko-score-getter/releases/tag/latest" target="_blank" class="group flex items-center gap-3 bg-white/50 hover:bg-white p-3 rounded-xl text-[#1D1D1F] no-underline transition-all">
                   <i class="text-[#F05032] text-xl fa-brands fa-git-alt"></i>
-                  <span class="flex-1 font-medium text-sm">旧版 @Gitee donnote/taiko-score-getter</span>
+                  <span class="flex-1 font-medium text-sm">{{ t('guide.old') }} @Gitee donnote/taiko-score-getter</span>
                   <i class="fa-chevron-right text-black/10 group-hover:text-black/30 transition-all fa-solid"></i>
                 </a>
                 <a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/tag/v0.1.2" target="_blank" class="group flex items-center gap-3 bg-white/50 hover:bg-white p-3 rounded-xl text-[#1D1D1F] no-underline transition-all">
                   <i class="text-xl fa-brands fa-github"></i>
-                  <span class="flex-1 font-medium text-sm">新版 @GitHub Steve-xmh/taiko-score-getter-rs</span>
+                  <span class="flex-1 font-medium text-sm">{{ t('guide.new') }} @GitHub Steve-xmh/taiko-score-getter-rs</span>
                   <i class="fa-chevron-right text-black/10 group-hover:text-black/30 transition-all fa-solid"></i>
                 </a>
                 <a href="https://ghproxy.vanillaaaa.org/https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe" target="_blank" class="group flex items-center gap-3 bg-[#007AFF]/10 hover:bg-[#007AFF]/20 p-3 rounded-xl text-[#007AFF] no-underline transition-all">
                   <i class="text-xl fa-solid fa-download"></i>
-                  <span class="flex-1 font-bold text-sm">点我下载新版传分器</span>
+                  <span class="flex-1 font-bold text-sm">{{ t('guide.downloadNew') }}</span>
                   <i class="fa-chevron-right opacity-30 group-hover:opacity-100 transition-all fa-solid"></i>
                 </a>
               </div>
@@ -571,20 +569,20 @@ const anyalyze = async (input: string) => {
             <div class="space-y-4 pt-4">
               <div class="flex gap-2">
                 <button @click="handleUpload" class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-xl font-medium text-[#1D1D1F] transition-all cursor-pointer">
-                  <i class="mr-2 fa-regular fa-file"></i> 上传文件
+                  <i class="mr-2 fa-regular fa-file"></i> {{ t('guide.uploadFile') }}
                 </button>
                 <button @click="handlePaste" class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-xl font-medium text-[#1D1D1F] transition-all cursor-pointer">
-                  <i class="mr-2 fa-regular fa-clipboard"></i> 粘贴数据
+                  <i class="mr-2 fa-regular fa-clipboard"></i> {{ t('guide.pasteData') }}
                 </button>
               </div>
               <textarea 
                 v-model="scoreInput" 
                 rows="4" 
-                placeholder="在此处粘贴数据..."
+                :placeholder="t('guide.pastePlaceholder')"
                 class="box-border bg-black/5 focus:bg-white p-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full font-mono text-[#1D1D1F] transition-all resize-none"
               ></textarea>
               <button @click="handleAnalyze" class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-bold text-white text-lg active:scale-[0.98] transition-all cursor-pointer">
-                分析数据
+                {{ t('guide.analyze') }}
               </button>
             </div>
           </div>
