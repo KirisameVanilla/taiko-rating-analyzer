@@ -74,3 +74,44 @@ export type SongsDatabase = SongData[]
 export type LockedScores = Record<string, UserScore>
 
 export type RatingAlgorithm = 'great-only' | 'comprehensive'
+
+// API 数据类型定义
+export interface FumenDifficulty {
+  constant: number
+  totalNotes: number
+  composite: number
+  avgDensity: number
+  instDensity: number
+  separation: number
+  bpmChange: number
+  hsChange: number
+}
+
+export interface FumenDataItem {
+  id: number
+  title: string
+  constants: {
+    easy?: FumenDifficulty
+    normal?: FumenDifficulty
+    hard?: FumenDifficulty
+    oni?: FumenDifficulty
+    ura?: FumenDifficulty
+  }
+}
+
+export interface SongsCNItem {
+  id: number
+  song_name_jp: string
+  song_name: string
+  type: string
+  level_1?: number | string
+  level_2?: number | string
+  level_3?: number | string
+  level_4?: number | string
+  level_5?: number | string
+  subtitle?: string | null
+  family?: string | null
+  tag?: string
+  sort?: number
+  open_day?: string
+}
