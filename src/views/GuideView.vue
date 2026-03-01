@@ -475,6 +475,7 @@ const anyalyze = async (input: string) => {
                 <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
                   <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">1</div>
                   <p class="text-[#1D1D1F] text-sm leading-relaxed" v-html="t('guide.syncStep1')"></p>
+                  <a href="https://prober.ourtaiko.org/" target="_blank" class="font-medium text-[#007AFF] hover:text-[#0071E3] text-sm">{{ t('guide.proberLink') }}</a>
                 </div>
                 <div class="space-y-3 bg-black/5 p-6 rounded-[24px]">
                   <div class="flex justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">2</div>
