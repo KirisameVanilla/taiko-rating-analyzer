@@ -51,7 +51,8 @@
     "played": "Played",
     "cleared": "Cleared",
     "fullCombo": "Full Combo",
-    "allPerfect": "All Perfect"
+    "allPerfect": "All Perfect",
+    "showMaxRatings": "Show Max Ratings"
   },
   "radar": {
     "daigouryoku": "Daigouryoku",
@@ -89,9 +90,17 @@
     "loading": "Loading data...",
     "noData": "No score data found or calculation impossible. Possibly missing Oni/Ura scores.",
     "overview": "Overview",
-    "ratingRadar": "Rating & Radar Chart",
+    "ratingRadar": "Rating Overview",
     "top": "Top",
     "recommend": "Recommend",
+    "dimensionChanges": "Dimension changes",
+    "noChange": "No change",
+    "increasedSongs": "Improved charts",
+    "decreasedSongs": "Dropped charts",
+    "changedSongs": "Rating Changes",
+    "changedSongsUnit": " charts",
+    "noIncrease": "No charts improved",
+    "noDecrease": "No charts dropped",
     "prefAdjust": "Level Preference adjustment",
     "instruction": "Instructions",
     "calculating": "Calculating..."
@@ -185,5 +194,14 @@
       "formatError": "Data format incorrect",
       "readFailed": "Read file failed"
     }
+  },
+  "songs": {
+    "maxRating": "Max Rating",
+    "maxDaigouryoku": "Max Daiko Power",
+    "maxStamina": "Max Stamina",
+    "maxSpeed": "Max Speed",
+    "maxAccuracy": "Max Accuracy",
+    "maxRhythm": "Max Rhythm",
+    "maxComplex": "Max Complex"
   }
 }

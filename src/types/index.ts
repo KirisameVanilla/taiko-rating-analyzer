@@ -60,6 +60,7 @@ export interface SongStats extends RatingDimensions, ScoreCounts {
   _isUnplayed?: boolean
   _isNew?: boolean
   _ratingDiff?: number
+  _dimensionDiffs?: Record<keyof RatingDimensions, number>
 }
 
 export interface Announcement {

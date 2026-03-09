@@ -51,7 +51,8 @@
     "played": "已游玩",
     "cleared": "已过关",
     "fullCombo": "已全连",
-    "allPerfect": "已全良"
+    "allPerfect": "已全良",
+    "showMaxRatings": "查看评分上限"
   },
   "radar": {
     "daigouryoku": "大歌力",
@@ -89,9 +90,17 @@
     "loading": "正在加载数据…",
     "noData": "未获取到成绩数据或无法计算, 可能是没有魔王难度、里魔王难度成绩",
     "overview": "概览",
-    "ratingRadar": "Rating 及六维雷达图",
+    "ratingRadar": "Rating 总览",
     "top": "Top",
     "recommend": "推荐曲目",
+    "dimensionChanges": "六维度变化",
+    "noChange": "无变化",
+    "increasedSongs": "提升曲目",
+    "decreasedSongs": "下降曲目",
+    "changedSongs": "变动曲目",
+    "changedSongsUnit": "曲",
+    "noIncrease": "暂无提升曲目",
+    "noDecrease": "暂无下降曲目",
     "prefAdjust": "难度定数偏好调整",
     "instruction": "使用说明",
     "calculating": "计算中..."
@@ -185,5 +194,14 @@
       "formatError": "数据格式不正确",
       "readFailed": "读取文件失败"
     }
+  },
+  "songs": {
+    "maxRating": "Rating 上限",
+    "maxDaigouryoku": "大歌力上限",
+    "maxStamina": "体力上限",
+    "maxSpeed": "高速力上限",
+    "maxAccuracy": "精度力上限",
+    "maxRhythm": "节奏上限",
+    "maxComplex": "复合上限"
   }
 }

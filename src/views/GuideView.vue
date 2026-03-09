@@ -389,9 +389,9 @@ const anyalyze = async (input: string) => {
     console.error('Failed to parse input for analysis', e)
   }
 
-  // 保存旧数据到 lastTaikoScore
+  // 保存旧数据到 lastTaikoScore（仅当新数据与当前数据不同时）
   const currentScoreData = localStorage.getItem('taikoScoreData')
-  if (currentScoreData) {
+  if (currentScoreData && currentScoreData !== input) {
     localStorage.setItem('lastTaikoScore', currentScoreData)
   }
 
@@ -400,7 +400,7 @@ const anyalyze = async (input: string) => {
   
   // 触发 store 更新
   const store = useScoreStore()
-  await store.init()
+  await store.init(true)
   
   // 触发自定义事件以通知其他组件
   window.dispatchEvent(new Event('localStorageUpdate'))

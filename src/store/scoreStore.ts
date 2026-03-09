@@ -7,7 +7,8 @@ import {
   parsePastedScores,
   enhanceSongStats,
   calculateOverallStats,
-  calculateLastOverallStats
+  calculateLastOverallStats,
+  calculateLastRadarData
 } from '@utils/calculator'
 import { expandSongsDatabase } from '@utils/songHelpers'
 import { difficultyMap } from '@utils/difficulty'
@@ -24,7 +25,17 @@ const ratingAlgorithm = ref<RatingAlgorithm>('comprehensive')
 const blacklistedSongs = ref<string[]>([])
 const lockedScores = ref<LockedScores>({})
 const isLoading = ref(false)
+const isInitialized = ref(false)
+const lastScoreHash = ref<number | null>(null)
 const error = ref<string | null>(null)
+
+function simpleHash(str: string): number {
+  let hash = 5381
+  for (let i = 0; i < str.length; i++) {
+    hash = (((hash << 5) + hash) + str.charCodeAt(i)) | 0
+  }
+  return hash
+}
 
 // Computed stats
 const overallRating = ref(0)
@@ -37,10 +48,22 @@ const radarData = ref({
   rhythm: 0,
   complex: 0
 })
+const lastRadarData = ref({
+  daigouryoku: 0,
+  stamina: 0,
+  speed: 0,
+  accuracy: 0,
+  rhythm: 0,
+  complex: 0
+})
 
 // Top 20 lists
+const deduplicatedSongs = computed(() =>
+  filterDuplicateSongs(filteredSongStats.value, duplicateSongs)
+)
+
 const topLists = computed(() => {
-  const filtered = filterDuplicateSongs(filteredSongStats.value, duplicateSongs)
+  const filtered = deduplicatedSongs.value
   
   const args = [filtered, songsDB.value, ratingAlgorithm.value, lastSongStats.value] as const
 
@@ -63,6 +86,7 @@ function updateOverallStats(data: SongStats[]) {
 
 function updateLastOverallStats(data: SongStats[]) {
   lastOverallRating.value = calculateLastOverallStats(data, duplicateSongs)
+  lastRadarData.value = calculateLastRadarData(data, duplicateSongs)
 }
 
 function applyCnFilter() {
@@ -101,8 +125,19 @@ function applyCnFilter() {
 }
 
 export function useScoreStore() {
-  const init = async () => {
+  const init = async (force = false) => {
     if (isLoading.value) return
+    if (!force && isInitialized.value) return
+
+    // If forced, check whether score data actually changed before re-processing
+    if (force && isInitialized.value) {
+      const scoreInput = localStorage.getItem('taikoScoreData') || ''
+      const lastScoreInput = localStorage.getItem('lastTaikoScore') || ''
+      const newHash = simpleHash(scoreInput + '|' + lastScoreInput + '|' + ratingAlgorithm.value)
+      if (newHash === lastScoreHash.value) return
+    }
+
+    isInitialized.value = false
     isLoading.value = true
     error.value = null
 
@@ -204,6 +239,12 @@ export function useScoreStore() {
       }
 
       applyCnFilter()
+      lastScoreHash.value = simpleHash(
+        (localStorage.getItem('taikoScoreData') || '') + '|' +
+        (localStorage.getItem('lastTaikoScore') || '') + '|' +
+        ratingAlgorithm.value
+      )
+      isInitialized.value = true
 
     } catch (e) {
       console.error(e)
@@ -222,7 +263,7 @@ export function useScoreStore() {
   const setRatingAlgorithm = (value: RatingAlgorithm) => {
     ratingAlgorithm.value = value
     localStorage.setItem('ratingAlgorithm', value)
-    init()
+    init(true)
   }
 
   const toggleBlacklist = (id: number, level: number) => {
@@ -287,6 +328,7 @@ export function useScoreStore() {
     overallRating,
     lastOverallRating,
     radarData,
+    lastRadarData,
     topLists,
     init,
     setCnFilter,
