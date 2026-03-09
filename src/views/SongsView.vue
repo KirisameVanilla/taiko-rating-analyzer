@@ -592,13 +592,13 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
               </div>
             </div>
 
-            <div class="mt-4 pt-4 border-t border-black/5">
-              <label class="flex items-center justify-between cursor-pointer">
+            <div class="mt-4 pt-4 border-black/5 border-t">
+              <label class="flex justify-between items-center cursor-pointer">
                 <span class="font-semibold text-[#1D1D1F] text-sm">{{ t('filter.showMaxRatings') }}</span>
                 <div class="relative">
                   <input type="checkbox" v-model="showMaxRatings" class="sr-only" />
-                  <div class="w-10 h-6 rounded-full transition-colors" :class="showMaxRatings ? 'bg-[#007AFF]' : 'bg-black/15'"></div>
-                  <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform" :class="showMaxRatings ? 'translate-x-4' : 'translate-x-0'"></div>
+                  <div class="rounded-full w-10 h-6 transition-colors" :class="showMaxRatings ? 'bg-[#007AFF]' : 'bg-black/15'"></div>
+                  <div class="top-1 left-1 absolute bg-white shadow rounded-full w-4 h-4 transition-transform" :class="showMaxRatings ? 'translate-x-4' : 'translate-x-0'"></div>
                 </div>
               </label>
             </div>
@@ -621,7 +621,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
       <table class="w-full border-separate border-spacing-0">
         <thead>
           <tr>
-            <th @click="toggleSort('title')" class="sticky-col sticky left-0 z-20 bg-[#F2F2F2] hover:bg-[#E8E8E8] p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+            <th @click="toggleSort('title')" class="after:right-0 left-0 after:absolute relative sticky after:inset-y-0 bg-[#F2F2F2] after:bg-black/[0.08] hover:bg-[#E8E8E8] p-4 after:w-px font-bold text-[#1D1D1F] text-left after:content-[''] whitespace-nowrap transition-colors cursor-pointer after:pointer-events-none select-none">
               {{ t('topTable.songTitle') }} <span v-if="sortKey === 'title'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap select-none">{{ t('rating.difficulty') }}</th>
@@ -671,7 +671,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
         </thead>
         <tbody>
           <tr v-for="song in paginatedSongs" :key="song.id" @click="openEditModal(song)" class="group hover:bg-black/[0.02] transition-colors cursor-pointer">
-            <td class="sticky-col sticky left-0 z-[1] bg-[#FFFFFF] group-hover:bg-[#FAFAFA] border-b border-black/5 transition-colors p-4 min-w-[200px] font-semibold text-[#1D1D1F] text-left">
+            <td class="after:right-0 left-0 z-[1] after:absolute relative sticky after:inset-y-0 bg-[#FFFFFF] after:bg-black/[0.08] group-hover:bg-[#FAFAFA] p-4 border-black/5 border-b after:w-px min-w-[200px] font-semibold text-[#1D1D1F] text-left after:content-[''] transition-colors after:pointer-events-none">
               {{ (onlyCnSongs && song.title_cn) ? song.title_cn : song.title }}
               <span class="ml-1 font-normal text-[#8E8E93] text-xs">{{ difficultyMap[song.level] || '' }}</span>
             </td>
@@ -783,20 +783,6 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
 </template>
 
 <style scoped>
-.sticky-col {
-  position: sticky;
-}
-.sticky-col::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: rgba(0, 0, 0, 0.08);
-  pointer-events: none;
-}
-
 .tooltip-fade-enter-active,
 .tooltip-fade-leave-active {
   transition: opacity 0.2s ease;
