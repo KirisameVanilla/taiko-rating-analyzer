@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { SongsDatabase, SongStats, UserScore } from '@/types'
+import type { SongsDatabase, SongStats, UserScore, RatingDimensions } from '@/types'
 import EditScoreModal from '@components/EditScoreModal.vue'
 import { loadSongsData } from '@data/songs'
-import { calculateSongStats, MAX_CONSTANT_VALUE, parsePastedScores } from '@utils/calculator'
+import { calculateSongStats, MAX_CONSTANT_VALUE, parsePastedScores, calcMaxRatings } from '@utils/calculator'
 import { difficultyBadgeMap, difficultyMap } from '@utils/difficulty'
 import { eventBus } from '@utils/eventBus'
 import { expandSongsDatabase, findSongByIdLevel } from '@utils/songHelpers'
@@ -20,9 +20,11 @@ interface SongRow {
   isCn: boolean
   userScore?: UserScore
   stats?: SongStats
+  maxRatings?: RatingDimensions
 }
 
 type SortKey = 'title' | 'constant' | 'score' | 'rating' | 'great' | 'good' | 'bad' | 'drumroll' | 'combo' | 'updatedAt'
+  | 'maxRating' | 'maxDaigouryoku' | 'maxStamina' | 'maxSpeed' | 'maxAccuracy' | 'maxRhythm' | 'maxComplex'
 
 const store = useScoreStore()
 const songs = ref<SongRow[]>([])
@@ -171,6 +173,7 @@ const handleClearScore = () => {
 
 // Filter State
 const showFilter = ref(false)
+const showMaxRatings = ref(false)
 const minConstant = ref(1.0)
 const maxConstant = ref(MAX_CONSTANT_VALUE)
 const limitMin = ref(1.0)
@@ -224,19 +227,19 @@ watch(maxConstant, (v) => {
 })
 
 watch(() => store.ratingAlgorithm.value, () => {
-  // Recalculate stats for all songs when algorithm changes
+  // Recalculate stats and maxRatings for all songs when algorithm changes
   allSongs.value = allSongs.value.map(song => {
+    const [idStr, levelStr] = song.id.split('-')
+    const id = parseInt(idStr)
+    const level = parseInt(levelStr) as 4 | 5
+    const result = findSongByIdLevel(songsDB.value!, id, level)
+    if (!result) return song
+    const maxRatings = calcMaxRatings(result.levelData, store.ratingAlgorithm.value)
     if (song.userScore) {
-      const [idStr, levelStr] = song.id.split('-')
-      const id = parseInt(idStr)
-      const level = parseInt(levelStr) as 4 | 5
-      const result = findSongByIdLevel(songsDB.value!, id, level)
-      if (result) {
-        const stats = calculateSongStats(result.levelData, song.userScore, song.title, store.ratingAlgorithm.value)
-        return { ...song, stats: stats || undefined }
-      }
+      const stats = calculateSongStats(result.levelData, song.userScore, song.title, store.ratingAlgorithm.value)
+      return { ...song, stats: stats || undefined, maxRatings }
     }
-    return song
+    return { ...song, maxRatings }
   })
   applyCnFilter()
 })
@@ -287,7 +290,8 @@ onMounted(async () => {
         constant: entry.data.constant,
         isCn: song?.is_cn || false,
         userScore: score,
-        stats: stats
+        stats: stats,
+        maxRatings: calcMaxRatings(entry.data, store.ratingAlgorithm.value)
       })
     }
     
@@ -457,6 +461,34 @@ const filteredSongs = computed(() => {
         valA = a.userScore?.updatedAt ? new Date(a.userScore.updatedAt).getTime() : 0
         valB = b.userScore?.updatedAt ? new Date(b.userScore.updatedAt).getTime() : 0
         break
+      case 'maxRating':
+        valA = a.maxRatings?.rating ?? -1
+        valB = b.maxRatings?.rating ?? -1
+        break
+      case 'maxDaigouryoku':
+        valA = a.maxRatings?.daigouryoku ?? -1
+        valB = b.maxRatings?.daigouryoku ?? -1
+        break
+      case 'maxStamina':
+        valA = a.maxRatings?.stamina ?? -1
+        valB = b.maxRatings?.stamina ?? -1
+        break
+      case 'maxSpeed':
+        valA = a.maxRatings?.speed ?? -1
+        valB = b.maxRatings?.speed ?? -1
+        break
+      case 'maxAccuracy':
+        valA = a.maxRatings?.accuracy_power ?? -1
+        valB = b.maxRatings?.accuracy_power ?? -1
+        break
+      case 'maxRhythm':
+        valA = a.maxRatings?.rhythm ?? -1
+        valB = b.maxRatings?.rhythm ?? -1
+        break
+      case 'maxComplex':
+        valA = a.maxRatings?.complex ?? -1
+        valB = b.maxRatings?.complex ?? -1
+        break
     }
     
     if (valA === valB) return 0
@@ -559,6 +591,17 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
                 </div>
               </div>
             </div>
+
+            <div class="mt-4 pt-4 border-t border-black/5">
+              <label class="flex items-center justify-between cursor-pointer">
+                <span class="font-semibold text-[#1D1D1F] text-sm">{{ t('filter.showMaxRatings') }}</span>
+                <div class="relative">
+                  <input type="checkbox" v-model="showMaxRatings" class="sr-only" />
+                  <div class="w-10 h-6 rounded-full transition-colors" :class="showMaxRatings ? 'bg-[#007AFF]' : 'bg-black/15'"></div>
+                  <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform" :class="showMaxRatings ? 'translate-x-4' : 'translate-x-0'"></div>
+                </div>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -574,16 +617,37 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
       <p class="mt-4 font-medium text-[#8E8E93]">{{ t('common.loading') }}</p>
     </div>
     
-    <div v-else class="bg-white/50 shadow-sm backdrop-blur-sm border border-black/5 rounded-[24px] overflow-x-auto">
-      <table class="w-full border-collapse">
+    <div v-else class="bg-white shadow-sm border border-black/5 rounded-[24px] overflow-x-auto">
+      <table class="w-full border-separate border-spacing-0">
         <thead>
           <tr>
-            <th @click="toggleSort('title')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
-              {{ t('rating.rank') }} <span v-if="sortKey === 'title'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            <th @click="toggleSort('title')" class="sticky-col sticky left-0 z-20 bg-[#F2F2F2] hover:bg-[#E8E8E8] p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('topTable.songTitle') }} <span v-if="sortKey === 'title'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap select-none">{{ t('rating.difficulty') }}</th>
             <th @click="toggleSort('constant')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
               {{ t('rating.level') }} <span v-if="sortKey === 'constant'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxRating')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxRating') }} <span v-if="sortKey === 'maxRating'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxDaigouryoku')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxDaigouryoku') }} <span v-if="sortKey === 'maxDaigouryoku'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxStamina')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxStamina') }} <span v-if="sortKey === 'maxStamina'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxSpeed')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxSpeed') }} <span v-if="sortKey === 'maxSpeed'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxAccuracy')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxAccuracy') }} <span v-if="sortKey === 'maxAccuracy'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxRhythm')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxRhythm') }} <span v-if="sortKey === 'maxRhythm'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+            <th v-if="showMaxRatings" @click="toggleSort('maxComplex')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
+              {{ t('songs.maxComplex') }} <span v-if="sortKey === 'maxComplex'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th @click="toggleSort('score')" class="bg-black/5 hover:bg-black/10 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap transition-colors cursor-pointer select-none">
               {{ t('rating.score') }} <span v-if="sortKey === 'score'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
@@ -606,8 +670,8 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
           </tr>
         </thead>
         <tbody>
-          <tr v-for="song in paginatedSongs" :key="song.id" @click="openEditModal(song)" class="hover:bg-black/[0.02] transition-colors cursor-pointer">
-            <td class="p-4 border-black/5 border-b min-w-[200px] font-semibold text-[#1D1D1F] text-left">
+          <tr v-for="song in paginatedSongs" :key="song.id" @click="openEditModal(song)" class="group hover:bg-black/[0.02] transition-colors cursor-pointer">
+            <td class="sticky-col sticky left-0 z-[1] bg-[#FFFFFF] group-hover:bg-[#FAFAFA] border-b border-black/5 transition-colors p-4 min-w-[200px] font-semibold text-[#1D1D1F] text-left">
               {{ (onlyCnSongs && song.title_cn) ? song.title_cn : song.title }}
               <span class="ml-1 font-normal text-[#8E8E93] text-xs">{{ difficultyMap[song.level] || '' }}</span>
             </td>
@@ -623,6 +687,13 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
               </span>
             </td>
             <td class="p-4 border-black/5 border-b font-mono text-left">{{ song.constant.toFixed(1) }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.rating.toFixed(2) ?? '-' }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.daigouryoku.toFixed(2) ?? '-' }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.stamina.toFixed(2) ?? '-' }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.speed.toFixed(2) ?? '-' }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.accuracy_power.toFixed(2) ?? '-' }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.rhythm.toFixed(2) ?? '-' }}</td>
+            <td v-if="showMaxRatings" class="p-4 border-black/5 border-b font-mono text-left">{{ song.maxRatings?.complex.toFixed(2) ?? '-' }}</td>
             <td class="p-4 border-black/5 border-b font-mono text-left">{{ song.userScore?.score ?? '-' }}</td>
             <td 
               :class="{ 'text-[#007AFF] font-bold': song.stats }" 
@@ -712,6 +783,20 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
 </template>
 
 <style scoped>
+.sticky-col {
+  position: sticky;
+}
+.sticky-col::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
 .tooltip-fade-enter-active,
 .tooltip-fade-leave-active {
   transition: opacity 0.2s ease;

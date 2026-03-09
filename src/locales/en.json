@@ -51,7 +51,8 @@
     "played": "Played",
     "cleared": "Cleared",
     "fullCombo": "Full Combo",
-    "allPerfect": "All Perfect"
+    "allPerfect": "All Perfect",
+    "showMaxRatings": "Show Max Ratings"
   },
   "radar": {
     "daigouryoku": "Daigouryoku",
@@ -193,5 +194,14 @@
       "formatError": "Data format incorrect",
       "readFailed": "Read file failed"
     }
+  },
+  "songs": {
+    "maxRating": "Max Rating",
+    "maxDaigouryoku": "Max Daiko Power",
+    "maxStamina": "Max Stamina",
+    "maxSpeed": "Max Speed",
+    "maxAccuracy": "Max Accuracy",
+    "maxRhythm": "Max Rhythm",
+    "maxComplex": "Max Complex"
   }
 }

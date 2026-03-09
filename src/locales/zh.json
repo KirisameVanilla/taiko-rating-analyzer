@@ -51,7 +51,8 @@
     "played": "已游玩",
     "cleared": "已过关",
     "fullCombo": "已全连",
-    "allPerfect": "已全良"
+    "allPerfect": "已全良",
+    "showMaxRatings": "查看评分上限"
   },
   "radar": {
     "daigouryoku": "大歌力",
@@ -193,5 +194,14 @@
       "formatError": "数据格式不正确",
       "readFailed": "读取文件失败"
     }
+  },
+  "songs": {
+    "maxRating": "Rating 上限",
+    "maxDaigouryoku": "大歌力上限",
+    "maxStamina": "体力上限",
+    "maxSpeed": "高速力上限",
+    "maxAccuracy": "精度力上限",
+    "maxRhythm": "节奏上限",
+    "maxComplex": "复合上限"
   }
 }
