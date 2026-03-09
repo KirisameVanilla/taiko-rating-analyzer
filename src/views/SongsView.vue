@@ -92,7 +92,7 @@ const updateLocalStorage = async (newScore: UserScore) => {
   localStorage.setItem('taikoScoreData', JSON.stringify(rawScores))
   
   // Update store
-  await store.init()
+  await store.init(true)
 }
 
 const removeFromLocalStorage = async (id: number, level: number) => {
@@ -109,7 +109,7 @@ const removeFromLocalStorage = async (id: number, level: number) => {
   localStorage.setItem('taikoScoreData', JSON.stringify(rawScores))
   
   // Update store
-  await store.init()
+  await store.init(true)
 }
 
 const handleSaveScore = (scoreData: Partial<UserScore>) => {

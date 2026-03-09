@@ -661,8 +661,18 @@ export function enhanceSongStats(
 
     // Calculate diff with last stats
     const lastSong = lastSongStats.find(s => s.id === song.id && s.level === song.level)
-    const isNew = !lastSong
-    const ratingDiff = lastSong ? song.rating - lastSong.rating : 0
+    const isNew = !lastSong && lastSongStats.length > 0
+    const ratingDiff = lastSong ? song.rating - lastSong.rating : (lastSongStats.length > 0 ? song.rating : 0)
+
+    const dimensionDiffs: Record<keyof RatingDimensions, number> = {
+      rating: ratingDiff,
+      daigouryoku: lastSong ? song.daigouryoku - lastSong.daigouryoku : (lastSongStats.length > 0 ? song.daigouryoku : 0),
+      stamina: lastSong ? song.stamina - lastSong.stamina : (lastSongStats.length > 0 ? song.stamina : 0),
+      speed: lastSong ? song.speed - lastSong.speed : (lastSongStats.length > 0 ? song.speed : 0),
+      accuracy_power: lastSong ? song.accuracy_power - lastSong.accuracy_power : (lastSongStats.length > 0 ? song.accuracy_power : 0),
+      rhythm: lastSong ? song.rhythm - lastSong.rhythm : (lastSongStats.length > 0 ? song.rhythm : 0),
+      complex: lastSong ? song.complex - lastSong.complex : (lastSongStats.length > 0 ? song.complex : 0),
+    }
 
     return {
       ...song,
@@ -671,7 +681,8 @@ export function enhanceSongStats(
       _dimensionRanks: dimensionRanks,
       _isUnplayed: song.great === 0 && song.good === 0 && song.bad === 0,
       _isNew: isNew,
-      _ratingDiff: ratingDiff
+      _ratingDiff: ratingDiff,
+      _dimensionDiffs: dimensionDiffs
     }
   })
 }
@@ -719,4 +730,12 @@ export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Arr
   const ratingMid = getTop20Median(filtered, 'rating')
   const ratingAve = getTop20WeightedAverage(filtered, 'rating')
   return topValueCompensate(ratingMid, 15.27, ratingAve, 15.31, 14.58)
+}
+
+/**
+ * 计算上一期的雷达维度总体数据
+ */
+export function calculateLastRadarData(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+  const { radarData } = calculateOverallStats(data, duplicateSongs)
+  return radarData
 }

@@ -400,7 +400,7 @@ const anyalyze = async (input: string) => {
   
   // 触发 store 更新
   const store = useScoreStore()
-  await store.init()
+  await store.init(true)
   
   // 触发自定义事件以通知其他组件
   window.dispatchEvent(new Event('localStorageUpdate'))
