@@ -389,9 +389,9 @@ const anyalyze = async (input: string) => {
     console.error('Failed to parse input for analysis', e)
   }
 
-  // 保存旧数据到 lastTaikoScore
+  // 保存旧数据到 lastTaikoScore（仅当新数据与当前数据不同时）
   const currentScoreData = localStorage.getItem('taikoScoreData')
-  if (currentScoreData) {
+  if (currentScoreData && currentScoreData !== input) {
     localStorage.setItem('lastTaikoScore', currentScoreData)
   }
 

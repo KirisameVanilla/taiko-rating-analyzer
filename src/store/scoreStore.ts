@@ -26,7 +26,16 @@ const blacklistedSongs = ref<string[]>([])
 const lockedScores = ref<LockedScores>({})
 const isLoading = ref(false)
 const isInitialized = ref(false)
+const lastScoreHash = ref<number | null>(null)
 const error = ref<string | null>(null)
+
+function simpleHash(str: string): number {
+  let hash = 5381
+  for (let i = 0; i < str.length; i++) {
+    hash = (((hash << 5) + hash) + str.charCodeAt(i)) | 0
+  }
+  return hash
+}
 
 // Computed stats
 const overallRating = ref(0)
@@ -119,6 +128,15 @@ export function useScoreStore() {
   const init = async (force = false) => {
     if (isLoading.value) return
     if (!force && isInitialized.value) return
+
+    // If forced, check whether score data actually changed before re-processing
+    if (force && isInitialized.value) {
+      const scoreInput = localStorage.getItem('taikoScoreData') || ''
+      const lastScoreInput = localStorage.getItem('lastTaikoScore') || ''
+      const newHash = simpleHash(scoreInput + '|' + lastScoreInput + '|' + ratingAlgorithm.value)
+      if (newHash === lastScoreHash.value) return
+    }
+
     isInitialized.value = false
     isLoading.value = true
     error.value = null
@@ -221,6 +239,11 @@ export function useScoreStore() {
       }
 
       applyCnFilter()
+      lastScoreHash.value = simpleHash(
+        (localStorage.getItem('taikoScoreData') || '') + '|' +
+        (localStorage.getItem('lastTaikoScore') || '') + '|' +
+        ratingAlgorithm.value
+      )
       isInitialized.value = true
 
     } catch (e) {
