@@ -621,7 +621,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
       <table class="w-full border-separate border-spacing-0">
         <thead>
           <tr>
-            <th @click="toggleSort('title')" class="after:right-0 left-0 after:absolute relative sticky after:inset-y-0 bg-[#F2F2F2] after:bg-black/[0.08] hover:bg-[#E8E8E8] p-4 after:w-px font-bold text-[#1D1D1F] text-left after:content-[''] whitespace-nowrap transition-colors cursor-pointer after:pointer-events-none select-none">
+            <th @click="toggleSort('title')" class="after:right-0 md:left-0 after:absolute md:sticky after:inset-y-0 bg-[#F2F2F2] after:bg-black/[0.08] hover:bg-[#E8E8E8] p-4 after:w-px font-bold text-[#1D1D1F] text-left after:content-[''] whitespace-nowrap transition-colors cursor-pointer after:pointer-events-none select-none">
               {{ t('topTable.songTitle') }} <span v-if="sortKey === 'title'" class="ml-1">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span>
             </th>
             <th class="bg-black/5 p-4 font-bold text-[#1D1D1F] text-left whitespace-nowrap select-none">{{ t('rating.difficulty') }}</th>
@@ -671,7 +671,7 @@ watch([searchTerm, minConstant, maxConstant, statusFilters, onlyCnSongs, sortKey
         </thead>
         <tbody>
           <tr v-for="song in paginatedSongs" :key="song.id" @click="openEditModal(song)" class="group hover:bg-black/[0.02] transition-colors cursor-pointer">
-            <td class="after:right-0 left-0 z-[1] after:absolute relative sticky after:inset-y-0 bg-[#FFFFFF] after:bg-black/[0.08] group-hover:bg-[#FAFAFA] p-4 border-black/5 border-b after:w-px min-w-[200px] font-semibold text-[#1D1D1F] text-left after:content-[''] transition-colors after:pointer-events-none">
+            <td class="after:right-0 md:left-0 md:z-[1] after:absolute md:sticky after:inset-y-0 bg-[#FFFFFF] after:bg-black/[0.08] group-hover:bg-[#FAFAFA] p-4 border-black/5 border-b after:w-px min-w-[200px] font-semibold text-[#1D1D1F] text-left after:content-[''] transition-colors after:pointer-events-none">
               {{ (onlyCnSongs && song.title_cn) ? song.title_cn : song.title }}
               <span class="ml-1 font-normal text-[#8E8E93] text-xs">{{ difficultyMap[song.level] || '' }}</span>
             </td>
