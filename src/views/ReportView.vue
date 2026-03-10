@@ -40,6 +40,7 @@ const menuItems = computed(() => [
     { id: 'daigouryoku', label: t('radar.daigouryoku') },
     { id: 'stamina', label: t('radar.stamina') },
     { id: 'speed', label: t('radar.speed') },
+    { id: 'accuracy_power', label: t('radar.accuracy') },
     { id: 'rhythm', label: t('radar.rhythm') },
     { id: 'complex', label: t('radar.complex') }
 ])
