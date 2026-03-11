@@ -29,7 +29,9 @@
       "@data/*": ["./src/data/*"],
       "@router/*": ["./src/router/*"],
       "@/*": ["./src/*"]
-    }
+    },
+    
+    "types": ["vite/client"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

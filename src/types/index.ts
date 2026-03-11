@@ -63,13 +63,6 @@ export interface SongStats extends RatingDimensions, ScoreCounts {
   _dimensionDiffs?: Record<keyof RatingDimensions, number>
 }
 
-export interface Announcement {
-  id: number
-  text: string
-  type?: 'info' | 'warning' | 'success'
-  date?: string
-}
-
 export type SongsDatabase = SongData[]
 
 export type LockedScores = Record<string, UserScore>
