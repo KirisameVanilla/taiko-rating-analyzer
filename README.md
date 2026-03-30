@@ -9,7 +9,7 @@
 
 ## 快速开始
 
-- [太鼓之达人 Rating & 六维分析](https://best.taiko.vanillaaaa.org)
+- [太鼓之达人 Rating & 六维分析](https://rating.ourtaiko.org)
 
 ## 主要功能
 
@@ -19,7 +19,6 @@
 ## 文件说明
 
 - **`src/`**: 源代码（Vue + TypeScript），包含视图组件与计算逻辑。
-- **`public/songs.json`**: 歌曲数据库文件。
 
 ## 致谢
 
@@ -32,6 +31,6 @@
 - **所有在算法设计过程中提出建议和帮助的鼓友们**: 感谢你们的每一条建议与测试
 - **本仓库 Contributors**:
 
-    <a href="https://github.com/KirisameVanilla/taiko-best/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=KirisameVanilla/taiko-best" alt="Contributors"/>
+    <a href="https://github.com/KirisameVanilla/taiko-rating-analyzer/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=KirisameVanilla/taiko-rating-analyzer" alt="Contributors"/>
     </a>
