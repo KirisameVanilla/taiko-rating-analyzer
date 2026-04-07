@@ -172,6 +172,7 @@
     "btnUpload": "Upload Scores",
     "btnManual": "Manual Import",
     "manualTitle": "Manual Import",
+    "syncTitle": "Auto Sync for Chinese Server",
     "back": "Back",
     "proberLink": "Go to Prober",
     "osReq": "Windows or MacOS required",

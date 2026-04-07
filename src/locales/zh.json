@@ -172,6 +172,7 @@
     "btnUpload": "上传成绩",
     "btnManual": "手动导入成绩",
     "manualTitle": "手动导入成绩",
+    "syncTitle": "国服自动同步",
     "back": "返回",
     "proberLink": "前往查分器",
     "osReq": "须使用 Windows 或 MacOS 系统",

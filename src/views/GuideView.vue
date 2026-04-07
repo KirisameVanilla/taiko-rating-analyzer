@@ -11,9 +11,15 @@ const router = useRouter()
 const scoreInput = ref('')
 const { showModal } = useModal()
 
-// 控制向导和使用指南的显示
-const showWizard = ref(true)
-const showGuideContent = ref(false)
+// Tab 切换
+const activeTab = ref<'sync' | 'manual'>('sync')
+const transitionName = ref('slide-left')
+
+const switchTab = (tab: 'sync' | 'manual') => {
+  if (tab === activeTab.value) return
+  transitionName.value = tab === 'manual' ? 'slide-left' : 'slide-right'
+  activeTab.value = tab
+}
 
 // 向导相关状态
 const donderId = ref('')
@@ -95,18 +101,6 @@ const fetchAndAnalyze = async () => {
     showModal(error.message || t('guide.errors.syncFailed'), '分析失败')
     isLoading.value = false
   }
-}
-
-// 点击手动导入成绩按钮
-const handleManualImport = () => {
-  showWizard.value = false
-  showGuideContent.value = true
-}
-
-// 返回向导
-const backToWizard = () => {
-  showGuideContent.value = false
-  showWizard.value = true
 }
 
 // 组件挂载时初始化
@@ -424,10 +418,36 @@ const anyalyze = async (input: string) => {
       </div>
     </section>
 
-    <section>
-      <!-- 新的向导 -->
-      <transition name="fade">
-        <div v-show="showWizard" class="bg-white/70 shadow-sm backdrop-blur-xl my-8 p-10 border border-white/20 rounded-[32px] text-center">
+    <section class="my-8 bg-white/70 shadow-sm backdrop-blur-xl border border-white/20 rounded-[32px] overflow-hidden">
+      <!-- Tab 栏 -->
+      <div class="flex relative border-b border-black/5">
+        <div
+          class="absolute bottom-0 h-0.5 bg-[#007AFF] rounded-full transition-all duration-300 ease-out"
+          :style="{
+            left: activeTab === 'sync' ? '0' : '50%',
+            width: '50%'
+          }"
+        />
+        <button
+          @click="switchTab('sync')"
+          class="flex-1 relative z-10 py-4 border-none font-semibold text-sm transition-colors duration-200 cursor-pointer"
+          :class="activeTab === 'sync' ? 'text-[#007AFF]' : 'text-[#86868B] hover:text-[#1D1D1F]'"
+        >
+          <i class="mr-2 fa-solid fa-arrows-rotate"></i>{{ t('guide.syncTitle') }}
+        </button>
+        <button
+          @click="switchTab('manual')"
+          class="flex-1 relative z-10 py-4 border-none font-semibold text-sm transition-colors duration-200 cursor-pointer"
+          :class="activeTab === 'manual' ? 'text-[#007AFF]' : 'text-[#86868B] hover:text-[#1D1D1F]'"
+        >
+          <i class="mr-2 fa-solid fa-file-import"></i>{{ t('guide.manualTitle') }}
+        </button>
+      </div>
+
+      <!-- Tab 内容区域 -->
+      <Transition :name="transitionName" mode="out-in">
+        <!-- 自动同步 -->
+        <div v-if="activeTab === 'sync'" key="sync" class="p-10 text-center">
           <div class="flex flex-col items-center gap-6">
             <!-- 步骤1：绑定广场ID -->
             <div v-if="wizardStep === 1" class="flex flex-col items-center gap-6 w-full">
@@ -435,28 +455,22 @@ const anyalyze = async (input: string) => {
                 <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">{{ t('guide.welcome') }}</h2>
                 <p class="m-0 text-[#86868B]">{{ t('guide.bindId') }}</p>
               </div>
-              
+
               <div class="flex flex-col items-center gap-4 w-full max-w-[460px]">
                 <div class="relative w-full">
-                  <input 
-                    v-model="inputDonderId" 
-                    type="text" 
+                  <input
+                    v-model="inputDonderId"
+                    type="text"
                     :placeholder="t('guide.idPlaceholder')"
                     class="box-border bg-black/5 focus:bg-white px-6 py-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] text-lg text-center transition-all"
                     @keyup.enter="bindDonderId"
                   />
                 </div>
-                <button 
-                  @click="bindDonderId" 
+                <button
+                  @click="bindDonderId"
                   class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-semibold text-white text-lg active:scale-[0.98] transition-all cursor-pointer"
                 >
                   {{ t('guide.btnBind') }}
-                </button>
-                <button 
-                  @click="handleManualImport" 
-                  class="bg-transparent px-6 py-2 border-none font-medium text-[#007AFF] hover:text-[#0071E3] text-sm transition-all cursor-pointer"
-                >
-                  {{ t('guide.btnSkip') }}
                 </button>
               </div>
             </div>
@@ -484,45 +498,28 @@ const anyalyze = async (input: string) => {
               </div>
 
               <div class="flex sm:flex-row flex-col justify-center gap-4 w-full max-w-[500px]">
-                <button 
-                  @click="fetchAndAnalyze" 
+                <button
+                  @click="fetchAndAnalyze"
                   :disabled="isLoading"
                   class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] disabled:opacity-50 shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl font-semibold text-white text-lg active:scale-[0.98] transition-all cursor-pointer"
                 >
                   <i v-if="isLoading" class="mr-2 fa-solid fa-circle-notch fa-spin"></i>
                   {{ isLoading ? t('report.calculating') : t('guide.btnSync') }}
                 </button>
-                <button 
-                  @click="handleUpload" 
+                <button
+                  @click="handleUpload"
                   :disabled="isLoading"
                   class="flex-1 bg-black/5 hover:bg-black/10 disabled:opacity-50 py-4 border-none rounded-2xl font-semibold text-[#1D1D1F] text-lg active:scale-[0.98] transition-all cursor-pointer"
                 >
                   {{ t('guide.btnUpload') }}
                 </button>
               </div>
-              
-              <p class="m-0 text-[#86868B] text-sm">
-                如果自动同步遇到问题，您可以尝试
-                <button @click="handleManualImport" class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">{{ t('guide.btnManual') }}</button>
-              </p>
             </div>
           </div>
         </div>
-      </transition>
-      
-      <!-- 原有的使用指南内容 -->
-      <transition name="fade">
-        <div v-show="showGuideContent" class="bg-white/70 shadow-sm backdrop-blur-xl my-8 p-8 border border-white/20 rounded-[32px]">
-          <div class="flex justify-between items-center mb-8">
-            <h2 class="m-0 font-bold text-[#1D1D1F] text-2xl">{{ t('guide.manualTitle') }}</h2>
-            <button 
-              @click="backToWizard" 
-              class="bg-black/5 hover:bg-black/10 px-5 py-2 border-none rounded-full font-medium text-[#1D1D1F] text-sm transition-all cursor-pointer"
-            >
-              <i class="fa-chevron-left mr-1 fa-solid"></i> {{ t('guide.back') }}
-            </button>
-          </div>
 
+        <!-- 手动导入成绩 -->
+        <div v-else key="manual" class="p-8 text-left">
           <div class="space-y-6">
             <div class="space-y-4">
               <div class="flex gap-4">
@@ -576,9 +573,9 @@ const anyalyze = async (input: string) => {
                   <i class="mr-2 fa-regular fa-clipboard"></i> {{ t('guide.pasteData') }}
                 </button>
               </div>
-              <textarea 
-                v-model="scoreInput" 
-                rows="4" 
+              <textarea
+                v-model="scoreInput"
+                rows="4"
                 :placeholder="t('guide.pastePlaceholder')"
                 class="box-border bg-black/5 focus:bg-white p-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full font-mono text-[#1D1D1F] transition-all resize-none"
               ></textarea>
@@ -588,19 +585,38 @@ const anyalyze = async (input: string) => {
             </div>
           </div>
         </div>
-      </transition>
+      </Transition>
     </section>
   </div>
 </template>
 
 <style scoped>
-.fade-enter-active {
-  transition: opacity 0.3s;
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.fade-leave-active {
-  transition: opacity 0s;
+
+/* sync → manual: 旧内容向左滑出，新内容从右滑入 */
+.slide-left-leave-to {
+  transform: translateX(-30px);
+  opacity: 0;
 }
-.fade-enter-from, .fade-leave-to {
+
+.slide-left-enter-from {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+/* manual → sync: 旧内容向右滑出，新内容从左滑入 */
+.slide-right-leave-to {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.slide-right-enter-from {
+  transform: translateX(-30px);
   opacity: 0;
 }
 </style>
