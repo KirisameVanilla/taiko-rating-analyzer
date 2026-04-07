@@ -212,15 +212,32 @@ function tryParseDonderHiroba (input: string): string | null {
     return null;
   }
 
-  // 检查是否为 Donder Hiroba 格式
-  const isDonderHirobaFormat = (obj: any) => {
-    return obj && typeof obj === 'object' && (
-      (Array.isArray(obj) && obj.length > 0 && obj[0] && typeof obj[0] === 'object' && 'songNo' in obj[0] && 'difficulty' in obj[0] && 'score' in obj[0]) ||
-      (!Array.isArray(obj) && 'songNo' in obj && 'difficulty' in obj && 'score' in obj)
-    );
+  const isLegacyItem = (obj: any) => {
+    return obj && typeof obj === 'object' && 'songNo' in obj && 'difficulty' in obj && 'score' in obj;
   };
 
-  if (!isDonderHirobaFormat(parsed)) return null;
+  // 新格式：{ "21": { songNo: "21", difficulty: { oni: {...}, easy: {...} } } }
+  const isGroupedItem = (obj: any) => {
+    return obj && typeof obj === 'object' && 'songNo' in obj && 'difficulty' in obj && typeof obj.difficulty === 'object';
+  };
+
+  let rawItems: any[] = [];
+  if (Array.isArray(parsed)) {
+    rawItems = parsed;
+  } else if (parsed && typeof parsed === 'object') {
+    if (isLegacyItem(parsed) || isGroupedItem(parsed)) {
+      rawItems = [parsed];
+    } else {
+      rawItems = Object.entries(parsed).map(([songNo, item]: [string, any]) => {
+        if (item && typeof item === 'object' && !('songNo' in item)) {
+          return { ...item, songNo };
+        }
+        return item;
+      });
+    }
+  }
+
+  if (rawItems.length === 0) return null;
 
   // 难度映射
   const difficultyMap: { [key: string]: number } = {
@@ -231,24 +248,47 @@ function tryParseDonderHiroba (input: string): string | null {
     'ura': 5
   };
 
-  let arr = Array.isArray(parsed) ? parsed : [parsed];
-  
-  return JSON.stringify(arr.map((item: any) => [
-    item.songNo,
-    difficultyMap[item.difficulty] ?? 4,
-    item.score?.score ?? 0,
-    item.score?.badge ?? '',
-    item.score?.good ?? 0,
-    item.score?.ok ?? 0,
-    item.score?.bad ?? 0,
-    item.score?.roll ?? 0,
-    item.score?.maxCombo ?? 0,
-    item.score?.count?.play ?? 0,
-    item.score?.count?.clear ?? 0,
-    (item.score?.count?.fullcombo ?? 0) > 0,
-    (item.score?.count?.donderfullcombo ?? 0) > 0,
-    ''
-  ]));
+  const rows: any[] = [];
+
+  const pushRow = (songNo: any, difficultyName: string, scoreData: any) => {
+    rows.push([
+      songNo,
+      difficultyMap[difficultyName] ?? 4,
+      scoreData?.score ?? 0,
+      scoreData?.badge ?? '',
+      scoreData?.good ?? 0,
+      scoreData?.ok ?? 0,
+      scoreData?.bad ?? 0,
+      scoreData?.roll ?? 0,
+      scoreData?.maxCombo ?? 0,
+      scoreData?.count?.play ?? 0,
+      scoreData?.count?.clear ?? 0,
+      (scoreData?.count?.fullcombo ?? 0) > 0,
+      (scoreData?.count?.donderfullcombo ?? 0) > 0,
+      ''
+    ]);
+  };
+
+  for (const item of rawItems) {
+    if (isLegacyItem(item)) {
+      pushRow(item.songNo, item.difficulty, item.score);
+      continue;
+    }
+
+    if (isGroupedItem(item)) {
+      for (const [difficultyName, difficultyData] of Object.entries(item.difficulty || {})) {
+        const scoreData = (difficultyData as any)?.score && typeof (difficultyData as any).score === 'object'
+          ? (difficultyData as any).score
+          : difficultyData;
+        if (scoreData && typeof scoreData === 'object') {
+          pushRow(item.songNo, difficultyName, scoreData);
+        }
+      }
+    }
+  }
+
+  if (rows.length === 0) return null;
+  return JSON.stringify(rows);
 }
 
 /* 尝试解析新版 LLX Donder Tool 传分器格式
