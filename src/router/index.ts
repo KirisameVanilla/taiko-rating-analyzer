@@ -1,6 +1,7 @@
 import GuideView from '@views/GuideView.vue'
 import ReportView from '@views/ReportView.vue'
 import SongsView from '@views/SongsView.vue'
+import FaqView from '@views/FaqView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/songs',
       name: 'songs',
       component: SongsView
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: FaqView
     }
   ]
 })

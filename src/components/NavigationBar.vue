@@ -45,6 +45,10 @@ const navigateToHome = () => {
 const navigateToSongs = () => {
   router.push('/songs')
 }
+
+const navigateToFaq = () => {
+  router.push('/faq')
+}
 </script>
 
 <template>
@@ -76,10 +80,10 @@ const navigateToSongs = () => {
           <i class="fas fa-music"></i>
           <span class="max-md:hidden">{{ t('nav.songs') }}</span>
         </button>
-        <button 
+        <button
           @click="navigateToReport"
           :disabled="!hasScoreData"
-          :class="{ 
+          :class="{
             'bg-[#007AFF] text-white shadow-sm': route.path === '/report',
             'bg-black/5 text-[#1D1D1F] hover:bg-black/10': route.path !== '/report' && hasScoreData,
             'opacity-30 cursor-not-allowed': !hasScoreData
@@ -88,6 +92,17 @@ const navigateToSongs = () => {
         >
           <i class="fas fa-chart-bar"></i>
           <span class="max-md:hidden">{{ t('nav.report') }}</span>
+        </button>
+        <button
+          @click="navigateToFaq"
+          :class="{
+            'bg-[#007AFF] text-white shadow-sm': route.path === '/faq',
+            'bg-black/5 text-[#1D1D1F] hover:bg-black/10': route.path !== '/faq'
+          }"
+          class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
+        >
+          <i class="fas fa-circle-question"></i>
+          <span class="max-md:hidden">{{ t('nav.faq') }}</span>
         </button>
         <button 
           @click="toggleLanguage"
