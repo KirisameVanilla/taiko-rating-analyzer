@@ -1,204 +1,46 @@
 <script setup lang="ts">
-import { useModal } from '@composables/useModal'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { LockedScores } from '@/types'
 import { useScoreStore } from '@/store/scoreStore'
 import { useI18n } from 'vue-i18n'
+import { useModal } from '@composables/useModal'
+import SakuraImportTab from '@/components/guide/SakuraImportTab.vue'
+import DonderSyncTab from '@/components/guide/DonderSyncTab.vue'
+import ManualImportTab from '@/components/guide/ManualImportTab.vue'
 
 const { t } = useI18n()
 const router = useRouter()
-const scoreInput = ref('')
 const { showModal } = useModal()
 
-// Tab 切换
-const activeTab = ref<'sync' | 'manual' | 'sakura'>('sync')
+// Tab 配置 — 调整顺序只需交换数组元素
+const tabDefs = [
+  { key: 'sakura', icon: 'fa-robot', labelKey: 'guide.sakuraTitle' as const, component: SakuraImportTab },
+  { key: 'sync', icon: 'fa-arrows-rotate', labelKey: 'guide.syncTitle' as const, component: DonderSyncTab },
+  { key: 'manual', icon: 'fa-file-import', labelKey: 'guide.manualTitle' as const, component: ManualImportTab },
+]
+
+const activeTab = ref(tabDefs[0].key)
 const transitionName = ref('slide-left')
 
-const tabOrder = ['sync', 'manual', 'sakura'] as const
-
-const switchTab = (tab: 'sync' | 'manual' | 'sakura') => {
-  if (tab === activeTab.value) return
-  const oldIndex = tabOrder.indexOf(activeTab.value)
-  const newIndex = tabOrder.indexOf(tab)
+const switchTab = (key: string) => {
+  if (key === activeTab.value) return
+  const oldIndex = tabDefs.findIndex(t => t.key === activeTab.value)
+  const newIndex = tabDefs.findIndex(t => t.key === key)
   transitionName.value = newIndex > oldIndex ? 'slide-left' : 'slide-right'
-  activeTab.value = tab
+  activeTab.value = key
 }
 
-// 自动同步相关状态
-const savedDonderId = localStorage.getItem('donderId') || ''
-const donderId = ref(savedDonderId)
-const isLoading = ref(false)
+const activeComponent = computed(() => tabDefs.find(t => t.key === activeTab.value)?.component)
+const indicatorLeft = computed(() => {
+  const idx = tabDefs.findIndex(t => t.key === activeTab.value)
+  return (idx / tabDefs.length) * 100 + '%'
+})
+const indicatorWidth = computed(() => 100 / tabDefs.length + '%')
 
-// 从Donder查分器获取数据并分析
-const fetchAndAnalyze = async () => {
-  const id = donderId.value.trim()
-  if (!id) {
-    showModal('请输入广场 ID', '提示')
-    return
-  }
-  if (!/^\d+$/.test(id)) {
-    showModal('广场 ID 必须是数字', '错误')
-    return
-  }
+// ---- 共享的数据解析函数 ----
 
-  localStorage.setItem('donderId', id)
-
-  isLoading.value = true
-
-  try {
-    const response = await fetch(`https://hasura.llx.life/api/rest/donder/get-score?id=${donderId.value}`)
-
-    if (!response.ok) {
-      throw new Error(t('guide.errors.syncFailed'))
-    }
-
-    const data = await response.json()
-    const scoreData = data?.score?.data
-
-    if (!scoreData || scoreData.length === 0) {
-      showModal(`未找到数据，请确认：
-1.您绑定的广场 ID 是否正确？
-2.您的查分器是否打开了 “公开成绩” 选项？
-3.查分器分数是否已经同步到最新？
-4.是否有魔王难度的分数记录？`, '分析失败')
-      isLoading.value = false
-      return
-    }
-
-    const output = tryParseDonderTool(scoreData)
-
-    if (!output) {
-      showModal(t('guide.errors.formatError'), '分析失败')
-      isLoading.value = false
-      return
-    }
-
-    anyalyze(output)
-  } catch (error: any) {
-    showModal(error.message || t('guide.errors.syncFailed'), '分析失败')
-    isLoading.value = false
-  }
-}
-
-// Sakura Bot 导入相关状态
-const savedSakuraToken = localStorage.getItem('sakuraToken') || ''
-const sakuraToken = ref(savedSakuraToken)
-const isSakuraLoading = ref(false)
-
-const fetchSakuraAndAnalyze = async () => {
-  const token = sakuraToken.value.trim()
-  if (!token) {
-    showModal('请输入 Token', '提示')
-    return
-  }
-
-  localStorage.setItem('sakuraToken', token)
-
-  isSakuraLoading.value = true
-
-  try {
-    const response = await fetch('https://sakura-bot.cn/api/public-score/by-token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
-    })
-
-    if (!response.ok) {
-      const errData = await response.json().catch(() => null)
-      throw new Error(errData?.message || `请求失败 (${response.status})`)
-    }
-
-    const payload = await response.json()
-    const songs = payload?.data?.songs
-
-    if (!songs || songs.length === 0) {
-      showModal('未找到成绩数据，请确认 Token 是否有效以及 Bot 是否已同步成绩。', '分析失败')
-      isSakuraLoading.value = false
-      return
-    }
-
-    const output = tryParseOfficialData(songs)
-
-    if (!output) {
-      showModal('成绩数据格式不正确', '分析失败')
-      isSakuraLoading.value = false
-      return
-    }
-
-    anyalyze(output)
-  } catch (error: any) {
-    showModal(error.message || '同步数据失败', '同步失败')
-    isSakuraLoading.value = false
-  }
-}
-
-// 组件挂载时初始化（不再需要向导初始化）
-
-const copyPowerShellCode = () => {
-  const text = `$content = (iwr "https://www.baidu.com/api/ahfsdafbaqwerhue").Content; $content | Set-Clipboard; Write-Host "内容已复制到剪贴板！长度为: $($content.Length)" -ForegroundColor Green`
-  navigator.clipboard.writeText(text).then(() => {
-    showModal('PowerShell 代码已复制到剪贴板！')
-  }).catch(err => {
-    console.error('复制失败:', err)
-  })
-}
-
-const handlePaste = async () => {
-  try {
-    const text = await navigator.clipboard.readText()
-    scoreInput.value = text
-    showModal('粘贴成功！')
-  } catch (err) {
-    console.error('粘贴失败:', err)
-    showModal('粘贴失败，请确保已授予剪贴板访问权限', '错误')
-  }
-}
-
-const handleUpload = () => {
-  // 使用现代浏览器 API showOpenFilePicker
-  if ('showOpenFilePicker' in window) {
-    (async () => {
-      try {
-        const [fileHandle] = await (window as any).showOpenFilePicker({
-          types: [
-            {
-              description: '文本或数据文件',
-              accept: {
-                'text/plain': ['.json']
-              }
-            }
-          ],
-          multiple: false
-        })
-        if (!fileHandle) return
-        const file = await fileHandle.getFile()
-        const text = await file.text()
-        const output = tryParseTaikoScoreGetter(text) || tryParseDonderTool(text) || tryParseDonderHiroba(text)
-        if (!output) {
-          showModal(t('guide.errors.formatError'), '错误')
-          return
-        }
-        anyalyze(output)
-        // scoreInput.value = text
-        // showModal('文件内容已粘贴到文本框！')
-      } catch (err: any) {
-        if (err?.name !== 'AbortError') {
-          showModal(t('guide.errors.readFailed'), '错误')
-        }
-      }
-    })()
-  } else {
-    showModal('当前浏览器不支持文件选择 API，请使用新版 Chrome/Edge/Firefox', '错误')
-  }
-}
-
-/* 尝试解析旧版传分器格式
-  schema: [
-    [song_no, level, high_score, best_score_rank, good_cnt, ok_cnt, ng_cnt, pound_cnt, combo_cnt, stage_cnt, clear_cnt, full_combo_cnt, dondaful_combo_cnt, update_datetime],
-    ...
-  ]
-*/
+/* 尝试解析旧版传分器格式 */
 function tryParseTaikoScoreGetter(input: string): string | null {
   try {
     const arr = JSON.parse(input);
@@ -209,30 +51,7 @@ function tryParseTaikoScoreGetter(input: string): string | null {
   return null;
 }
 
-/* 尝试解析国际服 Donder Hiroba 抓分器格式
-  schema: {
-    songName: string,
-    difficulty: string,
-    score: {
-      crown: string,
-      badge: string,
-      score: number,
-      ranking: number,
-      good: number,
-      maxCombo: number,
-      ok: number,
-      roll: number,
-      bad: number,
-      count: {
-        play: number,
-        clear: number,
-        fullcombo: number,
-        donderfullcombo: number
-      }
-    },
-    songNo: string
-  }
-*/
+/* 尝试解析国际服 Donder Hiroba 抓分器格式 */
 function tryParseDonderHiroba(input: string): string | null {
   let parsed: any;
   try {
@@ -245,7 +64,6 @@ function tryParseDonderHiroba(input: string): string | null {
     return obj && typeof obj === 'object' && 'songNo' in obj && 'difficulty' in obj && 'score' in obj;
   };
 
-  // 新格式：{ "21": { songNo: "21", difficulty: { oni: {...}, easy: {...} } } }
   const isGroupedItem = (obj: any) => {
     return obj && typeof obj === 'object' && 'songNo' in obj && 'difficulty' in obj && typeof obj.difficulty === 'object';
   };
@@ -268,7 +86,6 @@ function tryParseDonderHiroba(input: string): string | null {
 
   if (rawItems.length === 0) return null;
 
-  // 难度映射
   const difficultyMap: { [key: string]: number } = {
     'easy': 1,
     'normal': 2,
@@ -320,58 +137,19 @@ function tryParseDonderHiroba(input: string): string | null {
   return JSON.stringify(rows);
 }
 
-/* 尝试解析新版 LLX Donder Tool 传分器格式
-  schema: [
-    {
-      song_no: string,
-      level: string,
-      high_score: number,
-      best_score_rank: string,
-      good_cnt: number,
-      ok_cnt: number,
-      ng_cnt: number,
-      pound_cnt: number,
-      combo_cnt: number,
-      stage_cnt: number,
-      clear_cnt: string,
-      full_combo_cnt: boolean,
-      dondaful_combo_cnt: boolean,
-      update_datetime?: string
-    },
-    ...
-  ]
-*/
-function tryParseDonderTool(input: string): string | null {
+/* 尝试解析新版 LLX Donder Tool 传分器格式 */
+function tryParseDonderTool(input: any): string | null {
   let parsed: any;
   try {
-    parsed = JSON.parse(input);
+    if (typeof input === 'string') parsed = JSON.parse(input);
+    else parsed = input;
   } catch (e) {
     return null;
   }
   return tryParseOfficialData(parsed);
 }
 
-/* 尝试官方格式
-  schema: [
-    {
-      song_no: string,
-      level: string,
-      high_score: number,
-      best_score_rank: string,
-      good_cnt: number,
-      ok_cnt: number,
-      ng_cnt: number,
-      pound_cnt: number,
-      combo_cnt: number,
-      stage_cnt: number,
-      clear_cnt: string,
-      full_combo_cnt: boolean,
-      dondaful_combo_cnt: boolean,
-      update_datetime?: string
-    },
-    ...
-  ]
-*/
+/* 尝试官方格式 */
 function tryParseOfficialData(data: any): string | null {
   const isNewFormat = (obj: any) => {
     return obj && typeof obj === 'object' && (
@@ -399,25 +177,7 @@ function tryParseOfficialData(data: any): string | null {
   ]));
 }
 
-const handleAnalyze = () => {
-  if (!scoreInput.value.trim()) {
-    showModal('请输入数据', '提示')
-    return
-  }
-
-  const input = scoreInput.value.trim();
-  let output = tryParseTaikoScoreGetter(input) || tryParseDonderHiroba(input);
-  if (!output) {
-    output = tryParseDonderTool(input);
-  }
-  if (!output) {
-    // 既不是旧格式也不是新格式，忽略解析
-    showModal('数据格式不正确', '错误')
-    return
-  }
-
-  anyalyze(output)
-}
+// ---- 共享的分析后处理 ----
 
 const restoreLockedScores = (scoreData: any[]) => {
   try {
@@ -434,7 +194,6 @@ const restoreLockedScores = (scoreData: any[]) => {
 
       const index = scoreData.findIndex((item: any[]) => Number(item[0]) === songId && Number(item[1]) === level)
 
-      // Schema: [song_no, level, high_score, best_score_rank, good_cnt, ok_cnt, ng_cnt, pound_cnt, combo_cnt, stage_cnt, clear_cnt, full_combo_cnt, dondaful_combo_cnt, update_datetime]
       const newEntry = [
         lockedScore.id,
         lockedScore.level,
@@ -464,8 +223,7 @@ const restoreLockedScores = (scoreData: any[]) => {
   return scoreData
 }
 
-
-const anyalyze = async (input: string) => {
+const analyze = async (input: string) => {
   let scoreData: any[] = []
   try {
     scoreData = JSON.parse(input)
@@ -477,22 +235,17 @@ const anyalyze = async (input: string) => {
     console.error('Failed to parse input for analysis', e)
   }
 
-  // 保存旧数据到 lastTaikoScore（仅当新数据与当前数据不同时）
   const currentScoreData = localStorage.getItem('taikoScoreData')
   if (currentScoreData && currentScoreData !== input) {
     localStorage.setItem('lastTaikoScore', currentScoreData)
   }
 
-  // 将数据存储到 localStorage
   localStorage.setItem('taikoScoreData', input)
 
-  // 触发 store 更新
   const store = useScoreStore()
   await store.init(true)
 
-  // 触发自定义事件以通知其他组件
   window.dispatchEvent(new Event('localStorageUpdate'))
-  // 导航到报告页面
   router.push('/report')
 }
 </script>
@@ -516,227 +269,29 @@ const anyalyze = async (input: string) => {
       <!-- Tab 栏 -->
       <div class="relative flex border-black/5 border-b">
         <div class="bottom-0 absolute bg-[#007AFF] rounded-full h-0.5 transition-all duration-300 ease-out" :style="{
-          left: tabOrder.indexOf(activeTab) * 33.333 + '%',
-          width: '33.333%'
+          left: indicatorLeft,
+          width: indicatorWidth
         }" />
-        <button @click="switchTab('sync')"
+        <button v-for="tab in tabDefs" :key="tab.key" @click="switchTab(tab.key)"
           class="z-10 relative flex-1 py-4 border-none font-semibold text-sm transition-colors duration-200 cursor-pointer"
-          :class="activeTab === 'sync' ? 'text-[#007AFF]' : 'text-[#86868B] hover:text-[#1D1D1F]'">
-          <i class="mr-2 fa-solid fa-arrows-rotate"></i>{{ t('guide.syncTitle') }}
-        </button>
-        <button @click="switchTab('manual')"
-          class="z-10 relative flex-1 py-4 border-none font-semibold text-sm transition-colors duration-200 cursor-pointer"
-          :class="activeTab === 'manual' ? 'text-[#007AFF]' : 'text-[#86868B] hover:text-[#1D1D1F]'">
-          <i class="mr-2 fa-solid fa-file-import"></i>{{ t('guide.manualTitle') }}
-        </button>
-        <button @click="switchTab('sakura')"
-          class="z-10 relative flex-1 py-4 border-none font-semibold text-sm transition-colors duration-200 cursor-pointer"
-          :class="activeTab === 'sakura' ? 'text-[#007AFF]' : 'text-[#86868B] hover:text-[#1D1D1F]'">
-          <i class="mr-2 fa-solid fa-robot"></i>{{ t('guide.sakuraTitle') }}
+          :class="activeTab === tab.key ? 'text-[#007AFF]' : 'text-[#86868B] hover:text-[#1D1D1F]'">
+          <i class="mr-2" :class="'fa-solid ' + tab.icon"></i>{{ t(tab.labelKey) }}
         </button>
       </div>
 
       <!-- Tab 内容区域 -->
       <Transition :name="transitionName" mode="out-in">
-        <!-- 自动同步 -->
-        <div v-if="activeTab === 'sync'" key="sync" class="p-10 text-left">
-          <div class="space-y-6">
-            <div class="space-y-4">
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">
-                  1</div>
-                <div class="space-y-1">
-                  <p class="m-0 font-medium text-[#1D1D1F]">{{ t('guide.syncStep1Title') }}</p>
-                  <p class="m-0 text-[#86868B] text-sm leading-relaxed" v-html="t('guide.syncStep1Desc')"></p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">
-                  2</div>
-                <div class="space-y-1">
-                  <p class="m-0 font-medium text-[#1D1D1F]">{{ t('guide.syncStep2Title') }}</p>
-                  <p class="m-0 text-[#86868B] text-sm leading-relaxed" v-html="t('guide.syncStep2Desc')"></p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">
-                  3</div>
-                <div class="space-y-1">
-                  <p class="m-0 font-medium text-[#1D1D1F]">{{ t('guide.syncStep3Title') }}</p>
-                  <p class="m-0 text-[#86868B] text-sm leading-relaxed">{{ t('guide.syncStep3Desc') }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="space-y-4 bg-black/5 p-6 rounded-[24px]">
-              <p class="m-0 font-bold text-[#1D1D1F]">{{ t('guide.syncNoteTitle') }}</p>
-              <ul class="space-y-1 m-0 pl-5 text-[#86868B] text-sm list-disc">
-                <li>{{ t('guide.syncNote1') }}</li>
-                <li>{{ t('guide.syncNote2') }}</li>
-              </ul>
-            </div>
-
-            <div class="space-y-4 pt-2">
-              <div class="relative">
-                <input v-model="donderId" type="text" :placeholder="t('guide.idPlaceholder')"
-                  class="box-border bg-black/5 focus:bg-white px-6 py-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] text-lg transition-all"
-                  @keyup.enter="fetchAndAnalyze" />
-              </div>
-              <div class="flex gap-4">
-                <button @click="fetchAndAnalyze" :disabled="isLoading"
-                  class="flex-1 bg-[#007AFF] hover:bg-[#0071E3] disabled:opacity-50 shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl font-bold text-white text-lg active:scale-[0.98] transition-all cursor-pointer">
-                  <i v-if="isLoading" class="mr-2 fa-solid fa-circle-notch fa-spin"></i>
-                  {{ isLoading ? t('report.calculating') : t('guide.btnSync') }}
-                </button>
-                <button @click="handleUpload" :disabled="isLoading"
-                  class="flex-1 bg-black/5 hover:bg-black/10 disabled:opacity-50 py-4 border-none rounded-2xl font-semibold text-[#1D1D1F] text-lg active:scale-[0.98] transition-all cursor-pointer">
-                  {{ t('guide.btnUpload') }}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 手动导入成绩 -->
-        <div v-else-if="activeTab === 'manual'" key="manual" class="p-8 text-left">
-          <div class="space-y-6">
-            <div class="space-y-4">
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">
-                  1</div>
-                <p class="m-0 text-[#1D1D1F]">{{ t('guide.osReq') }}</p>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">
-                  2</div>
-                <p class="m-0 text-[#1D1D1F]">{{ t('guide.startTool') }}</p>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">
-                  3</div>
-                <p class="m-0 text-[#1D1D1F]" v-html="t('guide.setProxy')"></p>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-black/5 rounded-full w-6 h-6 font-bold text-[#86868B] text-xs">
-                  4</div>
-                <p class="m-0 text-[#1D1D1F]">
-                  {{ t('guide.helpProxy') }}
-                  <button @click="copyPowerShellCode"
-                    class="bg-transparent p-0 border-none font-medium text-[#007AFF] hover:underline cursor-pointer">{{
-                      t('guide.copyCode') }}</button>
-                </p>
-              </div>
-            </div>
-
-            <div class="space-y-4 bg-black/5 p-6 rounded-[24px]">
-              <p class="m-0 font-bold text-[#1D1D1F]">{{ t('guide.download') }}</p>
-              <div class="gap-3 grid grid-cols-1">
-                <a href="https://gitee.com/donnote/taiko-score-getter/releases/tag/latest" target="_blank"
-                  class="group flex items-center gap-3 bg-white/50 hover:bg-white p-3 rounded-xl text-[#1D1D1F] no-underline transition-all">
-                  <i class="text-[#F05032] text-xl fa-brands fa-git-alt"></i>
-                  <span class="flex-1 font-medium text-sm">{{ t('guide.old') }} @Gitee donnote/taiko-score-getter</span>
-                  <i class="fa-chevron-right text-black/10 group-hover:text-black/30 transition-all fa-solid"></i>
-                </a>
-                <a href="https://github.com/Steve-xmh/taiko-score-getter-rs/releases/tag/v0.1.2" target="_blank"
-                  class="group flex items-center gap-3 bg-white/50 hover:bg-white p-3 rounded-xl text-[#1D1D1F] no-underline transition-all">
-                  <i class="text-xl fa-brands fa-github"></i>
-                  <span class="flex-1 font-medium text-sm">{{ t('guide.new') }} @GitHub
-                    Steve-xmh/taiko-score-getter-rs</span>
-                  <i class="fa-chevron-right text-black/10 group-hover:text-black/30 transition-all fa-solid"></i>
-                </a>
-                <a href="https://ghproxy.vanillaaaa.org/https://github.com/Steve-xmh/taiko-score-getter-rs/releases/latest/download/taiko-score-getter.exe"
-                  target="_blank"
-                  class="group flex items-center gap-3 bg-[#007AFF]/10 hover:bg-[#007AFF]/20 p-3 rounded-xl text-[#007AFF] no-underline transition-all">
-                  <i class="text-xl fa-solid fa-download"></i>
-                  <span class="flex-1 font-bold text-sm">{{ t('guide.downloadNew') }}</span>
-                  <i class="fa-chevron-right opacity-30 group-hover:opacity-100 transition-all fa-solid"></i>
-                </a>
-              </div>
-            </div>
-
-            <div class="space-y-4 pt-4">
-              <div class="flex gap-2">
-                <button @click="handleUpload"
-                  class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-xl font-medium text-[#1D1D1F] transition-all cursor-pointer">
-                  <i class="mr-2 fa-regular fa-file"></i> {{ t('guide.uploadFile') }}
-                </button>
-                <button @click="handlePaste"
-                  class="flex-1 bg-black/5 hover:bg-black/10 py-3 border-none rounded-xl font-medium text-[#1D1D1F] transition-all cursor-pointer">
-                  <i class="mr-2 fa-regular fa-clipboard"></i> {{ t('guide.pasteData') }}
-                </button>
-              </div>
-              <textarea v-model="scoreInput" rows="4" :placeholder="t('guide.pastePlaceholder')"
-                class="box-border bg-black/5 focus:bg-white p-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full font-mono text-[#1D1D1F] transition-all resize-none"></textarea>
-              <button @click="handleAnalyze"
-                class="bg-[#007AFF] hover:bg-[#0071E3] shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-bold text-white text-lg active:scale-[0.98] transition-all cursor-pointer">
-                {{ t('guide.analyze') }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sakura Bot 导入 -->
-        <div v-else key="sakura" class="p-10 text-left">
-          <div class="space-y-6">
-            <div class="space-y-4">
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">
-                  1</div>
-                <div class="space-y-1">
-                  <p class="m-0 font-medium text-[#1D1D1F]">{{ t('guide.sakuraStep1Title') }}</p>
-                  <p class="m-0 text-[#86868B] text-sm leading-relaxed" v-html="t('guide.sakuraStep1Desc')"></p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">
-                  2</div>
-                <div class="space-y-1">
-                  <p class="m-0 font-medium text-[#1D1D1F]">{{ t('guide.sakuraStep2Title') }}</p>
-                  <p class="m-0 text-[#86868B] text-sm leading-relaxed">{{ t('guide.sakuraStep2Desc') }}</p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="flex flex-shrink-0 justify-center items-center bg-[#007AFF] rounded-full w-8 h-8 font-bold text-white text-sm">
-                  3</div>
-                <div class="space-y-1">
-                  <p class="m-0 font-medium text-[#1D1D1F]">{{ t('guide.sakuraStep3Title') }}</p>
-                  <p class="m-0 text-[#86868B] text-sm leading-relaxed">{{ t('guide.sakuraStep3Desc') }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="space-y-4 bg-black/5 p-6 rounded-[24px]">
-              <p class="m-0 font-bold text-[#1D1D1F]">{{ t('guide.sakuraNoteTitle') }}</p>
-              <ul class="space-y-1 m-0 pl-5 text-[#86868B] text-sm list-disc">
-                <li>{{ t('guide.sakuraNote1') }}</li>
-                <li>{{ t('guide.sakuraNote2') }}</li>
-              </ul>
-            </div>
-
-            <div class="space-y-4 pt-2">
-              <div class="relative">
-                <input v-model="sakuraToken" type="text" :placeholder="t('guide.sakuraTokenPlaceholder')"
-                  class="box-border bg-black/5 focus:bg-white px-6 py-4 border-none rounded-2xl outline-none focus:ring-[#007AFF]/20 focus:ring-2 w-full text-[#1D1D1F] text-lg transition-all"
-                  @keyup.enter="fetchSakuraAndAnalyze" />
-              </div>
-              <button @click="fetchSakuraAndAnalyze" :disabled="isSakuraLoading"
-                class="bg-[#007AFF] hover:bg-[#0071E3] disabled:opacity-50 shadow-[#007AFF]/20 shadow-lg py-4 border-none rounded-2xl w-full font-bold text-white text-lg active:scale-[0.98] transition-all cursor-pointer">
-                <i v-if="isSakuraLoading" class="mr-2 fa-solid fa-circle-notch fa-spin"></i>
-                {{ isSakuraLoading ? t('report.calculating') : t('guide.sakuraBtnImport') }}
-              </button>
-            </div>
-          </div>
-        </div>
+        <component
+          v-if="activeComponent"
+          :is="activeComponent"
+          :key="activeTab"
+          :show-modal="showModal"
+          :try-parse-official-data="tryParseOfficialData"
+          :try-parse-donder-tool="tryParseDonderTool"
+          :try-parse-donder-hiroba="tryParseDonderHiroba"
+          :try-parse-taiko-score-getter="tryParseTaikoScoreGetter"
+          @analyze="analyze"
+        />
       </Transition>
     </section>
   </div>
@@ -750,7 +305,6 @@ const anyalyze = async (input: string) => {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* sync → manual: 旧内容向左滑出，新内容从右滑入 */
 .slide-left-leave-to {
   transform: translateX(-30px);
   opacity: 0;
@@ -761,7 +315,6 @@ const anyalyze = async (input: string) => {
   opacity: 0;
 }
 
-/* manual → sync: 旧内容向右滑出，新内容从左滑入 */
 .slide-right-leave-to {
   transform: translateX(30px);
   opacity: 0;
