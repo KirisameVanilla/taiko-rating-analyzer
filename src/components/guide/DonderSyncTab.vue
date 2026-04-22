@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { UserScore } from '@/types'
 
 const { t } = useI18n()
 
 const props = defineProps<{
   showModal: (msg: string, title?: string) => void
-  tryParseDonderTool: (input: any) => string | null
+  tryParseDonderTool: (input: any) => UserScore[] | null
 }>()
 
 const emit = defineEmits<{
-  analyze: [data: string]
+  analyze: [data: UserScore[]]
 }>()
 
 const donderId = ref(localStorage.getItem('donderId') || '')

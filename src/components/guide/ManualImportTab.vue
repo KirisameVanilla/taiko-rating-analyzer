@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { UserScore } from '@/types'
 
 const { t } = useI18n()
 
 const props = defineProps<{
   showModal: (msg: string, title?: string) => void
-  tryParseTaikoScoreGetter: (input: string) => string | null
-  tryParseDonderTool: (input: any) => string | null
-  tryParseDonderHiroba: (input: string) => string | null
+  tryParseTaikoScoreGetter: (input: string) => UserScore[] | null
+  tryParseDonderTool: (input: any) => UserScore[] | null
+  tryParseDonderHiroba: (input: string) => UserScore[] | null
 }>()
 
 const emit = defineEmits<{
-  analyze: [data: string]
+  analyze: [data: UserScore[]]
 }>()
 
 const scoreInput = ref('')

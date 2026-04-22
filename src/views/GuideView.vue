@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import type { LockedScores } from '@/types'
+import type { LockedScores, UserScore } from '@/types'
 import { useScoreStore } from '@/store/scoreStore'
 import { useI18n } from 'vue-i18n'
 import { useModal } from '@composables/useModal'
@@ -40,19 +40,48 @@ const indicatorWidth = computed(() => 100 / tabDefs.length + '%')
 
 // ---- 共享的数据解析函数 ----
 
+/* 将标准数组行格式转换为 UserScore[] */
+function toUserScores(rows: any[][]): UserScore[] {
+  return rows.map(r => {
+    const isDondafuru = (Number(r[12]) > 0 && !(
+      (r[0] === 775 && r[1] === 4) ||    // 表 パン vs ごはん！ 大決戦！
+      (r[0] === 775 && r[1] === 5) ||    // 里 パン vs ごはん！ 大決戦！
+      (r[0] === 1032 && r[1] === 5) ||    // 里 Emma
+      (r[0] === 1037 && r[1] === 4) ||    // 表 BATTLE NO.1
+      (r[0] === 1356 && r[1] === 4)       // 表 Soulway
+    ));
+    return {
+      id: Number(r[0]),
+      level: Number(r[1]),
+      score: Number(r[2]) || 0,
+      scoreRank: Number(r[3]) || 0,
+      great: isDondafuru ? (Number(r[4]) + Number(r[5]) + Number(r[6])) || 0 : Number(r[4]) || 0,
+      good: isDondafuru ? 0 : Number(r[5]) || 0,
+      bad: isDondafuru ? 0 : Number(r[6]) || 0,
+      drumroll: Number(r[7]) || 0,
+      combo: Number(r[8]) || 0,
+      playCount: Number(r[9]) || 0,
+      clearCount: Number(r[10]) || 0,
+      fullcomboCount: Number(r[11]) || 0,
+      perfectCount: Number(r[12]) || 0,
+      updatedAt: r[13] || ''
+    }
+  })
+}
+
 /* 尝试解析旧版传分器格式 */
-function tryParseTaikoScoreGetter(input: string): string | null {
+function tryParseTaikoScoreGetter(input: string): UserScore[] | null {
   try {
     const arr = JSON.parse(input);
     if (Array.isArray(arr) && (Array.isArray(arr[0]) || arr.length === 0)) {
-      return JSON.stringify(arr);
+      return toUserScores(arr);
     }
   } catch (e) { }
   return null;
 }
 
 /* 尝试解析国际服 Donder Hiroba 抓分器格式 */
-function tryParseDonderHiroba(input: string): string | null {
+function tryParseDonderHiroba(input: string): UserScore[] | null {
   let parsed: any;
   try {
     parsed = JSON.parse(input);
@@ -134,11 +163,11 @@ function tryParseDonderHiroba(input: string): string | null {
   }
 
   if (rows.length === 0) return null;
-  return JSON.stringify(rows);
+  return toUserScores(rows);
 }
 
 /* 尝试解析新版 LLX Donder Tool 传分器格式 */
-function tryParseDonderTool(input: any): string | null {
+function tryParseDonderTool(input: any): UserScore[] | null {
   let parsed: any;
   try {
     if (typeof input === 'string') parsed = JSON.parse(input);
@@ -150,7 +179,7 @@ function tryParseDonderTool(input: any): string | null {
 }
 
 /* 尝试官方格式 */
-function tryParseOfficialData(data: any): string | null {
+function tryParseOfficialData(data: any): UserScore[] | null {
   const isNewFormat = (obj: any) => {
     return obj && typeof obj === 'object' && (
       (Array.isArray(obj) && obj.length > 0 && obj[0] && typeof obj[0] === 'object' && 'song_no' in obj[0]) ||
@@ -159,7 +188,7 @@ function tryParseOfficialData(data: any): string | null {
   };
   if (!isNewFormat(data)) return null;
   let arr = Array.isArray(data) ? data : [data];
-  return JSON.stringify(arr.map((item: any) => [
+  return toUserScores(arr.map((item: any) => [
     item.song_no,
     item.level,
     item.high_score,
@@ -179,7 +208,7 @@ function tryParseOfficialData(data: any): string | null {
 
 // ---- 共享的分析后处理 ----
 
-const restoreLockedScores = (scoreData: any[]) => {
+const restoreLockedScores = (scoreData: UserScore[]): UserScore[] => {
   try {
     const lockedDataStr = localStorage.getItem('taiko-locked-songs')
     if (!lockedDataStr) return scoreData
@@ -188,52 +217,29 @@ const restoreLockedScores = (scoreData: any[]) => {
     const lockedKeys = Object.keys(lockedData)
     if (lockedKeys.length === 0) return scoreData
 
+    const result = [...scoreData]
     for (const key in lockedData) {
       const lockedScore = lockedData[key]
       const [songId, level] = key.split('-').map(Number)
 
-      const index = scoreData.findIndex((item: any[]) => Number(item[0]) === songId && Number(item[1]) === level)
-
-      const newEntry = [
-        lockedScore.id,
-        lockedScore.level,
-        lockedScore.score,
-        lockedScore.scoreRank,
-        lockedScore.great,
-        lockedScore.good,
-        lockedScore.bad,
-        lockedScore.drumroll,
-        lockedScore.combo,
-        lockedScore.playCount,
-        lockedScore.clearCount,
-        lockedScore.fullcomboCount,
-        lockedScore.perfectCount,
-        lockedScore.updatedAt
-      ]
+      const index = result.findIndex(item => item.id === songId && item.level === level)
 
       if (index !== -1) {
-        scoreData[index] = newEntry
+        result[index] = lockedScore
       } else {
-        scoreData.push(newEntry)
+        result.push(lockedScore)
       }
     }
+    return result
   } catch (e) {
     console.error('Failed to restore locked scores', e)
+    return scoreData
   }
-  return scoreData
 }
 
-const analyze = async (input: string) => {
-  let scoreData: any[] = []
-  try {
-    scoreData = JSON.parse(input)
-    if (Array.isArray(scoreData)) {
-      scoreData = restoreLockedScores(scoreData)
-      input = JSON.stringify(scoreData)
-    }
-  } catch (e) {
-    console.error('Failed to parse input for analysis', e)
-  }
+const analyze = async (scoreData: UserScore[]) => {
+  scoreData = restoreLockedScores(scoreData)
+  const input = JSON.stringify(scoreData)
 
   const currentScoreData = localStorage.getItem('taikoScoreData')
   if (currentScoreData && currentScoreData !== input) {
@@ -281,17 +287,10 @@ const analyze = async (input: string) => {
 
       <!-- Tab 内容区域 -->
       <Transition :name="transitionName" mode="out-in">
-        <component
-          v-if="activeComponent"
-          :is="activeComponent"
-          :key="activeTab"
-          :show-modal="showModal"
-          :try-parse-official-data="tryParseOfficialData"
-          :try-parse-donder-tool="tryParseDonderTool"
-          :try-parse-donder-hiroba="tryParseDonderHiroba"
-          :try-parse-taiko-score-getter="tryParseTaikoScoreGetter"
-          @analyze="analyze"
-        />
+        <component v-if="activeComponent" :is="activeComponent" :key="activeTab" :show-modal="showModal"
+          :try-parse-official-data="tryParseOfficialData" :try-parse-donder-tool="tryParseDonderTool"
+          :try-parse-donder-hiroba="tryParseDonderHiroba" :try-parse-taiko-score-getter="tryParseTaikoScoreGetter"
+          @analyze="analyze" />
       </Transition>
     </section>
   </div>

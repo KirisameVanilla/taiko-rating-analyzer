@@ -197,8 +197,8 @@ function calcSingleRating(x: number, y: number): number {
   const w = calcW(x, y)
 
   return p === 0
-  ? POWER(x, w) * POWER(y, (1 - w)) 
-  : POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
+    ? POWER(x, w) * POWER(y, (1 - w))
+    : POWER(w * POWER(x, p) + (1 - w) * POWER(y, p), 1 / p)
 }
 
 /**
@@ -379,18 +379,18 @@ export function calculateSongStats(levelData: SongLevelData, userScore: UserScor
   // 计算准确率
   const accuracy = calcAccuracy(levelData.totalNotes, userScore, algorithm)
   if (accuracy === 0) return null  // 准确率过低，不计算统计数据
-  
+
   // 计算x, y和综合rating
   const x = getXFromConstant(levelData.constant)
   const y = calcY(accuracy, algorithm)
   const rating = calcSingleRating(x, y)
-  
+
   // 计算各原始维度指标
   const raw_complex = calcComplexityIndicator(levelData.composite)
   const raw_stamina = calcStaminaIndicator(levelData.avgDensity, levelData.instDensity)
   const raw_speed = calcSpeedIndicator(levelData.instDensity, levelData.avgDensity)
   const raw_rhythm = calcRhythmIndicator(levelData.separation, levelData.bpmChange)
-  
+
   // 使用几何平均将rating分配到各维度，MAX_CONSTANT_VALUE 是难度最大值的归一化系数
   const daigouryoku = SQRT(rating * x)
   const accuracy_power = SQRT(rating * y)
@@ -398,7 +398,7 @@ export function calculateSongStats(levelData: SongLevelData, userScore: UserScor
   const speed = calcIndividualRating(rating, raw_speed)
   const rhythm = calcIndividualRating(rating, raw_rhythm)
   const complex = calcIndividualRating(rating, raw_complex)
-  
+
   return {
     id: userScore.id,
     level: userScore.level,
@@ -439,35 +439,9 @@ export function calculateSongStats(levelData: SongLevelData, userScore: UserScor
  * - r[13] → updatedAt: 更新时间
  */
 export function parsePastedScores(raw: string | any[]): UserScore[] {
-    const arr = typeof raw === 'string' ? JSON.parse(raw) : raw
-    if (!Array.isArray(arr)) return []
-
-    return arr.map(r => {
-        const isDondafuru = (Number(r[12]) > 0 && !(
-            (r[0] === 775  && r[1] === 4) ||    // 表 パン vs ごはん！ 大決戦！
-            (r[0] === 775  && r[1] === 5) ||    // 里 パン vs ごはん！ 大決戦！
-            (r[0] === 1032 && r[1] === 5) ||    // 里 Emma
-            (r[0] === 1037 && r[1] === 4) ||    // 表 BATTLE NO.1
-            (r[0] === 1356 && r[1] === 4)       // 表 Soulway
-        ));
-        return {
-            id: Number(r[0]),
-            level: Number(r[1]),
-            score: Number(r[2]) || 0,
-            scoreRank: Number(r[3]) || 0,
-            // 判断是否虹冠，但表里面包米饭、里emma、battleno1除外
-            great: isDondafuru ? (Number(r[4]) + Number(r[5]) + Number(r[6])) || 0 : Number(r[4]) || 0,
-            good: isDondafuru ? 0 : Number(r[5]) || 0,
-            bad: isDondafuru ? 0 : Number(r[6]) || 0,
-            drumroll: Number(r[7]) || 0,
-            combo: Number(r[8]) || 0,
-            playCount: Number(r[9]) || 0,
-            clearCount: Number(r[10]) || 0,
-            fullcomboCount: Number(r[11]) || 0,
-            perfectCount: Number(r[12]) || 0,
-            updatedAt: r[13]
-        };
-    })
+  const arr = typeof raw === 'string' ? JSON.parse(raw) : raw
+  if (!Array.isArray(arr)) return []
+  return arr
 }
 
 /**
@@ -477,7 +451,7 @@ export function parsePastedScores(raw: string | any[]): UserScore[] {
  * @param shouldFilterList - 二维数组，每个子数组包含一组互相重复的曲目 {id, level} 对象
  * @returns 过滤后的数据数组
  */
-export function filterDuplicateSongs(data: SongStats[], shouldFilterList: Array<Array<{id: number, level: number}>> = []): SongStats[] {
+export function filterDuplicateSongs(data: SongStats[], shouldFilterList: Array<Array<{ id: number, level: number }>> = []): SongStats[] {
   // 如果没有筛选列表，直接返回原数据
   if (shouldFilterList.length === 0) {
     return data
@@ -542,25 +516,25 @@ export function filterDuplicateSongs(data: SongStats[], shouldFilterList: Array<
 function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats): number {
   const sorted = data.map(d => d[key] as number).sort((a, b) => b - a)
   const top20 = sorted.slice(0, 20)
-  
+
   if (top20.length === 0) return 0
-  
-  const weights = [0.4/5, 0.4/5, 0.4/5, 0.4/5, 0.4/5, 
-                   0.3/5, 0.3/5, 0.3/5, 0.3/5, 0.3/5,
-                   0.2/6, 0.2/6, 0.2/6, 0.2/6, 0.2/6, 0.2/6,
-                   0.1/4, 0.1/4, 0.1/4, 0.1/4]
-  
+
+  const weights = [0.4 / 5, 0.4 / 5, 0.4 / 5, 0.4 / 5, 0.4 / 5,
+  0.3 / 5, 0.3 / 5, 0.3 / 5, 0.3 / 5, 0.3 / 5,
+  0.2 / 6, 0.2 / 6, 0.2 / 6, 0.2 / 6, 0.2 / 6, 0.2 / 6,
+  0.1 / 4, 0.1 / 4, 0.1 / 4, 0.1 / 4]
+
   let weightedSum = 0
   let weightSum = 0
-  
+
   for (let i = 0; i < top20.length; i++) {
     const weight = weights[i]
     weightedSum += top20[i] * weight
     weightSum += weight
   }
-  
+
   if (weightSum === 0) return 0
-  
+
   return weightedSum / weightSum
 }
 
@@ -579,18 +553,18 @@ function getTop20WeightedAverage(data: SongStats[], key: keyof SongStats): numbe
 function getTop20Median(data: SongStats[], key: keyof SongStats): number {
   const sorted = data.map(d => d[key] as number).sort((a, b) => b - a)
   const top20 = sorted.slice(0, 20)
-  
+
   if (top20.length === 0) return 0
-  
+
   const mid = Math.floor(top20.length / 2)
   let median: number
-  
+
   if (top20.length % 2 === 0) {
     median = (top20[mid - 1] + top20[mid]) / 2
   } else {
     median = top20[mid]
   }
-  
+
   return median
 }
 
@@ -690,9 +664,9 @@ export function enhanceSongStats(
 /**
  * 计算总体统计数据
  */
-export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<Array<{ id: number, level: number }>>) {
   const filtered = filterDuplicateSongs(data, duplicateSongs)
-  
+
   const ratingMid = getTop20Median(filtered, 'rating')
   const daigouryokuMid = getTop20Median(filtered, 'daigouryoku')
   const staminaMid = getTop20Median(filtered, 'stamina')
@@ -725,7 +699,7 @@ export function calculateOverallStats(data: SongStats[], duplicateSongs: Array<A
 /**
  * 计算上次的总体评分
  */
-export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Array<Array<{ id: number, level: number }>>) {
   const filtered = filterDuplicateSongs(data, duplicateSongs)
   const ratingMid = getTop20Median(filtered, 'rating')
   const ratingAve = getTop20WeightedAverage(filtered, 'rating')
@@ -735,7 +709,7 @@ export function calculateLastOverallStats(data: SongStats[], duplicateSongs: Arr
 /**
  * 计算上一期的雷达维度总体数据
  */
-export function calculateLastRadarData(data: SongStats[], duplicateSongs: Array<Array<{id: number, level: number}>>) {
+export function calculateLastRadarData(data: SongStats[], duplicateSongs: Array<Array<{ id: number, level: number }>>) {
   const { radarData } = calculateOverallStats(data, duplicateSongs)
   return radarData
 }

@@ -64,7 +64,7 @@ const deduplicatedSongs = computed(() =>
 
 const topLists = computed(() => {
   const filtered = deduplicatedSongs.value
-  
+
   const args = [filtered, songsDB.value, ratingAlgorithm.value, lastSongStats.value] as const
 
   return {
@@ -182,7 +182,7 @@ export function useScoreStore() {
         error.value = '歌曲数据加载失败'
         return
       }
-      
+
       // Initialize recommend module with songs database
       setSongsDatabase(songsDB.value)
 
@@ -221,7 +221,7 @@ export function useScoreStore() {
         try {
           const lastScores = parsePastedScores(lastScoreInput)
           const lastTempResults: SongStats[] = []
-          
+
           lastScores.forEach(s => {
             const key = `${s.id}-${s.level}`
             const entry = entryMap.get(key)
@@ -230,7 +230,7 @@ export function useScoreStore() {
             const stats = calculateSongStats(entry.data, s, entry.title, ratingAlgorithm.value)
             if (stats) lastTempResults.push(stats)
           })
-          
+
           lastSongStats.value = lastTempResults
           updateLastOverallStats(lastTempResults)
         } catch (e) {

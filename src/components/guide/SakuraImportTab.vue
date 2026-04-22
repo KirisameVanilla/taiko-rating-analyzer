@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { UserScore } from '@/types'
 
 const { t } = useI18n()
 
 const props = defineProps<{
   showModal: (msg: string, title?: string) => void
-  tryParseOfficialData: (data: any) => string | null
+  tryParseOfficialData: (data: any) => UserScore[] | null
 }>()
 
 const emit = defineEmits<{
-  analyze: [data: string]
+  analyze: [data: UserScore[]]
 }>()
 
 const sakuraToken = ref(localStorage.getItem('sakuraToken') || '')
