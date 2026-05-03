@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { LockedScores, UserScore } from '@/types'
+import { migrateOldFormat } from '@utils/calculator'
 import { useScoreStore } from '@/store/scoreStore'
 import { useI18n } from 'vue-i18n'
 import { useModal } from '@composables/useModal'
@@ -40,41 +41,12 @@ const indicatorWidth = computed(() => 100 / tabDefs.length + '%')
 
 // ---- 共享的数据解析函数 ----
 
-/* 将标准数组行格式转换为 UserScore[] */
-function toUserScores(rows: any[][]): UserScore[] {
-  return rows.map(r => {
-    const isDondafuru = (Number(r[12]) > 0 && !(
-      (r[0] === 775 && r[1] === 4) ||    // 表 パン vs ごはん！ 大決戦！
-      (r[0] === 775 && r[1] === 5) ||    // 里 パン vs ごはん！ 大決戦！
-      (r[0] === 1032 && r[1] === 5) ||    // 里 Emma
-      (r[0] === 1037 && r[1] === 4) ||    // 表 BATTLE NO.1
-      (r[0] === 1356 && r[1] === 4)       // 表 Soulway
-    ));
-    return {
-      id: Number(r[0]),
-      level: Number(r[1]),
-      score: Number(r[2]) || 0,
-      scoreRank: Number(r[3]) || 0,
-      great: isDondafuru ? (Number(r[4]) + Number(r[5]) + Number(r[6])) || 0 : Number(r[4]) || 0,
-      good: isDondafuru ? 0 : Number(r[5]) || 0,
-      bad: isDondafuru ? 0 : Number(r[6]) || 0,
-      drumroll: Number(r[7]) || 0,
-      combo: Number(r[8]) || 0,
-      playCount: Number(r[9]) || 0,
-      clearCount: Number(r[10]) || 0,
-      fullcomboCount: Number(r[11]) || 0,
-      perfectCount: Number(r[12]) || 0,
-      updatedAt: r[13] || ''
-    }
-  })
-}
-
 /* 尝试解析旧版传分器格式 */
 function tryParseTaikoScoreGetter(input: string): UserScore[] | null {
   try {
     const arr = JSON.parse(input);
     if (Array.isArray(arr) && (Array.isArray(arr[0]) || arr.length === 0)) {
-      return toUserScores(arr);
+      return migrateOldFormat(arr);
     }
   } catch (e) { }
   return null;
@@ -163,7 +135,7 @@ function tryParseDonderHiroba(input: string): UserScore[] | null {
   }
 
   if (rows.length === 0) return null;
-  return toUserScores(rows);
+  return migrateOldFormat(rows);
 }
 
 /* 尝试解析新版 LLX Donder Tool 传分器格式 */
@@ -188,7 +160,7 @@ function tryParseOfficialData(data: any): UserScore[] | null {
   };
   if (!isNewFormat(data)) return null;
   let arr = Array.isArray(data) ? data : [data];
-  return toUserScores(arr.map((item: any) => [
+  return migrateOldFormat(arr.map((item: any) => [
     item.song_no,
     item.level,
     item.high_score,

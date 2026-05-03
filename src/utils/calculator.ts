@@ -438,10 +438,50 @@ export function calculateSongStats(levelData: SongLevelData, userScore: UserScor
  * - r[12] → perfectCount: 全良次数（未使用）
  * - r[13] → updatedAt: 更新时间
  */
+/**
+ * 检测并迁移旧版数组格式到新版 UserScore 对象格式
+ * 旧版：[[id, level, score, ...], ...]
+ * 新版：[{id, level, score, ...}, ...]
+ */
+export function migrateOldFormat(rows: any[][]): UserScore[] {
+  return rows.map(r => {
+    const isDondafuru = (Number(r[12]) > 0 && !(
+      (r[0] === 775 && r[1] === 4) ||
+      (r[0] === 775 && r[1] === 5) ||
+      (r[0] === 1032 && r[1] === 5) ||
+      (r[0] === 1037 && r[1] === 4) ||
+      (r[0] === 1356 && r[1] === 4)
+    ));
+    return {
+      id: Number(r[0]),
+      level: Number(r[1]),
+      score: Number(r[2]) || 0,
+      scoreRank: Number(r[3]) || 0,
+      great: isDondafuru ? (Number(r[4]) + Number(r[5]) + Number(r[6])) || 0 : Number(r[4]) || 0,
+      good: isDondafuru ? 0 : Number(r[5]) || 0,
+      bad: isDondafuru ? 0 : Number(r[6]) || 0,
+      drumroll: Number(r[7]) || 0,
+      combo: Number(r[8]) || 0,
+      playCount: Number(r[9]) || 0,
+      clearCount: Number(r[10]) || 0,
+      fullcomboCount: Number(r[11]) || 0,
+      perfectCount: Number(r[12]) || 0,
+      updatedAt: r[13] || ''
+    }
+  })
+}
+
 export function parsePastedScores(raw: string | any[]): UserScore[] {
   const arr = typeof raw === 'string' ? JSON.parse(raw) : raw
   if (!Array.isArray(arr)) return []
-  return arr
+  if (arr.length === 0) return []
+
+  // 检测格式：旧版为数组的数组，新版为 UserScore 对象数组
+  if (Array.isArray(arr[0])) {
+    return migrateOldFormat(arr as any[][])
+  }
+
+  return arr as UserScore[]
 }
 
 /**

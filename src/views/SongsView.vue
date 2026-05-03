@@ -57,59 +57,37 @@ const closeEditModal = () => {
   editingSong.value = null
 }
 
-const userScoreToArray = (s: UserScore): any[] => {
-  return [
-    s.id,
-    s.level,
-    s.score,
-    s.scoreRank,
-    s.great,
-    s.good,
-    s.bad,
-    s.drumroll,
-    s.combo,
-    s.playCount,
-    s.clearCount,
-    s.fullcomboCount,
-    s.perfectCount,
-    s.updatedAt
-  ]
-}
-
 const updateLocalStorage = async (newScore: UserScore) => {
   const scoreData = localStorage.getItem('taikoScoreData') || '[]'
-  let rawScores: any[] = []
+  let scores: UserScore[]
   try {
-    rawScores = JSON.parse(scoreData)
+    scores = parsePastedScores(scoreData)
   } catch (e) {
-    rawScores = []
+    scores = []
   }
-  
-  // Remove existing score for this song/level
-  // rawScores is array of arrays
-  rawScores = rawScores.filter((r: any[]) => !(Number(r[0]) === newScore.id && Number(r[1]) === newScore.level))
-  
-  rawScores.push(userScoreToArray(newScore))
-  
-  localStorage.setItem('taikoScoreData', JSON.stringify(rawScores))
-  
+
+  scores = scores.filter(s => !(s.id === newScore.id && s.level === newScore.level))
+  scores.push(newScore)
+
+  localStorage.setItem('taikoScoreData', JSON.stringify(scores))
+
   // Update store
   await store.init(true)
 }
 
 const removeFromLocalStorage = async (id: number, level: number) => {
   const scoreData = localStorage.getItem('taikoScoreData') || '[]'
-  let rawScores: any[] = []
+  let scores: UserScore[]
   try {
-    rawScores = JSON.parse(scoreData)
+    scores = parsePastedScores(scoreData)
   } catch (e) {
-    rawScores = []
+    scores = []
   }
-  
-  rawScores = rawScores.filter((r: any[]) => !(Number(r[0]) === id && Number(r[1]) === level))
-  
-  localStorage.setItem('taikoScoreData', JSON.stringify(rawScores))
-  
+
+  scores = scores.filter(s => !(s.id === id && s.level === level))
+
+  localStorage.setItem('taikoScoreData', JSON.stringify(scores))
+
   // Update store
   await store.init(true)
 }
