@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { calculateTaikoRating, type SongData, type CalculationInput } from '@utils/rating_v2'
 import { parsePastedScores, calcY, calcSingleRating } from '@utils/calculator'
 import type { UserScore } from '@/types'
@@ -215,7 +215,6 @@ function calcFromRaw(raw: string): { entries: Entry[]; error: string } {
     const results: Entry[] = []
 
     for (const score of scores) {
-      if (score.id == 1061) debugger
       const song = songsDB.value.find(s => s.id === score.id && s.difficulty === score.level)
       if (!song) continue
 
@@ -309,9 +308,14 @@ const TOP20_WEIGHTS = [
   10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 ]
 
+function getTop20(list: Entry[], key: DimKey): Entry[] {
+  const valid = list.filter(e => !isNaN(e[key]))
+  return [...valid].sort((a, b) => b[key] - a[key]).slice(0, 20)
+}
+
 function top20WeightedAvg(list: Entry[], key: DimKey): number {
-  if (list.length === 0) return 0
-  const top = list.slice(0, 20)
+  const top = getTop20(list, key)
+  if (top.length === 0) return 0
   let wSum = 0, sum = 0
   for (let i = 0; i < top.length; i++) {
     const w = TOP20_WEIGHTS[i]
@@ -322,22 +326,69 @@ function top20WeightedAvg(list: Entry[], key: DimKey): number {
 }
 
 function top20Max(list: Entry[], key: DimKey): number {
-  if (list.length === 0) return 0
-  return Math.max(...list.slice(0, 20).map(e => e[key]))
+  const top = getTop20(list, key)
+  return top.length > 0 ? top[0][key] : 0
 }
 
 const top20Summary = computed(() => {
   if (entries.value.length === 0) return null
-  const sorted = [...entries.value]
   return DIM_KEYS.map(k => ({
     key: k,
     label: DIM_LABELS[k],
-    avg: top20WeightedAvg(sorted, k),
-    max: top20Max(sorted, k),
-    count: Math.min(sorted.length, 20),
+    avg: top20WeightedAvg(entries.value, k),
+    max: top20Max(entries.value, k),
+    count: Math.min(entries.value.length, 20),
   }))
 })
 
+// --- Console log top 20 details ---
+function logTop20Detail() {
+  if (entries.value.length === 0) return
+  console.group('%cRating V2 — Top 20 详细日志', 'font-size:14px;font-weight:bold;color:#007AFF')
+
+  for (const key of DIM_KEYS) {
+    const top = getTop20(entries.value, key)
+    let wSum = 0, sum = 0
+    const rows: Array<{ rank: number; title: string; value: number; weight: number; contribution: number }> = []
+
+    for (let i = 0; i < top.length; i++) {
+      const w = TOP20_WEIGHTS[i]
+      const val = top[i][key]
+      sum += val * w
+      wSum += w
+      rows.push({
+        rank: i + 1,
+        title: top[i].title,
+        value: val,
+        weight: w,
+        contribution: val * w,
+      })
+    }
+
+    console.groupCollapsed(
+      `%c${DIM_LABELS[key]}%c 加权平均 = %c${(sum / wSum).toFixed(4)}%c  (max ${rows[0]?.value.toFixed(2) ?? '-'}, ${top.length}首)`,
+      'font-weight:bold;color:#1D1D1F',
+      '',
+      'font-weight:bold;color:#007AFF',
+      '',
+    )
+    console.table(rows.map(r => ({
+      '#': r.rank,
+      '曲目': r.title,
+      '值': r.value.toFixed(4),
+      '权重': r.weight,
+      '贡献': r.contribution.toFixed(4),
+    })))
+    console.log(`权总和: ${wSum}, 加权和: ${sum.toFixed(4)}, 加权平均: ${(sum / wSum).toFixed(4)}`)
+    console.groupEnd()
+  }
+
+  console.groupEnd()
+}
+
+watch(entries, () => {
+  logTop20Detail()
+})
 // --- Initialize ---
 loadCSV().then(() => {
   const stored = localStorage.getItem('taikoScoreData')
@@ -522,7 +573,7 @@ loadCSV().then(() => {
                 <td class="p-2 border-black/5 border-b font-mono text-right">sub1 ({{
                   selectedEntry.songData?.sub_constant_1?.toFixed(2) }})</td>
                 <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.9) = {{ selectedDetail.y090.toFixed(4)
-                }}</td>
+                  }}</td>
                 <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
                   selectedDetail.rt_90.toFixed(4) }}</td>
               </tr>
@@ -531,7 +582,7 @@ loadCSV().then(() => {
                 <td class="p-2 border-black/5 border-b font-mono text-right">sub1 ({{
                   selectedEntry.songData?.sub_constant_1?.toFixed(2) }})</td>
                 <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.95) = {{ selectedDetail.y095.toFixed(4)
-                }}</td>
+                  }}</td>
                 <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
                   selectedDetail.rt_95_ref.toFixed(4) }}</td>
               </tr>
@@ -540,7 +591,7 @@ loadCSV().then(() => {
                 <td class="p-2 border-black/5 border-b font-mono text-right">main ({{
                   selectedEntry.songData?.main_constant?.toFixed(2) }})</td>
                 <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.95) = {{ selectedDetail.y095.toFixed(4)
-                }}</td>
+                  }}</td>
                 <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
                   selectedDetail.rt_95.toFixed(4) }}</td>
               </tr>

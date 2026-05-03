@@ -172,7 +172,8 @@ export function calculateTaikoRating(
 
   // 计算爆发rating
   const burst_rt_base = calcDimensionRating(rating, songData.burst);
-  const burst_rt = burst_rt_base * MIN(rating / songData.handspeed, 1);
+  const burst_hs_factor = songData.handspeed > 0 ? MIN(rating / songData.handspeed, 1) : 1;
+  const burst_rt = burst_rt_base * burst_hs_factor;
 
   // 计算复合rating
   const complex_rt_base = calcDimensionRating(rating, songData.complex);
@@ -181,9 +182,10 @@ export function calculateTaikoRating(
 
   // 计算节奏rating
   const rhythm_rt_base = calcDimensionRating(rating, songData.rhythm);
+  const rhythm_burst_factor = songData.burst > 0 ? MIN(burst_rt / songData.burst, 1) : 1;
   const rhythm_rt = rhythm_rt_base *
-    MIN(rating / songData.handspeed, 1) *
-    MIN(burst_rt / songData.burst, 1);
+    burst_hs_factor *
+    rhythm_burst_factor;
 
   // 返回7个计算结果
   return {
