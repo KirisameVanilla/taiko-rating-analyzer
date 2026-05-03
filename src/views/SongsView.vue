@@ -61,7 +61,7 @@ const updateLocalStorage = async (newScore: UserScore) => {
   const scoreData = localStorage.getItem('taikoScoreData') || '[]'
   let scores: UserScore[]
   try {
-    scores = parsePastedScores(scoreData)
+    scores = parsePastedScores(scoreData, 'taikoScoreData')
   } catch (e) {
     scores = []
   }
@@ -79,7 +79,7 @@ const removeFromLocalStorage = async (id: number, level: number) => {
   const scoreData = localStorage.getItem('taikoScoreData') || '[]'
   let scores: UserScore[]
   try {
-    scores = parsePastedScores(scoreData)
+    scores = parsePastedScores(scoreData, 'taikoScoreData')
   } catch (e) {
     scores = []
   }
@@ -236,7 +236,7 @@ onMounted(async () => {
     const db = await loadSongsData()
     songsDB.value = db
     const scoreInput = localStorage.getItem('taikoScoreData') || ''
-    const userScores = scoreInput ? parsePastedScores(scoreInput) : []
+    const userScores = scoreInput ? parsePastedScores(scoreInput, 'taikoScoreData') : []
     
     const scoreMap = new Map<string, UserScore>()
     userScores.forEach(s => {

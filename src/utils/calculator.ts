@@ -471,14 +471,18 @@ export function migrateOldFormat(rows: any[][]): UserScore[] {
   })
 }
 
-export function parsePastedScores(raw: string | any[]): UserScore[] {
+export function parsePastedScores(raw: string | any[], storageKey?: string): UserScore[] {
   const arr = typeof raw === 'string' ? JSON.parse(raw) : raw
   if (!Array.isArray(arr)) return []
   if (arr.length === 0) return []
 
   // 检测格式：旧版为数组的数组，新版为 UserScore 对象数组
   if (Array.isArray(arr[0])) {
-    return migrateOldFormat(arr as any[][])
+    const migrated = migrateOldFormat(arr as any[][])
+    if (storageKey) {
+      localStorage.setItem(storageKey, JSON.stringify(migrated))
+    }
+    return migrated
   }
 
   return arr as UserScore[]

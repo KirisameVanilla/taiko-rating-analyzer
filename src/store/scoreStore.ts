@@ -194,7 +194,7 @@ export function useScoreStore() {
         return
       }
 
-      const scores = parsePastedScores(scoreInput)
+      const scores = parsePastedScores(scoreInput, 'taikoScoreData')
       const tempResults: SongStats[] = []
 
       const expandedEntries = expandSongsDatabase(songsDB.value)
@@ -219,7 +219,7 @@ export function useScoreStore() {
       const lastScoreInput = localStorage.getItem('lastTaikoScore')
       if (lastScoreInput) {
         try {
-          const lastScores = parsePastedScores(lastScoreInput)
+          const lastScores = parsePastedScores(lastScoreInput, 'lastTaikoScore')
           const lastTempResults: SongStats[] = []
 
           lastScores.forEach(s => {
