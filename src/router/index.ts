@@ -2,6 +2,7 @@ import GuideView from '@views/GuideView.vue'
 import ReportView from '@views/ReportView.vue'
 import SongsView from '@views/SongsView.vue'
 import FaqView from '@views/FaqView.vue'
+import V2TestView from '@views/V2TestView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/faq',
       name: 'faq',
       component: FaqView
+    },
+    {
+      path: '/v2test',
+      name: 'v2test',
+      component: V2TestView
     }
   ]
 })
