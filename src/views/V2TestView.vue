@@ -31,6 +31,9 @@ type Entry = {
   accuracy: number
   badRate: number
   totalNotes: number
+  great: number
+  good: number
+  bad: number
   rating: number
   stamina_rt: number
   handspeed_rt: number
@@ -249,6 +252,9 @@ function calcFromRaw(raw: string): { entries: Entry[]; error: string } {
         accuracy: ap,
         badRate: bp,
         totalNotes,
+        great: score.great,
+        good: score.good,
+        bad: score.bad,
         rating: result.rating,
         stamina_rt: result.stamina_rt,
         handspeed_rt: result.handspeed_rt,
@@ -543,7 +549,19 @@ loadCSV().then(() => {
 
                 <!-- Section 2: Input parameters -->
                 <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">输入参数</h3>
-                <div class="gap-2 grid grid-cols-2 md:grid-cols-5 mb-4 text-sm">
+                <div class="gap-2 grid grid-cols-2 md:grid-cols-4 mb-4 text-sm">
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">良</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedEntry.great }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">可</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedEntry.good }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">不可</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedEntry.bad }}</div>
+                  </div>
                   <div class="bg-black/5 px-3 py-2 rounded-[12px]">
                     <div class="text-[#8E8E93] text-[10px]">accuracy_per</div>
                     <div class="font-mono font-bold text-[#1D1D1F]">{{ (selectedEntry.accuracy * 100).toFixed(4) }}%</div>
