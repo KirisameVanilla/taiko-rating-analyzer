@@ -489,45 +489,45 @@ loadCSV().then(() => {
 
       <!-- Full table -->
       <h2 class="mb-3 font-bold text-[#1D1D1F] text-lg">全曲目结果 ({{ entries.length }}首, 按Rating降序)</h2>
-      <div class="border border-black/5 rounded-[16px] overflow-x-auto">
+      <div class="border border-black/5 rounded-[16px] overflow-auto max-h-[calc(100vh-340px)]">
         <table class="w-full text-xs border-collapse">
-          <thead>
+          <thead class="sticky top-0 z-10">
             <tr>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left">#</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('title')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-left">#</th>
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-left cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('title')">
                 曲目<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'title' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('level')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-left cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('level')">
                 难度<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'level' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('accuracy')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('accuracy')">
                 准度<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'accuracy' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('badRate')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('badRate')">
                 不可%<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'badRate' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('rating')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('rating')">
                 Rating<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'rating' ? (sortDir === 'asc' ? '▲' : '▼') : '▼' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('stamina_rt')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('stamina_rt')">
                 体力<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'stamina_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('handspeed_rt')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('handspeed_rt')">
                 手速<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'handspeed_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('burst_rt')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('burst_rt')">
                 爆发<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'burst_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('complex_rt')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('complex_rt')">
                 复合<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'complex_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('rhythm_rt')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('rhythm_rt')">
                 节奏<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'rhythm_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('accuracy_rt')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('accuracy_rt')">
                 精度<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'accuracy_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('totalNotes')">
+              <th class="bg-[#F2F2F7] p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('totalNotes')">
                 Notes<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'totalNotes' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
               </th>
             </tr>
