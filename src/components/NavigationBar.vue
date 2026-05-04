@@ -49,6 +49,9 @@ const navigateToSongs = () => {
 const navigateToFaq = () => {
   router.push('/faq')
 }
+const navigateToV2Full = () => {
+  router.push('/v2full')
+}
 </script>
 
 <template>
@@ -99,6 +102,14 @@ const navigateToFaq = () => {
           class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer">
           <i class="fas fa-circle-question"></i>
           <span class="max-md:hidden">{{ t('v2test') }}</span>
+        </button>
+        <button @click="navigateToV2Full" :class="{
+          'bg-[#007AFF] text-white shadow-sm': route.path === '/v2full',
+          'bg-black/5 text-[#1D1D1F] hover:bg-black/10': route.path !== '/v2full'
+        }"
+          class="flex items-center gap-2 px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer">
+          <i class="fas fa-star"></i>
+          <span class="max-md:hidden">{{ t('nav.v2full') }}</span>
         </button>
         <button @click="toggleLanguage"
           class="flex items-center gap-2 bg-black/5 hover:bg-black/10 px-4 py-2 rounded-full font-semibold text-[#1D1D1F] text-sm active:scale-95 transition-all duration-200 cursor-pointer">
