@@ -500,149 +500,176 @@ loadCSV().then(() => {
         </table>
       </div>
 
-      <!-- Song detail panel -->
-      <div v-if="selectedEntry && selectedDetail"
-        class="bg-black/[0.03] mt-8 p-6 border border-black/10 rounded-[20px]">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="font-bold text-[#1D1D1F] text-lg">{{ selectedEntry.title }} (难度 {{ selectedEntry.level }})</h2>
-          <button
-            class="bg-black/5 hover:bg-black/10 px-3 py-1 rounded-full font-semibold text-[#1D1D1F] text-xs active:scale-95 transition-all cursor-pointer"
-            @click="selectedEntry = null">关闭</button>
-        </div>
+      <!-- Song detail modal -->
+      <Teleport to="body">
+        <Transition name="modal">
+          <div v-if="selectedEntry && selectedDetail"
+            class="z-[1000] fixed inset-0 flex justify-center items-start md:items-center bg-black/40 backdrop-blur-sm transition-opacity duration-300 p-4 overflow-y-auto"
+            @mousedown.self="selectedEntry = null">
+            <div
+              class="bg-white/95 shadow-2xl backdrop-blur-2xl my-8 md:my-0 border border-white/20 rounded-[24px] w-full max-w-[700px] max-h-[calc(100vh-64px)] overflow-y-auto transition-all duration-300"
+              @mousedown.stop>
+              <!-- Header -->
+              <div class="flex justify-between items-center sticky top-0 z-10 bg-white/95 backdrop-blur-2xl px-6 py-4 border-black/5 border-b rounded-t-[24px]">
+                <h2 class="font-bold text-[#1D1D1F] text-lg">{{ selectedEntry.title }} (难度 {{ selectedEntry.level }})</h2>
+                <button
+                  class="bg-black/5 hover:bg-black/10 rounded-full w-8 h-8 font-bold text-[#1D1D1F] text-sm active:scale-95 transition-all cursor-pointer"
+                  @click="selectedEntry = null">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
 
-        <!-- Section 1: Raw constants -->
-        <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">谱面定数</h3>
-        <div class="gap-2 grid grid-cols-3 md:grid-cols-5 mb-4 text-sm">
-          <div v-for="item in [
-            { label: '主定数', v: selectedEntry.songData?.main_constant },
-            { label: '副定数1', v: selectedEntry.songData?.sub_constant_1 },
-            { label: '副定数2', v: selectedEntry.songData?.sub_constant_2 },
-            { label: '体力', v: selectedEntry.songData?.stamina },
-            { label: '手速', v: selectedEntry.songData?.handspeed },
-            { label: '爆发', v: selectedEntry.songData?.burst },
-            { label: '复合', v: selectedEntry.songData?.complex },
-            { label: '节奏', v: selectedEntry.songData?.rhythm },
-            { label: '总Notes', v: selectedEntry.totalNotes },
-          ]" :key="item.label" class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">{{ item.label }}</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ typeof item.v === 'number' ? item.v.toFixed(2) : '-' }}
+              <!-- Body -->
+              <div class="p-6">
+                <!-- Section 1: Raw constants -->
+                <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">谱面定数</h3>
+                <div class="gap-2 grid grid-cols-3 md:grid-cols-5 mb-4 text-sm">
+                  <div v-for="item in [
+                    { label: '主定数', v: selectedEntry.songData?.main_constant },
+                    { label: '副定数1', v: selectedEntry.songData?.sub_constant_1 },
+                    { label: '副定数2', v: selectedEntry.songData?.sub_constant_2 },
+                    { label: '体力', v: selectedEntry.songData?.stamina },
+                    { label: '手速', v: selectedEntry.songData?.handspeed },
+                    { label: '爆发', v: selectedEntry.songData?.burst },
+                    { label: '复合', v: selectedEntry.songData?.complex },
+                    { label: '节奏', v: selectedEntry.songData?.rhythm },
+                    { label: '总Notes', v: selectedEntry.totalNotes },
+                  ]" :key="item.label" class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">{{ item.label }}</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ typeof item.v === 'number' ? item.v.toFixed(2) : '-' }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Section 2: Input parameters -->
+                <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">输入参数</h3>
+                <div class="gap-2 grid grid-cols-2 md:grid-cols-5 mb-4 text-sm">
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">accuracy_per</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ (selectedEntry.accuracy * 100).toFixed(4) }}%</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">bad_per</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ (selectedEntry.badRate * 100).toFixed(4) }}%</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">Y(acc) = accuracy</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.yAcc.toFixed(4) }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">rt_ini 所用定数</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.used_constant }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">rt_ini</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rt_ini.toFixed(4) }}</div>
+                  </div>
+                </div>
+
+                <!-- Section 3: Reference ratings -->
+                <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">参考 Rating 值</h3>
+                <div class="mb-4 overflow-x-auto">
+                  <table class="w-full text-[11px] border-collapse">
+                    <thead>
+                      <tr>
+                        <th class="bg-black/5 p-2 font-bold text-left">变量</th>
+                        <th class="bg-black/5 p-2 font-bold text-right">定数</th>
+                        <th class="bg-black/5 p-2 font-bold text-right">Y 值</th>
+                        <th class="bg-black/5 p-2 font-bold text-right">结果</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="p-2 border-black/5 border-b font-mono">rt_90</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">sub1 ({{
+                          selectedEntry.songData?.sub_constant_1?.toFixed(2) }})</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.9) = {{ selectedDetail.y090.toFixed(4)
+                          }}</td>
+                        <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
+                          selectedDetail.rt_90.toFixed(4) }}</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2 border-black/5 border-b font-mono">rt_95_ref</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">sub1 ({{
+                          selectedEntry.songData?.sub_constant_1?.toFixed(2) }})</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.95) = {{ selectedDetail.y095.toFixed(4)
+                          }}</td>
+                        <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
+                          selectedDetail.rt_95_ref.toFixed(4) }}</td>
+                      </tr>
+                      <tr :class="selectedEntry.accuracy <= 0.95 ? 'bg-[#007AFF]/5' : ''">
+                        <td class="p-2 border-black/5 border-b font-mono">rt_95</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">main ({{
+                          selectedEntry.songData?.main_constant?.toFixed(2) }})</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.95) = {{ selectedDetail.y095.toFixed(4)
+                          }}</td>
+                        <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
+                          selectedDetail.rt_95.toFixed(4) }}</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2 border-black/5 border-b font-mono">rt_100_ref</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">main ({{
+                          selectedEntry.songData?.main_constant?.toFixed(2) }})</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">Y(1.0) = {{ selectedDetail.y1.toFixed(4) }}
+                        </td>
+                        <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
+                          selectedDetail.rt_100_ref.toFixed(4) }}</td>
+                      </tr>
+                      <tr :class="selectedEntry.accuracy > 0.95 ? 'bg-[#007AFF]/5' : ''">
+                        <td class="p-2 border-black/5 border-b font-mono">rt_100</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">sub2 ({{
+                          selectedEntry.songData?.sub_constant_2?.toFixed(2) }})</td>
+                        <td class="p-2 border-black/5 border-b font-mono text-right">Y(1.0) = {{ selectedDetail.y1.toFixed(4) }}
+                        </td>
+                        <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
+                          selectedDetail.rt_100.toFixed(4) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Section 4: Rating formula -->
+                <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">公式分支 & 维度修正</h3>
+                <div class="bg-black/5 mb-4 p-3 rounded-[12px] font-mono text-[#1D1D1F] text-xs leading-relaxed">
+                  <div class="mb-2 font-semibold text-[#007AFF]">{{ selectedDetail.branch }}</div>
+                  <div class="text-[#8E8E93]">rating = {{ selectedEntry.rating.toFixed(6) }}</div>
+                </div>
+
+                <div class="gap-2 grid grid-cols-2 md:grid-cols-4 text-sm">
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">burst因子: min(rating/handspeed, 1)</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.burst_factor.toFixed(4) }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">complex罚: 5000/9×max(0.03-bad,0)²+0.5</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.complex_penalty.toFixed(4) }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">rhythm手速因子</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rhythm_hs_factor.toFixed(4) }}</div>
+                  </div>
+                  <div class="bg-black/5 px-3 py-2 rounded-[12px]">
+                    <div class="text-[#8E8E93] text-[10px]">rhythm爆发因子: min(burst_rt/burst, 1)</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rhythm_burst_factor.toFixed(4) }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <!-- Section 2: Input parameters -->
-        <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">输入参数</h3>
-        <div class="gap-2 grid grid-cols-2 md:grid-cols-5 mb-4 text-sm">
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">accuracy_per</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ (selectedEntry.accuracy * 100).toFixed(4) }}%</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">bad_per</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ (selectedEntry.badRate * 100).toFixed(4) }}%</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">Y(acc) = accuracy</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.yAcc.toFixed(4) }}</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">rt_ini 所用定数</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.used_constant }}</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">rt_ini</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rt_ini.toFixed(4) }}</div>
-          </div>
-        </div>
-
-        <!-- Section 3: Reference ratings -->
-        <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">参考 Rating 值</h3>
-        <div class="mb-4 overflow-x-auto">
-          <table class="w-full text-[11px] border-collapse">
-            <thead>
-              <tr>
-                <th class="bg-black/5 p-2 font-bold text-left">变量</th>
-                <th class="bg-black/5 p-2 font-bold text-right">定数</th>
-                <th class="bg-black/5 p-2 font-bold text-right">Y 值</th>
-                <th class="bg-black/5 p-2 font-bold text-right">结果</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="p-2 border-black/5 border-b font-mono">rt_90</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">sub1 ({{
-                  selectedEntry.songData?.sub_constant_1?.toFixed(2) }})</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.9) = {{ selectedDetail.y090.toFixed(4)
-                  }}</td>
-                <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
-                  selectedDetail.rt_90.toFixed(4) }}</td>
-              </tr>
-              <tr>
-                <td class="p-2 border-black/5 border-b font-mono">rt_95_ref</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">sub1 ({{
-                  selectedEntry.songData?.sub_constant_1?.toFixed(2) }})</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.95) = {{ selectedDetail.y095.toFixed(4)
-                  }}</td>
-                <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
-                  selectedDetail.rt_95_ref.toFixed(4) }}</td>
-              </tr>
-              <tr :class="selectedEntry.accuracy <= 0.95 ? 'bg-[#007AFF]/5' : ''">
-                <td class="p-2 border-black/5 border-b font-mono">rt_95</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">main ({{
-                  selectedEntry.songData?.main_constant?.toFixed(2) }})</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">Y(0.95) = {{ selectedDetail.y095.toFixed(4)
-                  }}</td>
-                <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
-                  selectedDetail.rt_95.toFixed(4) }}</td>
-              </tr>
-              <tr>
-                <td class="p-2 border-black/5 border-b font-mono">rt_100_ref</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">main ({{
-                  selectedEntry.songData?.main_constant?.toFixed(2) }})</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">Y(1.0) = {{ selectedDetail.y1.toFixed(4) }}
-                </td>
-                <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
-                  selectedDetail.rt_100_ref.toFixed(4) }}</td>
-              </tr>
-              <tr :class="selectedEntry.accuracy > 0.95 ? 'bg-[#007AFF]/5' : ''">
-                <td class="p-2 border-black/5 border-b font-mono">rt_100</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">sub2 ({{
-                  selectedEntry.songData?.sub_constant_2?.toFixed(2) }})</td>
-                <td class="p-2 border-black/5 border-b font-mono text-right">Y(1.0) = {{ selectedDetail.y1.toFixed(4) }}
-                </td>
-                <td class="p-2 border-black/5 border-b font-mono font-bold text-right">{{
-                  selectedDetail.rt_100.toFixed(4) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Section 4: Rating formula -->
-        <h3 class="mb-2 font-bold text-[#8E8E93] text-xs uppercase tracking-wider">公式分支 & 维度修正</h3>
-        <div class="bg-white/60 mb-4 p-3 rounded-[12px] font-mono text-[#1D1D1F] text-xs leading-relaxed">
-          <div class="mb-2 font-semibold text-[#007AFF]">{{ selectedDetail.branch }}</div>
-          <div class="text-[#8E8E93]">rating = {{ selectedEntry.rating.toFixed(6) }}</div>
-        </div>
-
-        <div class="gap-2 grid grid-cols-2 md:grid-cols-4 text-sm">
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">burst因子: min(rating/handspeed, 1)</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.burst_factor.toFixed(4) }}</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">complex罚: 5000/9×max(0.03-bad,0)²+0.5</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.complex_penalty.toFixed(4) }}</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">rhythm手速因子</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rhythm_hs_factor.toFixed(4) }}</div>
-          </div>
-          <div class="bg-white/60 px-3 py-2 rounded-[12px]">
-            <div class="text-[#8E8E93] text-[10px]">rhythm爆发因子: min(burst_rt/burst, 1)</div>
-            <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rhythm_burst_factor.toFixed(4) }}</div>
-          </div>
-        </div>
-      </div>
+        </Transition>
+      </Teleport>
     </div>
   </div>
 </template>
+
+<style scoped>
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from > div,
+.modal-leave-to > div {
+  transform: scale(0.92);
+}
+</style>
