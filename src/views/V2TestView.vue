@@ -45,6 +45,30 @@ type Entry = {
   songData: SongData | null
 }
 
+// --- Sort state ---
+const sortKey = ref<string | null>('rating')
+const sortDir = ref<'asc' | 'desc'>('desc')
+
+function toggleSort(key: string) {
+  if (sortKey.value === key) {
+    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortKey.value = key
+    sortDir.value = 'desc'
+  }
+}
+
+const sortedEntries = computed(() => {
+  if (!sortKey.value) return entries.value
+  const dir = sortDir.value === 'asc' ? 1 : -1
+  return [...entries.value].sort((a: any, b: any) => {
+    const va = a[sortKey.value!]
+    const vb = b[sortKey.value!]
+    if (typeof va === 'string') return va.localeCompare(vb) * dir
+    return (va - vb) * dir
+  })
+})
+
 // --- Selected entry for detail ---
 const selectedEntry = ref<Entry | null>(null)
 
@@ -470,22 +494,46 @@ loadCSV().then(() => {
           <thead>
             <tr>
               <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left">#</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left">曲目</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left">难度</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">准度</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">不可%</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">Rating</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">体力</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">手速</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">爆发</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">复合</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">节奏</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">精度</th>
-              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right">Notes</th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('title')">
+                曲目<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'title' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-left cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('level')">
+                难度<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'level' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('accuracy')">
+                准度<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'accuracy' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('badRate')">
+                不可%<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'badRate' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('rating')">
+                Rating<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'rating' ? (sortDir === 'asc' ? '▲' : '▼') : '▼' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('stamina_rt')">
+                体力<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'stamina_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('handspeed_rt')">
+                手速<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'handspeed_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('burst_rt')">
+                爆发<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'burst_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('complex_rt')">
+                复合<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'complex_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('rhythm_rt')">
+                节奏<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'rhythm_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('accuracy_rt')">
+                精度<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'accuracy_rt' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
+              <th class="bg-black/5 p-3 font-bold text-[#1D1D1F] text-right cursor-pointer hover:bg-black/[0.08] transition-colors select-none" @click="toggleSort('totalNotes')">
+                Notes<span class="ml-1 text-[10px] text-[#8E8E93]">{{ sortKey === 'totalNotes' ? (sortDir === 'asc' ? '▲' : '▼') : '' }}</span>
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(e, i) in entries" :key="e.id + '-' + e.level"
+            <tr v-for="(e, i) in sortedEntries" :key="e.id + '-' + e.level"
               class="hover:bg-black/[0.03] transition-colors cursor-pointer"
               :class="selectedEntry === e ? 'bg-[#007AFF]/5' : ''" @click="selectEntry(e)">
               <td class="p-3 border-black/5 border-b">{{ i + 1 }}</td>
