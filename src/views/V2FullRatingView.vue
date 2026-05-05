@@ -37,6 +37,11 @@ type Entry = {
   complex_rt: number
   rhythm_rt: number
   accuracy_rt: number
+  intermediate: {
+    burst_hs_factor: number
+    complex_penalty: number
+    rhythm_burst_factor: number
+  }
   songData: SongData | null
 }
 
@@ -95,17 +100,16 @@ const selectedDetail = computed(() => {
   else if (e.accuracy <= 0.95) branch = '0.9 < acc ≤ 0.95: rating = rt_90 + (rt_95 - rt_90) × (rt_ini - rt_90) / (rt_95_ref - rt_90)'
   else branch = 'acc > 0.95: rating = rt_95 + (rt_100 - rt_95) × (rt_ini - rt_95) / (rt_100_ref - rt_95)'
 
-  const burst_factor = Math.min(e.rating / sd.handspeed, 1)
-  const complex_penalty = (5000 / 9) * Math.pow(Math.max(0.03 - e.badRate, 0), 2) + 0.5
-  const rhythm_hs_factor = Math.min(e.rating / sd.handspeed, 1)
-  const rhythm_burst_factor = Math.min(e.burst_rt / sd.burst, 1)
+  const im = e.intermediate
 
   return {
     y090, y095, y1, yAcc,
     rt_90, rt_95_ref, rt_95, rt_100_ref, rt_100, rt_ini,
     branch,
     used_constant: x_ini === sd.sub_constant_1 ? `副定数1 (${sd.sub_constant_1})` : `主定数 (${sd.main_constant})`,
-    burst_factor, complex_penalty, rhythm_hs_factor, rhythm_burst_factor,
+    burst_hs_factor: im.burst_hs_factor,
+    complex_penalty: im.complex_penalty,
+    rhythm_burst_factor: im.rhythm_burst_factor,
   }
 })
 
@@ -254,6 +258,7 @@ function calcAllPerfect() {
       complex_rt: result.complex_rt,
       rhythm_rt: result.rhythm_rt,
       accuracy_rt: result.accuracy_rt,
+      intermediate: result.intermediate,
       songData: song,
     })
   }
@@ -526,19 +531,19 @@ loadCSV().then(() => {
 
                 <div class="gap-2 grid grid-cols-2 md:grid-cols-4 text-sm">
                   <div class="bg-black/5 px-3 py-2 rounded-[12px]">
-                    <div class="text-[#8E8E93] text-[10px]">burst因子: min(rating/handspeed, 1)</div>
-                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.burst_factor.toFixed(4) }}</div>
+                    <div class="text-[#8E8E93] text-[10px]">burst_hs_factor</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.burst_hs_factor.toFixed(4) }}</div>
                   </div>
                   <div class="bg-black/5 px-3 py-2 rounded-[12px]">
-                    <div class="text-[#8E8E93] text-[10px]">complex罚: 5000/9×max(0.03-bad,0)²+0.5</div>
+                    <div class="text-[#8E8E93] text-[10px]">complex_penalty</div>
                     <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.complex_penalty.toFixed(4) }}</div>
                   </div>
                   <div class="bg-black/5 px-3 py-2 rounded-[12px]">
-                    <div class="text-[#8E8E93] text-[10px]">rhythm手速因子</div>
-                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rhythm_hs_factor.toFixed(4) }}</div>
+                    <div class="text-[#8E8E93] text-[10px]">rhythm手速因子 (burst_hs_factor)</div>
+                    <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.burst_hs_factor.toFixed(4) }}</div>
                   </div>
                   <div class="bg-black/5 px-3 py-2 rounded-[12px]">
-                    <div class="text-[#8E8E93] text-[10px]">rhythm爆发因子: min(burst_rt/burst, 1)</div>
+                    <div class="text-[#8E8E93] text-[10px]">rhythm_burst_factor</div>
                     <div class="font-mono font-bold text-[#1D1D1F]">{{ selectedDetail.rhythm_burst_factor.toFixed(4) }}</div>
                   </div>
                 </div>

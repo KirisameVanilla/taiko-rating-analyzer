@@ -65,7 +65,14 @@ interface CalculationInput {
   bad_per: number;      // 不可率，0-1
 }
 
-// 定义计算结果，包含7个返回值
+// 定义计算中间量，用于调试/展示
+interface CalculationIntermediate {
+  burst_hs_factor: number;    // 爆发手速衰减因子，同时用于节奏
+  complex_penalty: number;    // 复合不可率惩罚因子
+  rhythm_burst_factor: number; // 节奏爆发衰减因子
+}
+
+// 定义计算结果，包含7个返回值 + 中间量
 interface CalculationResult {
   rating: number;       // 综合rating
   stamina_rt: number;   // 体力rating
@@ -74,6 +81,7 @@ interface CalculationResult {
   complex_rt: number;   // 复合rating
   rhythm_rt: number;    // 节奏rating
   accuracy_rt: number;  // 精度rating
+  intermediate: CalculationIntermediate; // 中间量
 }
 
 // 辅助函数常量
@@ -192,7 +200,7 @@ export function calculateTaikoRating(
     burst_hs_factor *
     rhythm_burst_factor;
 
-  // 返回7个计算结果
+  // 返回7个计算结果 + 中间量
   return {
     rating,
     stamina_rt,
@@ -200,7 +208,12 @@ export function calculateTaikoRating(
     burst_rt,
     complex_rt,
     rhythm_rt,
-    accuracy_rt
+    accuracy_rt,
+    intermediate: {
+      burst_hs_factor,
+      complex_penalty,
+      rhythm_burst_factor,
+    },
   };
 }
 
@@ -241,7 +254,7 @@ export function calculateBestPossibleRating(
 }
 
 // 导出类型，便于在其他文件中使用
-export type { SongData, CalculationInput, CalculationResult };
+export type { SongData, CalculationInput, CalculationResult, CalculationIntermediate };
 
 // 使用示例
 /*
