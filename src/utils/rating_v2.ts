@@ -184,7 +184,7 @@ export function calculateTaikoRating(
   // const burst_hs_factor = songData.handspeed > 0 ? MIN(rating / songData.handspeed / MIN(rt_100 / songData.handspeed , 1) , 1) : 1;
   const burst_hs_factor = songData.handspeed > 0 ? MIN(accuracy / songData.handspeed, 1) : 1;
   // const burst_rt = burst_rt_base * burst_hs_factor;
-  const burst_rt = burst_rt_base * burst_hs_factor > handspeed_rt ? handspeed_rt + MIN(MAX(accuracy - songData.handspeed , 0) / (songData.burst - songData.handspeed) , 1) * (burst_rt_base * burst_hs_factor - handspeed_rt) : burst_rt_base * burst_hs_factor;
+  const burst_rt = burst_rt_base * burst_hs_factor > handspeed_rt ? handspeed_rt + MIN(MAX(accuracy - songData.handspeed, 0) / (songData.burst - songData.handspeed), 1) * (burst_rt_base * burst_hs_factor - handspeed_rt) : burst_rt_base * burst_hs_factor;
 
   // 计算复合rating
   const complex_rt_base = calcDimensionRating(rating, songData.complex);
@@ -192,8 +192,8 @@ export function calculateTaikoRating(
   const complex_rt = complex_rt_base * complex_penalty;
 
   // 计算部分满分rating用于计算节奏rating
-  const burst_rt_100 = calcDimensionRating(rt_100, songData.burst);
-  
+  // const burst_rt_100 = calcDimensionRating(rt_100, songData.burst);
+
   // 计算节奏rating
   const rhythm_rt_base = calcDimensionRating(rating, songData.rhythm);
   // const rhythm_burst_factor = songData.burst > 0 ? MIN(burst_rt / songData.burst, 1) : 1;
