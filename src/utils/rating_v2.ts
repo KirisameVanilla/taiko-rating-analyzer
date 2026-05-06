@@ -197,7 +197,8 @@ export function calculateTaikoRating(
   // 计算节奏rating
   const rhythm_rt_base = calcDimensionRating(rating, songData.rhythm);
   // const rhythm_burst_factor = songData.burst > 0 ? MIN(burst_rt / songData.burst, 1) : 1;
-  const rhythm_burst_factor = songData.burst > 0 ? MIN(burst_rt / songData.burst / MIN(burst_rt_100 / songData.burst , 1) , 1) : 1;
+  // const rhythm_burst_factor = songData.burst > 0 ? MIN(burst_rt / songData.burst / MIN(burst_rt_100 / songData.burst , 1) , 1) : 1;
+  const rhythm_burst_factor = 1;
   const rhythm_rt = rhythm_rt_base *
     burst_hs_factor *
     rhythm_burst_factor;
